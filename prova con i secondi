@@ -1,0 +1,27 @@
+void setup() {
+  Serial.begin(115200);
+};
+
+void loop() {
+  const String thisNewData = getDataFromEsp8266();
+  const bool isNewData = thisNewData != "";
+  if(isNewData) Serial.println("your string: " + thisNewData);
+}
+
+String getDataFromEsp8266() {
+  const int MAX_DELAY = 1000;
+  const int START_TIME = millis();
+
+  String receivedString = "";
+  bool isNewData = false;
+
+  while(Serial.available() > 0 && !isNewData && ((millis() - START_TIME) < MAX_DELAY)) {
+    const char thisChar    = Serial.read()   ;
+    const bool isEndOfLine = thisChar == "\n";
+
+    if(isNewData) return receivedString;
+    if(isEndOfLine) { isNewData = true; continue; }
+
+    receivedString = receivedString + thisChar;
+  }
+}
