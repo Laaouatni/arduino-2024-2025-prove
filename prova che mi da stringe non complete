@@ -1,0 +1,51 @@
+void setup() {
+  Serial.begin(115200);
+};
+
+void loop() {
+  const String thisNewData = getDataFromEsp8266();
+  const bool isNewData = thisNewData != "";
+  if(isNewData) Serial.println("your string: " + thisNewData);
+}
+
+// String getDataFromEsp8266() {
+//   String receivedString = "";
+//   bool isFinished = false;
+//   bool canDoWhileLoop = Serial.available() > 0 && !isFinished;
+
+//   while(canDoWhileLoop) {
+//     const char thisChar   = Serial.read()   ;
+//     const bool isEndOfLine = thisChar == "\n";
+
+//     if(!isEndOfLine) {
+//       receivedString += thisChar;
+//       continue;
+//     };
+
+//     isFinished = true;
+//     return receivedString;
+//   }
+// }
+
+
+String getDataFromEsp8266() {
+  String receivedString = "";
+  char incomingChar;
+  bool isFinished = false;
+
+  while (Serial.available() > 0  && !isFinished) {
+    incomingChar = Serial.read();
+
+    if (incomingChar == '\n') {
+      isFinished = true;
+      return receivedString;
+    } else {
+      receivedString += incomingChar;
+    }
+
+  }
+
+  // return receivedString;
+
+  // return receivedString; // Return the received string even if no end-marker is found
+}
