@@ -1,0 +1,61 @@
+// esp01
+
+// #include <ESP8266WiFi.h>
+
+int i = 0;
+
+void setup()
+{
+  
+  Serial.begin(115200);
+
+  // WiFi  .begin("nomeWifi", "passwordWifi");
+
+  // Serial.print("Connecting");
+  // while (WiFi.status() != WL_CONNECTED){delay(500);Serial.print(".");}
+
+  // Serial.print("Connected, IP address: ");
+  // Serial.println(WiFi.localIP());
+}
+
+void loop() {
+  i++;
+  Serial.println("nonlosoome stai? " + String(i));
+  delay(1000);
+};
+
+
+
+
+
+
+
+
+
+
+
+// arduino
+
+void setup() {
+  Serial.begin(115200);
+};
+
+void loop() {
+  const String thisNewData = getDataFromEsp8266();
+  const bool isNewData = thisNewData != "";
+  if(isNewData) Serial.println("your string: " + thisNewData);
+}
+
+String getDataFromEsp8266() {
+  String receivedString = "";
+  bool isNewData = false;
+
+  while(Serial.available() > 0 && !isNewData) {
+    const char thisChar    = Serial.read()   ;
+    const bool isEndOfLine = thisChar == "\n";
+
+    if(isEndOfLine) return receivedString;
+
+    receivedString = receivedString + thisChar;
+  }
+}
