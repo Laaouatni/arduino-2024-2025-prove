@@ -1,0 +1,27 @@
+void example(String myString) {
+  Serial.println("ciao " + myString);
+};
+
+String listenToNewSerialData(void (*myCallback)(String)) {
+  static String receivedString;
+
+  while(Serial.available() > 0) {
+    const char thisChar   = Serial.read()   ;
+    const bool isLastChar = thisChar == '\n';
+
+    if(!isLastChar) { receivedString += thisChar; continue; };
+
+    myCallback(receivedString);
+    receivedString = "";
+  };
+
+  return "";
+};
+
+void setup() {
+  Serial.begin(115200);
+};
+
+void loop() {
+  listenToNewSerialData(&example);
+};
