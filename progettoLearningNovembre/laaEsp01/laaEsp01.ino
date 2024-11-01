@@ -7,12 +7,8 @@ void setup()
   Serial.println("");
 
   WiFi.begin("nomeWifi", "passwordWifi");
-
-  const int myLocalIp = Wifi.localIP;
 }
 
 void loop() {
-  // i++;
-  // Serial.println("abcd nonlosoome stai? aa " + String(i));
-  // delay(1000);
+  
 };
