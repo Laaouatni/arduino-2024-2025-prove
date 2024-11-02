@@ -1,38 +1,44 @@
 #include <ESP8266WiFi.h>
-#include <ESP8266HTTPClient.h>
-#include <ArduinoJson.h>
+#include <WiFiClient.h>
 
-void setup()
-{
+const char* ssid = "nomeWifi";
+const char* password = "passwordWifi";
+
+const char* htmlContent = "<html><body><h1>Hello, World!</h1></body></html>";
+
+void setup() {
   Serial.begin(115200);
-  Serial.println("");
-  Serial.println("");
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+  Serial.println("Connected to WiFi");   
 
-  WiFi.begin("nomeWifi", "passwordWifi");
 
-
+  // Create a web server on port 80
+  WiFiServer server(80);
+  server.begin();
+  Serial.println("HTTP server started");
 }
 
 void loop() {
-  WiFiClient myWifiClient;
-  HTTPClient myHttpClient;
-
-  myHttpClient.begin(myWifiClient, "http://172.24.16.1:5173/api");
-  
-  int httpCode = myHttpClient.GET();
-  if(WiFi.status()==WL_CONNECTED) {
-    if(httpCode > 0) {
-      String payload = myHttpClient.getString();
-
-      JsonDocument doc;
-      deserializeJson(doc, payload);
-
-      String receivedText = doc["hello"];
-      Serial.println("✅ BRO " + String(receivedText));
-    } else {
-      Serial.println("❌❌❌" + String(httpCode) + "BRO wifiStatus" + String(WiFi.status()));
-    }
-    
-    myHttpClient.end();
+  WiFiClient client = server.available();
+  if (!client) {
+    return;
   }
-};
+
+  while (!client.available()) {
+    delay(1);
+  }
+
+  String request = client.readStringUntil('\r');
+  Serial.println(request);
+
+
+  String header = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
+  client.print(header);
+  client.print(htmlContent);
+
+  client.stop();
+}

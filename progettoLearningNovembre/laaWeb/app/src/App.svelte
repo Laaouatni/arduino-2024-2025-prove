@@ -1,1 +1,5 @@
-hello world a a a
+<script lang="ts">
+  
+</script>
+
+hello world
