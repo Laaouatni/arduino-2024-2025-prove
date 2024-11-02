@@ -31,7 +31,7 @@ void loop() {
   Serial.println(request);
 
 
-  String header = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
+  String header = "";
   client.print(header);
   client.print(htmlContent);
   client.flush(); // Ensure data is sent
