@@ -5,7 +5,8 @@ const char* ssid = "nomeWifi";
 const char* password = "passwordWifi";
 
 const char* htmlContent = "<html><body><h1>Hello, World!</h1></body></html>";
-  WiFiServer server(80);
+
+WiFiServer server(80);
 
 void setup() {
   Serial.begin(115200);
@@ -16,8 +17,6 @@ void setup() {
   }
   Serial.println("Connected to WiFi");
 
-
-  // Create a web server on port 80
   server.begin();
   Serial.println("HTTP server started");
 }
@@ -28,10 +27,6 @@ void loop() {
     return;
   }
 
-  while (!client.available()) {
-    delay(1);
-  }
-
   String request = client.readStringUntil('\r');
   Serial.println(request);
 
@@ -39,6 +34,10 @@ void loop() {
   String header = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
   client.print(header);
   client.print(htmlContent);
+  client.flush(); // Ensure data is sent
 
   client.stop();
+
+  // Optional: Delay to avoid overloading the ESP8266
+  delay(100);
 }
