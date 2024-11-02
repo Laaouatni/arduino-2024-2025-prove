@@ -17,7 +17,7 @@ void loop() {
   WiFiClient myWifiClient;
   HTTPClient myHttpClient;
 
-  myHttpClient.begin(myWifiClient, "http://ip.jsontest.com/");
+  myHttpClient.begin(myWifiClient, "http://172.24.16.1:5173/api");
   
   int httpCode = myHttpClient.GET();
   if(WiFi.status()==WL_CONNECTED) {
@@ -27,7 +27,7 @@ void loop() {
       JsonDocument doc;
       deserializeJson(doc, payload);
 
-      String receivedText = doc["ip"];
+      String receivedText = doc["hello"];
       Serial.println("✅ BRO " + String(receivedText));
     } else {
       Serial.println("❌❌❌" + String(httpCode) + "BRO wifiStatus" + String(WiFi.status()));
