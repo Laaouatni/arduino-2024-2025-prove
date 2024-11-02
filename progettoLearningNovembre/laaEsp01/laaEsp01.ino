@@ -5,6 +5,7 @@ const char* ssid = "nomeWifi";
 const char* password = "passwordWifi";
 
 const char* htmlContent = "<html><body><h1>Hello, World!</h1></body></html>";
+  WiFiServer server(80);
 
 void setup() {
   Serial.begin(115200);
@@ -13,11 +14,10 @@ void setup() {
     delay(1000);
     Serial.println("Connecting to WiFi...");
   }
-  Serial.println("Connected to WiFi");   
+  Serial.println("Connected to WiFi");
 
 
   // Create a web server on port 80
-  WiFiServer server(80);
   server.begin();
   Serial.println("HTTP server started");
 }
