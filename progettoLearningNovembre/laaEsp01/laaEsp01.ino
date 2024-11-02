@@ -9,27 +9,30 @@ void setup()
   Serial.println("");
 
   WiFi.begin("nomeWifi", "passwordWifi");
+
+
 }
 
 void loop() {
   WiFiClient myWifiClient;
   HTTPClient myHttpClient;
 
-  myHttpClient.begin(myWifiClient, "http://192.168.129.201:5173/api");
+  myHttpClient.begin(myWifiClient, "http://ip.jsontest.com/");
   
   int httpCode = myHttpClient.GET();
+  if(WiFi.status()==WL_CONNECTED) {
+    if(httpCode > 0) {
+      String payload = myHttpClient.getString();
 
-  if(httpCode > 0) {
-    String payload = myHttpClient.getString();
+      JsonDocument doc;
+      deserializeJson(doc, payload);
 
-    JsonDocument doc;
-    deserializeJson(doc, payload);
-
-    String receivedText = doc["hello"];
-    Serial.println("✅" + String(receivedText));
-  } else {
-    Serial.println("❌❌❌" + String(httpCode) + "wifiStatus" + String(WiFi.status()));
+      String receivedText = doc["ip"];
+      Serial.println("✅ BRO " + String(receivedText));
+    } else {
+      Serial.println("❌❌❌" + String(httpCode) + "BRO wifiStatus" + String(WiFi.status()));
+    }
+    
+    myHttpClient.end();
   }
-
-  myHttpClient.end();
 };
