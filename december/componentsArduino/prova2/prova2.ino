@@ -9,7 +9,7 @@ struct JoystickData {
 };
 
 JoystickData myJoystick = { 
-  .x = {.pin = A0} 
+  .x = {.pin = A0},
   .y = {.pin = A1}
 };
 
@@ -27,5 +27,5 @@ void loop() {
   myJoystick.x.value = analogRead(myJoystick.x.pin);
   myJoystick.y.value = analogRead(myJoystick.y.pin);
   
-  Serial.print("X: " + String(myJoystick.x.value) + "\n Y: " + String(myJoystick.y.value));
+  Serial.println("X: " + String(myJoystick.x.value) + "\t Y: " + String(myJoystick.y.value));
 }
