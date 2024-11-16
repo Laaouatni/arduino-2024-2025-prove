@@ -5,8 +5,6 @@
     sw  -> ...
 */
 
-const int inputsPins[] = {A0, A1};
-
 struct JoyStickPin {
   int pin;
   int value;
