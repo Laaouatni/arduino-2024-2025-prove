@@ -9,14 +9,14 @@ struct JoystickData {
 };
 
 JoystickData myJoystick = { 
-  .x = {.pin = A0, .value=analogRead(myJoystick.x.pin)} 
-  .y = {.pin = A1, .value=analogRead(myJoystick.y.pin)}
+  .x = {.pin = A0} 
+  .y = {.pin = A1}
 };
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
-  const int inputsPins[] = {A0, A1, 2};
+  const int inputsPins[] = {A0, A1};
+  
   for(auto thisPin : inputsPins) {
     pinMode(thisPin, INPUT);
   }
@@ -24,10 +24,8 @@ void setup() {
 
 
 void loop() {
+  myJoystick.x.value = analogRead(myJoystick.x.pin);
+  myJoystick.y.value = analogRead(myJoystick.y.pin);
   
-
-  
-  myJoystick.isClicked = analogRead(2);
-  
-  Serial.println("x:" + String(myJoystick.x) + "\t y:" + String(myJoystick.y) + "\t isClicked:" + String(myJoystick.isClicked));
+  Serial.print("X: " + String(myJoystick.x.value) + "\n Y: " + String(myJoystick.y.value));
 }
