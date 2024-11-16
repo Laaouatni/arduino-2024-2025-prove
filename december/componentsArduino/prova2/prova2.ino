@@ -1,3 +1,10 @@
+/*  GND -> GND 
+    5V  -> 5V
+    VRx -> A0
+    VRy -> A1
+    sw  -> ...
+*/
+
 const int inputsPins[] = {A0, A1};
 
 struct JoyStickPin {
@@ -20,7 +27,7 @@ void setup() {
   
   pinMode(myJoystick.x.pin, INPUT);
   pinMode(myJoystick.y.pin, INPUT);
-}
+};
 
 
 void loop() {
@@ -28,4 +35,4 @@ void loop() {
   myJoystick.y.value = analogRead(myJoystick.y.pin);
   
   Serial.println("X: " + String(myJoystick.x.value) + "\t Y: " + String(myJoystick.y.value));
-}
+};
