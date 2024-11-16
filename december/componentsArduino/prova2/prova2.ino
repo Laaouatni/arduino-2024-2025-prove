@@ -1,3 +1,5 @@
+const int inputsPins[] = {A0, A1};
+
 struct JoyStickPin {
   int pin;
   int value;
@@ -15,11 +17,9 @@ JoystickData myJoystick = {
 
 void setup() {
   Serial.begin(9600);
-  const int inputsPins[] = {A0, A1};
   
-  for(auto thisPin : inputsPins) {
-    pinMode(thisPin, INPUT);
-  }
+  pinMode(myJoystick.x.pin, INPUT);
+  pinMode(myJoystick.y.pin, INPUT);
 }
 
 
