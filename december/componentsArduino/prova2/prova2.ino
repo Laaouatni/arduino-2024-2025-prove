@@ -2,38 +2,36 @@
     5V  -> 5V
     VRx -> A0
     VRy -> A1
-    sw  -> ...
+    SW  -> ...
 */
 
-struct JoystickCoordinateData {
-  int pin;
-  int value;
+struct XY {
+  int x;
+  int y;
 };
 
 struct JoystickBase {
-  JoystickCoordinateData x;
-  JoystickCoordinateData y;
+  XY pin;
+  XY value;
 };
 
 JoystickBase myJoystick = { 
-  .x = {.pin = A0},
-  .y = {.pin = A1}
+  .pin = {A0, A1},
 };
 
 void setup() {
   Serial.begin(9600);
   
-  pinMode(myJoystick.x.pin, INPUT);
-  pinMode(myJoystick.y.pin, INPUT);
-};
-
+  pinMode(myJoystick.pin.x, INPUT);
+  pinMode(myJoystick.pin.y, INPUT);
+}
 
 void loop() {
-  myJoystick.x.value = analogRead(myJoystick.x.pin);
-  myJoystick.y.value = analogRead(myJoystick.y.pin);
-  
+  myJoystick.value.x = analogRead(myJoystick.pin.x);
+  myJoystick.value.y = analogRead(myJoystick.pin.y);
+
   Serial.println(
-       "X: " + String(myJoystick.x.value) + 
-    "\t Y: " + String(myJoystick.y.value)
+       "X: " + String(myJoystick.value.x) + 
+    "\t Y: " + String(myJoystick.value.y)
   );
 };
