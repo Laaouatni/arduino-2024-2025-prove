@@ -2,19 +2,23 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2); // Replace 0x27 with your display's I2C address.
 
-byte progressoChars[5][8];
+byte progressoChars[5][8] = = {
+  {b10000, b11000, b11100, b11110, b11111},
+  {b10000, b11000, b11100, b11110, b11111},
+  {b10000, b11000, b11100, b11110, b11111},
+  {b10000, b11000, b11100, b11110, b11111},
+  {b10000, b11000, b11100, b11110, b11111}
+};
 
 int i=0;
 
 void setup() {
   Serial.begin(9600);
-  for(int i=0; i<5; i++) {
-    for(int j=0; j<8; j++) {
-      progressoChars[i][j] = b11111 << (5-i); 
-      Serial.println("i=" + String(i) + "\t j=" + String(j) + "\t =" + String(progressoChars[i][j]));
-    };
-  }
-  Serial.print("ahdcbhds");
+
+  for (int i = 0; i < 5; i++) {
+    lcd.createChar(i, progressoChars[i]);
+  };
+
   lcd.begin(16,2);
   lcd.backlight();
 }
