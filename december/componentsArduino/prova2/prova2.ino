@@ -29,11 +29,11 @@ void loop() {
   i++;
   k++;
 
+  lcd.setCursor(i/6, 0);
 
   lcd.write(byte(k));
   Serial.println("k=" + String(k) + "\t i=" + String(i));
   delay(500);
-  lcd.clear();
 
   if(i%5==0) {
     k=0;
