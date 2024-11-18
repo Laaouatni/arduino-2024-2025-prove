@@ -1,37 +1,22 @@
-/*  GND -> GND 
-    5V  -> 5V
-    VRx -> A0
-    VRy -> A1
-    SW  -> ...
-*/
+#include <LiquidCrystal_I2C.h>
 
-struct XY {
-  int x;
-  int y;
-};
+LiquidCrystal_I2C lcd(0x27, 16, 2); // Replace 0x27 with your display's I2C address.
 
-struct JoystickBase {
-  XY pin;
-  XY value;
-};
-
-JoystickBase myJoystick = { 
-  .pin = {A0, A1},
+byte smiley[8] = {
+  B00000,
+  B10001,
+  B00000,
+  B00000,
+  B10001,
+  B01110,
+  B00000,
 };
 
 void setup() {
-  Serial.begin(9600);
-  
-  pinMode(myJoystick.pin.x, INPUT);
-  pinMode(myJoystick.pin.y, INPUT);
+  lcd.backlight();
+  lcd.createChar(0, smiley);
+  lcd.begin(16, 2);  
+  lcd.write(byte(0));
 }
 
-void loop() {
-  myJoystick.value.x = analogRead(myJoystick.pin.x);
-  myJoystick.value.y = analogRead(myJoystick.pin.y);
-
-  Serial.println(
-       "X: " + String(myJoystick.value.x) + 
-    "\t Y: " + String(myJoystick.value.y)
-  );
-};
+void loop() {}
