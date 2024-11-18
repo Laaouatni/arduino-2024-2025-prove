@@ -27,15 +27,17 @@ void setup() {
 
 void loop() {
   i++;
-  k++;
-
-  lcd.setCursor(i/5, 0);
-
-  lcd.write(byte(k+1));
-  Serial.println("k=" + String(k) + "\t i=" + String(i));
-  delay(500);
-
   if(i%5==0) {
     k=0;
   };
+  k++;
+
+
+  lcd.setCursor(i/5, 0);
+
+  lcd.write(byte(k));
+  Serial.println("k=" + String(k) + "\t i=" + String(i));
+  delay(1500);
+
+  
 }
