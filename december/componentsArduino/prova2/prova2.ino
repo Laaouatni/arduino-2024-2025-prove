@@ -7,12 +7,14 @@ int i=0;
 void setup() {
   lcd.begin(16,2);
   lcd.backlight();
-  lcd.setCursor(0, 0);
 }
 
 void loop() {
   i++;
+  const String myOutputString = String("ciao ") + String(i);
+  const int posizioneXcentro = (16-myOutputString.length())/2;
+  lcd.setCursor(posizioneXcentro, 0);
+  lcd.print(myOutputString);
+  delay(100);
   lcd.clear();
-  lcd.print(i);
-  delay(50);
 }
