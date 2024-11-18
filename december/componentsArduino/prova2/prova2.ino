@@ -11,7 +11,6 @@ byte progressoChars[5][8] = {
 };
 
 int i=0;
-int k=0;
 
 void setup() {
   Serial.begin(9600);
@@ -27,17 +26,12 @@ void setup() {
 
 void loop() {
   i++;
-  if(i%5==0) {
-    k=0;
-  };
-  k++;
+  const int x = i/5;
+  lcd.setCursor(x, 0);
 
+  const int myByteChar = i-((x-1)*5)-4;
 
-  lcd.setCursor(i/5, 0);
-
-  lcd.write(byte(k));
-  Serial.println("k=" + String(k) + "\t i=" + String(i));
+  lcd.write(byte(myByteChar));
+  Serial.println("i=" + String(i) + "\t myByteChar=" + String(myByteChar));
   delay(1500);
-
-  
 }
