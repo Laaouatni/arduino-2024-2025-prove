@@ -29,9 +29,9 @@ void loop() {
   i++;
   k++;
 
-  lcd.setCursor(i/6, 0);
+  lcd.setCursor(i/5, 0);
 
-  lcd.write(byte(k));
+  lcd.write(byte(k+1));
   Serial.println("k=" + String(k) + "\t i=" + String(i));
   delay(500);
 
