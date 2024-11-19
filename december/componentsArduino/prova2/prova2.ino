@@ -28,10 +28,8 @@ void loop() {
   i++;
   const int x = i/5;
   lcd.setCursor(x, 0);
-
   const int myByteChar = i-((x)*5)+1;
-
   lcd.write(byte(myByteChar));
   Serial.println("i=" + String(i) + "\t myByteChar=" + String(myByteChar));
-  delay(1500);
+  delay(50);
 }
