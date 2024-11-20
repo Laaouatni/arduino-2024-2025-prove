@@ -1,6 +1,7 @@
-#include <LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
 
-LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
+// LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
+LiquidCrystal_I2C lcd(0x27,16,2);
 
 struct myCostants {
   const float delta = 5.0 / 1024.0;
@@ -8,15 +9,15 @@ struct myCostants {
   struct limiti {
     const int max = 28;
     const int min = 22;
-  };
+  } limiti;
   struct pins {
     struct led {
       const int r = 11;
       const int v = 12;
-    };
+    } led;
     const int sensore = A0;
-  };
-};
+  } pins;
+} myCostants;
 
 void setup() {
   pinMode(myCostants.pins.led.r  , OUTPUT);
@@ -30,17 +31,17 @@ void setup() {
 };
 
 void loop() {
-  const int   thisLivello = analogRead(sensore);
-  const float thisTemp = (thisLivello * delta) /k;
+  const int   thisLivello = analogRead(myCostants.pins.sensore);
+  const float thisTemp = (thisLivello * myCostants.delta) / myCostants.k;
 
   lcd.clear();
 
   struct myConditions {
     struct temperature {
-      const bool isCaldo = thisTemp  > myCostants.limiti.max;
+      const bool isCaldo  = thisTemp > myCostants.limiti.max;
       const bool isFreddo = thisTemp < myCostants.limiti.min;
-    };
-  };
+    } temperature;
+  } myConditions;
 
   digitalWrite(myCostants.pins.led.r, myConditions.temperature.isCaldo );
   digitalWrite(myCostants.pins.led.v, myConditions.temperature.isFreddo);
