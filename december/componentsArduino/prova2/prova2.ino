@@ -1,13 +1,16 @@
 #include <LiquidCrystal_I2C.h>
 
+const int MAX_LINES_IN_LCD_DIGIT_SPACE = 5;
+const int NUMBER_DIGIT_SPACES = 16;
+const int MAX_LINES_IN_LCD_FULL_SPACE = NUMBER_DIGIT_SPACES*MAX_LINES_IN_LCD_DIGIT_SPACE;
+
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-void lcdLinesTransitionFromTo(int myStart, int myEnd, int myDelay = 100) {
+void lcdLinesTransitionFromTo(int myStart, int myEnd, int myDelay = 20) {
   lcd.clear();
-  const int MAX_LINES_IN_LCD_DIGIT_SPACE = 5;
-  int numberOfWrittenLines = myStart;
+  int numberOfWrittenLines = min(myStart, myEnd);
 
-  while(numberOfWrittenLines < myEnd) {
+  while(numberOfWrittenLines < max(myStart, myEnd)) {
     numberOfWrittenLines++;
     const int thisIndexLcdDigitSpace = numberOfWrittenLines/MAX_LINES_IN_LCD_DIGIT_SPACE;
     const int myChoosedByteCharIndex = numberOfWrittenLines-((thisIndexLcdDigitSpace)*MAX_LINES_IN_LCD_DIGIT_SPACE)+1;
@@ -68,7 +71,7 @@ void loop() {
 
   Serial.println(thisTemp);
 
-  lcdLinesTransitionFromTo(0,20);
+  lcdLinesTransitionFromTo(0,map(thisTemp, 0, 50, 0, MAX_LINES_IN_LCD_FULL_SPACE));
 
   for(int i=0; i<thisTemp; i++) {
     Serial.print(
