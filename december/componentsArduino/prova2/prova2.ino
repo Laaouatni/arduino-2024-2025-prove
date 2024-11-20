@@ -2,25 +2,29 @@
 
 LiquidCrystal lcd(2, 3, 4, 5, 6, 7);
 
-float delta = 5.0 / 1024.0;
-float k     = 10.0 / 1000.0;
-
-int max = 28;
-int min = 22;
-
-int r = 11;
-int v = 12;
-
-int sensore = A0;
+struct myCostants {
+  const float delta = 5.0 / 1024.0;
+  const float k     = 10.0 / 1000.0;
+  struct limiti {
+    const int max = 28;
+    const int min = 22;
+  };
+  struct pins {
+    struct led {
+      const int r = 11;
+      const int v = 12;
+    };
+    const int sensore = A0;
+  };
+};
 
 void setup() {
-  pinMode(r, OUTPUT);
-  pinMode(v, OUTPUT);
-  pinMode(sensore, INPUT);
+  pinMode(myCostants.pins.led.r  , OUTPUT);
+  pinMode(myCostants.pins.led.v  , OUTPUT);
+  pinMode(myCostants.pins.sensore, INPUT);
 
   lcd.begin(16, 2);
   lcd.setCursor(0, 0);
-  lcd.print("test");
 
   Serial.begin(9600);
 };
@@ -31,11 +35,15 @@ void loop() {
 
   lcd.clear();
 
-  bool isCaldo  = thisTemp > max;
-  bool isFreddo = thisTemp < min;
+  struct myConditions {
+    struct temperature {
+      const bool isCaldo = thisTemp  > myCostants.limiti.max;
+      const bool isFreddo = thisTemp < myCostants.limiti.min;
+    };
+  };
 
-  digitalWrite(r, isCaldo);
-  digitalWrite(v, isFreddo);
+  digitalWrite(myCostants.pins.led.r, myConditions.temperature.isCaldo );
+  digitalWrite(myCostants.pins.led.v, myConditions.temperature.isFreddo);
 
   const int centeredX = (16-String(thisTemp).length())/2;
 
