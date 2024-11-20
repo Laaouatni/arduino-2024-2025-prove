@@ -6,10 +6,12 @@ LiquidCrystal_I2C lcd(0x27,16,2);
 struct myCostants {
   const float delta = 5.0 / 1024.0;
   const float k     = 10.0 / 1000.0;
+
   struct limiti {
     const int max = 28;
     const int min = 22;
   } limiti;
+
   struct pins {
     struct led {
       const int r = 11;
@@ -26,6 +28,7 @@ void setup() {
 
   lcd.begin(16, 2);
   lcd.setCursor(0, 0);
+  lcd.backlight();
 
   Serial.begin(9600);
 };
@@ -36,15 +39,11 @@ void loop() {
 
   lcd.clear();
 
-  struct myConditions {
-    struct temperature {
-      const bool isCaldo  = thisTemp > myCostants.limiti.max;
-      const bool isFreddo = thisTemp < myCostants.limiti.min;
-    } temperature;
-  } myConditions;
+  const bool isCaldo  = thisTemp > myCostants.limiti.max;
+  const bool isFreddo = thisTemp < myCostants.limiti.min;
 
-  digitalWrite(myCostants.pins.led.r, myConditions.temperature.isCaldo );
-  digitalWrite(myCostants.pins.led.v, myConditions.temperature.isFreddo);
+  digitalWrite(myCostants.pins.led.r, isCaldo );
+  digitalWrite(myCostants.pins.led.v, isFreddo);
 
   const int centeredX = (16-String(thisTemp).length())/2;
 
