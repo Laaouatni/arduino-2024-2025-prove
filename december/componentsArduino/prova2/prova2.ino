@@ -8,6 +8,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 void lcdLinesTransitionFromTo(int myStart, int myEnd, int myDelay = 20) {
   lcd.clear();
+  lcd.setCursor(0,0);
   int numberOfWrittenLines = min(myStart, myEnd);
 
   while(numberOfWrittenLines < max(myStart, myEnd)) {
@@ -17,8 +18,6 @@ void lcdLinesTransitionFromTo(int myStart, int myEnd, int myDelay = 20) {
 
     lcd.setCursor(thisIndexLcdDigitSpace, 0);
     lcd.write(byte(myChoosedByteCharIndex));
-
-    Serial.println(numberOfWrittenLines);
 
     delay(myDelay);
   };
@@ -72,6 +71,9 @@ void loop() {
   Serial.println(thisTemp);
 
   lcdLinesTransitionFromTo(0,map(thisTemp, 0, 50, 0, MAX_LINES_IN_LCD_FULL_SPACE));
+
+  lcd.setCursor(0,1);
+  lcd.print(String(thisTemp) + "°C");
 
   for(int i=0; i<thisTemp; i++) {
     Serial.print(
