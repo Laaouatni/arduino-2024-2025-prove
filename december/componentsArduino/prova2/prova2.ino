@@ -6,9 +6,9 @@ const int MAX_LINES_IN_LCD_FULL_SPACE = NUMBER_DIGIT_SPACES*MAX_LINES_IN_LCD_DIG
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-void lcdLinesTransitionFromTo(int myStart, int myEnd, int myDelay = 20) {
-  lcd.clear();
+void lcdLinesTransitionFromTo(int myStart, int myEnd, int myDelay = 50) {
   lcd.setCursor(0,0);
+  lcd.print("                ");
   int numberOfWrittenLines = min(myStart, myEnd);
 
   while(numberOfWrittenLines < max(myStart, myEnd)) {
@@ -42,6 +42,8 @@ const int MIN = 20;
 
 int numberOfWrittenLines=0;
 
+float lastTemperature; 
+
 void setup() {
   pinMode(ledR, OUTPUT);
   pinMode(ledV, OUTPUT);
@@ -68,12 +70,13 @@ void loop() {
   digitalWrite(ledR, isCaldo );
   digitalWrite(ledV, isFreddo);
 
+  if((int)lastTemperature != (int)thisTemp) {
+    lcdLinesTransitionFromTo(0,map(thisTemp, 0, 50, 0, MAX_LINES_IN_LCD_FULL_SPACE));
+    lcd.setCursor(0,1);
+    lcd.print(String((int)thisTemp));
+  };
+
   Serial.println(thisTemp);
-
-  lcdLinesTransitionFromTo(0,map(thisTemp, 0, 50, 0, MAX_LINES_IN_LCD_FULL_SPACE));
-
-  lcd.setCursor(0,1);
-  lcd.print(String(thisTemp) + "°C");
 
   for(int i=0; i<thisTemp; i++) {
     Serial.print(
@@ -84,4 +87,6 @@ void loop() {
   };
 
   Serial.println("\n\n");
+
+  lastTemperature = thisTemp;
 };
