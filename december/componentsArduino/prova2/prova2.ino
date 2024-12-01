@@ -6,34 +6,39 @@ class laaDisplay {
   private:
     struct thisPins {
       PinStruct rs, en, d4, d5, d6, d7;
-    };
+    } pins;
 
   public:
-    laaDisplay(rs, en, d4, d5, d6, d7) {
-      this->rs = rs;
-      this->en = en;
-      this->d4 = d4;
-      this->d5 = d5;
-      this->d6 = d6;
-      this->d7 = d7;
+    laaDisplay(int rs, int en, int d4, int d5, int d6, int d7) {
+      this->pins.rs.id = rs;
+      this->pins.en.id = en;
+      this->pins.d4.id = d4;
+      this->pins.d5.id = d5;
+      this->pins.d6.id = d6;
+      this->pins.d7.id = d7;
     };
 
-    struct config {
+    struct Mode {
+      struct config {
       struct functionSet {
-        struct setBitMode {
-          void 4bit;
-          void 8bit;
+        struct bitMode {
+          void setTo4;
+          void setTo8;
         };
         struct setNumberOf {
           struct lines {
-            void one;
-            void two;
+            void setToOne;
+            void setToTwo;
           };
           struct dots {
-            void 5per8;
-            void 5per11;
+            void mode5x8;
+            void mode5x11;
           };
         };
       };
     };
+    }
+    
+
+    
 };
