@@ -19,23 +19,34 @@ class laaDisplay {
   };
 
   struct Mode {
-    struct config {
-      struct functionSet {
+    struct Config {
+      struct FunctionSet {
         struct bitMode {
-          void setTo4() {};
+          void setTo4() {
+            pinMode(13, OUTPUT);
+            digitalWrite(13, HIGH);
+          };
           void setTo8() {};
         } bitMode;
-        struct setNumberOf {
+        struct SetNumberOf {
           struct lines {
             void setToOne() {};
             void setToTwo() {};
           } lines;
-          struct dots {
+          struct Dots {
             void mode5x8 () {};
             void mode5x11 () {};
           } dots;
         } setNumberOf;
       } functionSet;
     } config;
-  } Mode;
+  } mode;
 };
+
+laaDisplay myDisplay(2,3,4,5,6,7);
+
+void setup() {
+  myDisplay.mode.config.functionSet.bitMode.setTo4();
+};
+
+void loop() {};
