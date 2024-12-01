@@ -5,7 +5,7 @@ struct PinStruct {
 class laaDisplay {
  private:
   struct thisPins {
-    PinStruct rs, en, d[8];  // d0-d7
+    PinStruct rs, en, d[4];  // d4-d7
   } pins;
   const int DELAY = 1;  // 300ns -> 0.0003ms -> 1ms
 
