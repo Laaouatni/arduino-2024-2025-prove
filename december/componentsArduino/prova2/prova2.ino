@@ -60,8 +60,6 @@ class laaDisplay {
       struct FunctionSet {
         struct bitMode {
           void setTo4() {
-            this->pins.rs.value = LOW; 
-            this->pins.en.value = LOW;
             /*
               D4:
               - LOW  = 4BIT MODE
@@ -73,8 +71,6 @@ class laaDisplay {
               - HIGH = FUNCTION SET MODE
             */
             this->pins.d5.value = HIGH;
-            this->pins.d6.value = LOW;
-            this->pins.d7.value = LOW;
           };
           void setTo8() {};
         } bitMode;
