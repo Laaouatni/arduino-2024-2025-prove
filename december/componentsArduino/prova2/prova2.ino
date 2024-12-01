@@ -5,7 +5,7 @@ struct PinStruct {
 class laaDisplay {
  private:
   struct thisPins {
-    PinStruct rs, en, d[4];  // d4-d7
+    PinStruct rs, en, d4, d5, d6, d7;
   } pins;
   const int DELAY = 1;  // 300ns -> 0.0003ms -> 1ms
 
@@ -15,6 +15,7 @@ class laaDisplay {
   };
 
   void sendCommand() {
+    this->updatePinState(this->pins.rs, this->pins.rs.value);
     digitalWrite(this->pins.rs.id, this->pins.rs.value);
     digitalWrite(this->pins.d4.id, this->pins.d4.value);
     digitalWrite(this->pins.d5.id, this->pins.d5.value);
