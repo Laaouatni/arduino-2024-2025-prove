@@ -69,11 +69,7 @@ public:
             this->pins.d4.value = LOW;
           };
           void setTo8() {
-            /*
-              D5:
-              - HIGH = FUNCTION SET MODE
-            */
-            this->pins.d5.value = HIGH;
+            this->mode.config.functionSet.setFunctionSet();
             /*
               D4:
               - LOW  = 4BIT MODE
@@ -84,16 +80,28 @@ public:
         } bitMode;
         struct SetNumberOf {
           struct lines {
-            void setToOne() { this->pins.d3.value = LOW; };
-            void setToTwo(){};
+            void setToOne() { 
+              this->mode.config.functionSet.setFunctionSet();
+              /*
+                D3:
+                - LOW  = 1 LINE DISPLAY
+                - HIGH = 2 LINE DISPLAY
+              */
+              this->pins.d3.value = LOW; 
+            };
+            void setToTwo(){
+              this->mode.config.functionSet.setFunctionSet();
+              /*
+                D3:
+                - LOW  = 1 LINE DISPLAY
+                - HIGH = 2 LINE DISPLAY
+              */
+              this->pins.d3.value = HIGH; 
+            };
           } lines;
           struct Dots {
             void mode5x8() {
-              /*
-                D5:
-                - HIGH = FUNCTION SET MODE
-              */
-              this->pins.d5.value = HIGH;
+              this->mode.config.functionSet.setFunctionSet();
               /*
                 D2:
                 - LOW  = 5x8 DOTS MODE
