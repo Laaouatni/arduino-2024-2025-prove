@@ -19,14 +19,6 @@ class laaDisplay {
     for(auto _thisDataStructPin : pins.d) {
       this->updatePinState(_thisDataStructPin, _thisDataStructPin.value);
     };
-    this->updatePinState(this->pins.d0, this->pins.d0.value);
-    this->updatePinState(this->pins.d1, this->pins.d1.value);
-    this->updatePinState(this->pins.d2, this->pins.d2.value);
-    this->updatePinState(this->pins.d3, this->pins.d3.value);
-    this->updatePinState(this->pins.d4, this->pins.d4.value);
-    this->updatePinState(this->pins.d5, this->pins.d5.value);
-    this->updatePinState(this->pins.d6, this->pins.d6.value);
-    this->updatePinState(this->pins.d7, this->pins.d7.value);
 
     sendingLogic();
 
