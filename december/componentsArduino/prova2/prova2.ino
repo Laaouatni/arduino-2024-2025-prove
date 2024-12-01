@@ -31,9 +31,10 @@ class laaDisplay {
   };
 
  public:
-  laaDisplay(int rs, int en, int d4, int d5, int d6, int d7) {
+  laaDisplay(int rs, int en, int d0, int d1, int d2, int d3, int d4, int d5, int d6, int d7) {
     this->pins.rs = {rs, LOW};
     this->pins.en = {en, LOW};
+
     this->pins.d4 = {d4, LOW};
     this->pins.d5 = {d5, LOW};
     this->pins.d6 = {d6, LOW};
