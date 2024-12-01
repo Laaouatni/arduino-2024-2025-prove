@@ -15,23 +15,23 @@ class laaDisplay {
   };
 
   void sendCommand() {
-    this->updatePinState(this->pins.en, LOW );
+    this->updatePinState(this->pins.en, LOW);
     this->updatePinState(this->pins.en, HIGH);
     delay(this->DELAY);
     this->updatePinState(this->pins.en, LOW);
   };
 
   void init() {
-    this->pins.rs = {rs, LOW};
-    this->pins.en = {en, LOW};
-    this->pins.d0 = {d0, LOW};
-    this->pins.d1 = {d1, LOW};
-    this->pins.d2 = {d2, LOW};
-    this->pins.d3 = {d3, LOW};
-    this->pins.d4 = {d4, LOW};
-    this->pins.d5 = {d5, LOW};
-    this->pins.d6 = {d6, LOW};
-    this->pins.d7 = {d7, LOW};
+    this->pins.rs.value = LOW;
+    this->pins.en.value = LOW;
+    this->pins.d0.value = LOW;
+    this->pins.d1.value = LOW;
+    this->pins.d2.value = LOW;
+    this->pins.d3.value = LOW;
+    this->pins.d4.value = LOW;
+    this->pins.d5.value = LOW;
+    this->pins.d6.value = LOW;
+    this->pins.d7.value = LOW;
   };
 
   struct Configurations {
@@ -41,7 +41,7 @@ class laaDisplay {
         - LOW  = OFF FUNCTION SET
         - HIGH = ON  FUNCTION SET
       */
-      void setFunctionSetMode(bool _isOn) { 
+      void setFunctionSetMode(bool _isOn) {
         this->updatePinState(this->pins.d5, _isOn);
         // this->sendCommand();
       };
@@ -78,24 +78,72 @@ class laaDisplay {
       - LOW   = CONFIG MODE
       - HIGH  = WRITING MODE
     */
-    void setConfigMode() { 
+    void setConfigMode() {
       this->updatePinState(this->pins.rs, LOW);
       this->sendCommand();
     };
-    void clear() {
+    struct Methods {
+      void clear() {
+        this->init();
+        this->updatePinState(this->pins.d0, HIGH);
+        this->sendCommand();
+      };
+      void home() {
+        this->init();
+        this->updatePinState(this->pins.d1, HIGH);
+        this->sendCommand();
+      };
+      /*
+        D2:
+        - LOW   = LCD SPENTO
+        - HIGH  = LCD ACCESSO
 
+        D1:
+        - LOW   = CURSOR ON
+        - HIGH  = CURSOR OFF
+      */
+      void backlightCursorRegister(bool _isBacklightOn, bool _isCursorOn = false, bool _isCursorBlinking = false) {
+        this->init();
+        this->updatePinState(this->pins.d3, HIGH);
+        this->updatePinState(this->pins.d2, _isBacklightOn);
+        this->updatePinState(this->pins.d1, _isCursorOn);
+        this->updatePinState(this->pins.d0, _isCursorBlinking);
+      };
 
-    };
+      void backlight(bool _isOn) {
+        this->init();
+        this->updatePinState(this->pins.d3, HIGH);
+        this->updatePinState(this->pins.d2, _isOn);
+        this->sendCommand();
+      };
+      void setCursor(bool _isOn) {
+        this->
+      }
+    } methods;
   } configurations;
 
  public:
-  laaDisplay(int rs, int en, int d0, int d1, int d2, int d3, int d4, int d5, int d6, int d7) {
+  laaDisplay(int rs, int en, int d0, int d1, int d2, int d3, int d4, int d5,
+             int d6, int d7) {
+    this->pins.rs.id = rs;
+    this->pins.en.id = en;
+    this->pins.d0.id = d0;
+    this->pins.d1.id = d1;
+    this->pins.d2.id = d2;
+    this->pins.d3.id = d3;
+    this->pins.d4.id = d4;
+    this->pins.d5.id = d5;
+    this->pins.d6.id = d6;
+    this->pins.d7.id = d7;
+
     this->init();
-    this->configurations            .setConfigMode();
-    this->configurations            .setFunctionSetMode(true);
+    this->configurations.setConfigMode();
+    this->configurations.setFunctionSetMode(true);
     this->configurations.functionSet.setBitMode(true);
     this->configurations.functionSet.setNumberOfLines(false);
     this->configurations.functionSet.setDotMode(false);
+    this->configurations.methods.clear();
+    this->configurations.methods.home();
   };
 };
 
