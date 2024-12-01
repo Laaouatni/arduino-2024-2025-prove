@@ -16,6 +16,9 @@ class laaDisplay {
 
   void sendCommand() {
     this->updatePinState(this->pins.rs, this->pins.rs.value);
+    for(auto _thisDataStructPin : pins.d) {
+      this->updatePinState(_thisDataStructPin, _thisDataStructPin.value);
+    };
     this->updatePinState(this->pins.d0, this->pins.d0.value);
     this->updatePinState(this->pins.d1, this->pins.d1.value);
     this->updatePinState(this->pins.d2, this->pins.d2.value);
