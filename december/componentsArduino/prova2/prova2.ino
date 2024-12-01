@@ -19,7 +19,6 @@ class laaDisplay {
     for(auto _thisDataStructPin : pins.d) {
       this->updatePinState(_thisDataStructPin, _thisDataStructPin.value);
     };
-
     sendingLogic();
 
     void sendingLogic() {
@@ -34,7 +33,10 @@ class laaDisplay {
   laaDisplay(int rs, int en, int d0, int d1, int d2, int d3, int d4, int d5, int d6, int d7) {
     this->pins.rs = {rs, LOW};
     this->pins.en = {en, LOW};
-
+    this->pins.d0 = {d0, LOW};
+    this->pins.d1 = {d1, LOW};
+    this->pins.d2 = {d2, LOW};
+    this->pins.d3 = {d3, LOW};
     this->pins.d4 = {d4, LOW};
     this->pins.d5 = {d5, LOW};
     this->pins.d6 = {d6, LOW};
@@ -82,7 +84,7 @@ class laaDisplay {
       this->updatePinState(this->pins.d2, this.pins.d2.value);
       this->sendCommand();
     };
-  }
+  };
 };
 
 laaDisplay myDisplay(2, 3, 4, 5, 6, 7);
