@@ -22,17 +22,17 @@ class laaDisplay {
     struct config {
       struct functionSet {
         struct bitMode {
-          void setTo4;
-          void setTo8;
+          void setTo4() {};
+          void setTo8() {};
         } bitMode;
         struct setNumberOf {
           struct lines {
-            void setToOne;
-            void setToTwo;
+            void setToOne() {};
+            void setToTwo() {};
           } lines;
           struct dots {
-            void mode5x8;
-            void mode5x11;
+            void mode5x8 () {};
+            void mode5x11 () {};
           } dots;
         };
       };
