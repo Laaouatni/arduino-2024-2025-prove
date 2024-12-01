@@ -47,7 +47,9 @@ class laaDisplay {
   void setWritingMode() { this->updatePinState(this->pins.control.rs, HIGH); };
 
   struct Configurations {
-    Configurations() { this->configurations.setConfigMode(); };
+    laaDisplay &parent;
+    Configurations(laaDisplay &_parent) : parent(_parent) { this->configurations.setConfigMode(); };
+    
     /*
       RS:
       - LOW   = CONFIG MODE
@@ -57,6 +59,9 @@ class laaDisplay {
       this->updatePinState(this->pins.control.rs, LOW);
     };
     struct FunctionSet {
+      laaDisplay &parent;
+      FunctionSet(laaDisplay &_parent) : parent(_parent) {};
+
       /*
         D5:
         - LOW  = OFF FUNCTION SET
@@ -119,8 +124,8 @@ class laaDisplay {
         this->updatePinState(this->pins.data.d1, _isCursorOn);
         this->updatePinState(this->pins.data.d0, _isCursorBlinking);
       };
-    } methods;
-  } configurations;
+    } methods{parent};
+  } configurations{*this};
 
  public:
   laaDisplay(int rs, int en, int d0, int d1, int d2, int d3, int d4, int d5, int d6, int d7) {
