@@ -4,8 +4,13 @@ struct PinStruct {
 
 class laaDisplay {
  private:
-  struct thisPins {
-    PinStruct rs, en, d[8];
+  struct Pins {
+    struct Control {
+      PinStruct rs, en;
+    } control;
+    struct Data {
+      PinStruct d0, d1, d2, d3, d4, d5, d6, d7;
+    } data;
   } pins;
   const int DELAY = 1;  // 300ns -> 0.0003ms -> 1ms
 
@@ -15,23 +20,23 @@ class laaDisplay {
   };
 
   void sendCommand() {
-    this->updatePinState(this->pins.en, LOW);
-    this->updatePinState(this->pins.en, HIGH);
+    this->updatePinState(this->pins.control.en, LOW);
+    this->updatePinStcontrol.ate(this->pins.control.en, HIGH);
     delay(this->DELAY);
-    this->updatePinState(this->pins.en, LOW);
+    this->updatePinState(this->pins.control.en, LOW);
   };
 
   void init() {
-    this->pins.rs.value = LOW;
-    this->pins.en.value = LOW;
-    this->pins.d0.value = LOW;
-    this->pins.d1.value = LOW;
-    this->pins.d2.value = LOW;
-    this->pins.d3.value = LOW;
-    this->pins.d4.value = LOW;
-    this->pins.d5.value = LOW;
-    this->pins.d6.value = LOW;
-    this->pins.d7.value = LOW;
+    this->pins.control.rs.value = LOW;
+    this->pins.control.en.value = LOW;
+    this->pins.data.d0.value = LOW;
+    this->pins.data.d1.value = LOW;
+    this->pins.data.d2.value = LOW;
+    this->pins.data.d3.value = LOW;
+    this->pins.data.d4.value = LOW;
+    this->pins.data.d5.value = LOW;
+    this->pins.data.d6.value = LOW;
+    this->pins.data.d7.value = LOW;
   };
 
   struct Configurations {
@@ -42,7 +47,7 @@ class laaDisplay {
         - HIGH = ON  FUNCTION SET
       */
       void setFunctionSetMode(bool _isOn) {
-        this->updatePinState(this->pins.d5, _isOn);
+        this->updatePinState(this->pins.data.d5, _isOn);
         // this->sendCommand();
       };
       /*
@@ -52,7 +57,7 @@ class laaDisplay {
       */
       void setBitMode(bool _is8BitMode) {
         // this->configurations.functionSet.setFunctionSetMode(true);
-        this->updatePinState(this->pins.d4, _is8BitMode);
+        this->updatePinState(this->pins.data.d4, _is8BitMode);
         // this->sendCommand();
       };
       /*
@@ -62,7 +67,7 @@ class laaDisplay {
       */
       void setNumberOfLines(bool _is2lines) {
         // this->configurations.functionSet.setFunctionSetMode(true);
-        this->updatePinState(this->pins.d3, _is2lines);
+        this->updatePinState(this->pins.data.d3, _is2lines);
         // this->sendCommand();
       };
       /*
@@ -72,7 +77,7 @@ class laaDisplay {
       */
       void setDotMode(bool _is5x11) {
         // this->configurations.functionSet.setFunctionSetMode(true);
-        this->updatePinState(this->pins.d2, _is5x11);
+        this->updatePinState(this->pins.data.d2, _is5x11);
         // this->sendCommand();
       };
     } functionSet;
@@ -82,18 +87,18 @@ class laaDisplay {
       - HIGH  = WRITING MODE
     */
     void setConfigMode() {
-      this->updatePinState(this->pins.rs, LOW);
+      this->updatePinState(this->pins.control.rs, LOW);
       // this->sendCommand();
     };
     struct Methods {
       void clear() {
         this->init();
-        this->updatePinState(this->pins.d0, HIGH);
+        this->updatePinState(this->pins.data.d0, HIGH);
         this->sendCommand();
       };
       void home() {
         this->init();
-        this->updatePinState(this->pins.d1, HIGH);
+        this->updatePinState(this->pins.data.d1, HIGH);
         this->sendCommand();
       };
       /*
@@ -111,10 +116,10 @@ class laaDisplay {
       */
       void backlightCursorRegister(bool _isBacklightOn, bool _isCursorOn = false, bool _isCursorBlinking = false) {
         this->init();
-        this->updatePinState(this->pins.d3, HIGH);
-        this->updatePinState(this->pins.d2, _isBacklightOn);
-        this->updatePinState(this->pins.d1, _isCursorOn);
-        this->updatePinState(this->pins.d0, _isCursorBlinking);
+        this->updatePinState(this->pins.data.d3, HIGH);
+        this->updatePinState(this->pins.data.d2, _isBacklightOn);
+        this->updatePinState(this->pins.data.d1, _isCursorOn);
+        this->updatePinState(this->pins.data.d0, _isCursorBlinking);
       };
     } methods;
   } configurations;
@@ -122,16 +127,16 @@ class laaDisplay {
  public:
   laaDisplay(int rs, int en, int d0, int d1, int d2, int d3, int d4, int d5,
              int d6, int d7) {
-    this->pins.rs.id = rs;
-    this->pins.en.id = en;
-    this->pins.d0.id = d0;
-    this->pins.d1.id = d1;
-    this->pins.d2.id = d2;
-    this->pins.d3.id = d3;
-    this->pins.d4.id = d4;
-    this->pins.d5.id = d5;
-    this->pins.d6.id = d6;
-    this->pins.d7.id = d7;
+    this->pins.control.rs.id = rs;
+    this->pins.control.en.id = en;
+    this->pins.data.d0.id = d0;
+    this->pins.data.d1.id = d1;
+    this->pins.data.d2.id = d2;
+    this->pins.data.d3.id = d3;
+    this->pins.data.d4.id = d4;
+    this->pins.data.d5.id = d5;
+    this->pins.data.d6.id = d6;
+    this->pins.data.d7.id = d7;
 
     this->init();
     this->configurations.setConfigMode();
