@@ -61,18 +61,30 @@ class laaDisplay {
         struct bitMode {
           void setTo4() {
             /*
+              D5:
+              - HIGH = FUNCTION SET MODE
+            */
+            this->pins.d5.value = HIGH;
+            /*
               D4:
               - LOW  = 4BIT MODE
               - HIGH = 8BIT MODE
             */
             this->pins.d4.value = LOW;
+          };
+          void setTo8() {
             /*
               D5:
               - HIGH = FUNCTION SET MODE
             */
             this->pins.d5.value = HIGH;
+            /*
+              D4:
+              - LOW  = 4BIT MODE
+              - HIGH = 8BIT MODE
+            */
+            this->pins.d4.value = HIGH;
           };
-          void setTo8() {};
         } bitMode;
         struct SetNumberOf {
           struct lines {
@@ -80,8 +92,22 @@ class laaDisplay {
             void setToTwo() {};
           } lines;
           struct Dots {
-            void mode5x8() {};
-            void mode5x11() {};
+            void mode5x8() {
+              /*
+                D5:
+                - HIGH = FUNCTION SET MODE
+              */
+              this->pins.d5.value = HIGH;
+              /*
+                D2:
+                - LOW  = 5x8 DOTS MODE
+                - HIGH = 5x11 DOTS MODE
+              */
+              this->pins.d2.value = LOW;
+            };
+            void mode5x11() {
+              
+            };
           } dots;
         } setNumberOf;
       } functionSet;
