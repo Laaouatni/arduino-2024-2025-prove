@@ -148,7 +148,7 @@ class laaDisplay {
   };
 
   void print(String _myString) {
-    // this->configurations.setConfigMode();
+    this->setWritingMode();
     for (int i = 0; i < _myString.length(); i++) {
       const char thisChar = _myString[i];
       const int asciiCode = (int)thisChar;
@@ -158,7 +158,7 @@ class laaDisplay {
       };
       sendCommand();
     };
-  }
+  };
 };
 
 laaDisplay myDisplay(2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
