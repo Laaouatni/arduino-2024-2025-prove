@@ -27,16 +27,6 @@ class laaDisplay {
       delay(this->DELAY);
       this->updatePinState(this->pins.en, LOW);
     };
-
-    this->pins.en.value = LOW;
-    digitalWrite(this->pins.en.id, this->pins.en.value);
-
-    this->pins.en.value = HIGH;
-    digitalWrite(this->pins.en.id, this->pins.en.value);
-    delay(this->DELAY);
-
-    this->pins.en.value = LOW;
-    digitalWrite(this->pins.en.id, this->pins.en.value);
   };
 
  public:
