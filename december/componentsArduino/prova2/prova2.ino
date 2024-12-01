@@ -49,7 +49,7 @@ class laaDisplay {
   struct Configurations {
     laaDisplay *parent;
 
-    Configurations(laaDisplay *_parent) : parent(_parent) { this->setConfigMode(); };
+    Configurations(laaDisplay *_parent) : parent(_parent), functionSet(_parent), methods(_parent) { this->setConfigMode(); };
     /*
       RS:
       - LOW   = CONFIG MODE
@@ -59,10 +59,6 @@ class laaDisplay {
       updatePinState(parent->pins.control.rs, LOW);
     };
     struct FunctionSet {
-      laaDisplay *parent;
-
-      FunctionSet(laaDisplay *_parent) : parent(_parent) {}
-
       /*
         D5:
         - LOW  = OFF FUNCTION SET
@@ -97,10 +93,6 @@ class laaDisplay {
       };
     } functionSet;
     struct Methods {
-      laaDisplay *parent;
-
-      Methods(laaDisplay *_parent) : parent(_parent) { parent->init(); };
-
       void clear() {
         updatePinState(parent->pins.data.d0, HIGH);
         parent->sendCommand();
