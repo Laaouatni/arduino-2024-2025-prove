@@ -16,6 +16,10 @@ class laaDisplay {
 
   void sendCommand() {
     this->updatePinState(this->pins.rs, this->pins.rs.value);
+    this->updatePinState(this->pins.d0, this->pins.d0.value);
+    this->updatePinState(this->pins.d1, this->pins.d1.value);
+    this->updatePinState(this->pins.d2, this->pins.d2.value);
+    this->updatePinState(this->pins.d3, this->pins.d3.value);
     this->updatePinState(this->pins.d4, this->pins.d4.value);
     this->updatePinState(this->pins.d5, this->pins.d5.value);
     this->updatePinState(this->pins.d6, this->pins.d6.value);
