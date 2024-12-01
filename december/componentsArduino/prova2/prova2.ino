@@ -40,6 +40,15 @@ class laaDisplay {
   };
 
   struct Configurations {
+    Configurations() { this->configurations.setConfigMode(); };
+    /*
+      RS:
+      - LOW   = CONFIG MODE
+      - HIGH  = WRITING MODE
+    */
+    void setConfigMode() {
+      this->updatePinState(this->pins.control.rs, LOW);
+    };
     struct FunctionSet {
       /*
         D5:
@@ -74,15 +83,6 @@ class laaDisplay {
         this->updatePinState(this->pins.data.d2, _is5x11);
       };
     } functionSet;
-    /*
-      RS:
-      - LOW   = CONFIG MODE
-      - HIGH  = WRITING MODE
-    */
-    void setConfigMode() {
-      this->updatePinState(this->pins.control.rs, LOW);
-      // this->sendCommand();
-    };
     struct Methods {
       Methods() { this->init(); }
       void clear() {
@@ -130,7 +130,7 @@ class laaDisplay {
     this->pins.data.d7.id = d7;
 
     this->init();
-    this->configurations.setConfigMode();
+    // this->configurations.setConfigMode();
     this->configurations.setFunctionSetMode(true);
     this->configurations.functionSet.setBitMode(true);
     this->configurations.functionSet.setNumberOfLines(false);
