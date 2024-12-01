@@ -69,7 +69,7 @@ class laaDisplay {
   laaDisplay(int rs, int en, int d0, int d1, int d2, int d3, int d4, int d5, int d6, int d7) {
     _init();
 
-    this->configurations.
+    this->configurations.setConfigMode();
     this->configurations.functionSet.setBitMode(true);
     this->configurations.functionSet.setNumberOfLines(false);
     this->configurations.functionSet.setDotMode(false);
