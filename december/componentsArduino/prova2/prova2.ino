@@ -110,11 +110,7 @@ public:
               this->pins.d2.value = LOW;
             };
             void mode5x11() {
-              /*
-                D5:
-                - HIGH = FUNCTION SET MODE
-              */
-              this->pins.d5.value = HIGH;
+              this->mode.config.functionSet.setFunctionSet();
               /*
                 D2:
                 - LOW  = 5x8 DOTS MODE
