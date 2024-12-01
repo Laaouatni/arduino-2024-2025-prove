@@ -36,6 +36,8 @@ public:
     this->pins.d7.id = d7;
 
     this->mode.config.setConfigMode();
+    myDisplay.mode.config.functionSet.bitMode.setTo4();
+    myDisplay.mode.config.functionSet.setNumberOf.lines.setTo1();
   };
 
   struct Mode {
@@ -80,7 +82,7 @@ public:
         } bitMode;
         struct SetNumberOf {
           struct lines {
-            void setToOne() { 
+            void setTo1() { 
               this->mode.config.functionSet.setFunctionSet();
               /*
                 D3:
@@ -89,7 +91,7 @@ public:
               */
               this->pins.d3.value = LOW; 
             };
-            void setToTwo(){
+            void setTo2(){
               this->mode.config.functionSet.setFunctionSet();
               /*
                 D3:
@@ -128,7 +130,6 @@ public:
 laaDisplay myDisplay(2, 3, 4, 5, 6, 7);
 
 void setup() {
-  myDisplay.mode.config.functionSet.bitMode.setTo4();
 };
 
 void loop(){};
