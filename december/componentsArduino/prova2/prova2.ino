@@ -16,11 +16,13 @@ class laaDisplay {
 
   void sendCommand() {
     this->updatePinState(this->pins.rs, this->pins.rs.value);
-    digitalWrite(this->pins.rs.id, this->pins.rs.value);
-    digitalWrite(this->pins.d4.id, this->pins.d4.value);
-    digitalWrite(this->pins.d5.id, this->pins.d5.value);
-    digitalWrite(this->pins.d6.id, this->pins.d6.value);
-    digitalWrite(this->pins.d7.id, this->pins.d7.value);
+    this->updatePinState(this->pins.rs, this->pins.rs.value);
+    this->updatePinState(this->pins.d4, this->pins.d4.value);
+    this->updatePinState(this->pins.d5, this->pins.d5.value);
+    this->updatePinState(this->pins.d6, this->pins.d6.value);
+    this->updatePinState(this->pins.d7, this->pins.d7.value);
+
+    sendingLogic();
 
     void sendingLogic() {
       this->updatePinState(this->pins.en, LOW );
