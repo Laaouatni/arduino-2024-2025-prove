@@ -51,13 +51,16 @@ public:
         this->sendCommand();
       };
       struct FunctionSet {
+        void setFunctionSet() {
+          /*
+            D5:
+            - HIGH = FUNCTION SET MODE
+          */
+          this->pins.d5.value = HIGH;
+        };
         struct bitMode {
           void setTo4() {
-            /*
-              D5:
-              - HIGH = FUNCTION SET MODE
-            */
-            this->pins.d5.value = HIGH;
+            this->mode.config.functionSet.setFunctionSet();
             /*
               D4:
               - LOW  = 4BIT MODE
@@ -81,7 +84,7 @@ public:
         } bitMode;
         struct SetNumberOf {
           struct lines {
-            void setToOne(){};
+            void setToOne() { this->pins.d3.value = LOW; };
             void setToTwo(){};
           } lines;
           struct Dots {
