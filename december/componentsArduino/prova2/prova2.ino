@@ -64,8 +64,15 @@ class laaDisplay {
       this->updatePinState(this->pins.d4, this.pins.d4.value);
       this->sendCommand();
     };
-
-    void setNumberOfLines();
+    /*
+      D3:
+      - LOW  = 1 LINE DISPLAY
+      - HIGH = 2 LINE DISPLAY
+    */
+    void setNumberOfLines(bool is2lines) {
+      this->updatePinState(this->pins.d3, this.pins.d3.value);
+      this->sendCommand();
+    };
   }
 
   struct Mode {
