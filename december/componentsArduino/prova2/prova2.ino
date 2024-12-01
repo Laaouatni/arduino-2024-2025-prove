@@ -39,6 +39,13 @@ class laaDisplay {
     this->pins.data.d7.value = LOW;
   };
 
+  /*
+    RS:
+    - LOW   = CONFIG MODE
+    - HIGH  = WRITING MODE
+  */
+  void setWritingMode() { this->updatePinState(this->pins.control.rs, HIGH); };
+
   struct Configurations {
     Configurations() { this->configurations.setConfigMode(); };
     /*
@@ -141,10 +148,15 @@ class laaDisplay {
   };
 
   void print(String _myString) {
+    // this->configurations.setConfigMode();
     for (int i = 0; i < _myString.length(); i++) {
       const char thisChar = _myString[i];
       const int asciiCode = (int)thisChar;
-      
+      for (int bit = 0; bit < 8; bit++) {
+        bool bitValue = (asciiCode >> bit) & 1;
+        updatePinState(this->pins.data.d0 + bit, bitValue);
+      };
+      sendCommand();
     };
   }
 };
