@@ -73,7 +73,7 @@ class laaDisplay {
  public:
   laaDisplay(int rs, int en, int d0, int d1, int d2, int d3, int d4, int d5, int d6, int d7) {
     _init();
-    this->configurations.
+    this->configurations.functionSet.setBitMode()
 
     void _init() {
       this->pins.rs = {rs, LOW};
