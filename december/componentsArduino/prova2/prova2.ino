@@ -1,3 +1,5 @@
+#define LOW 0x0;
+
 struct PinStruct {
   int id, value;
 };
@@ -16,6 +18,8 @@ class laaDisplay {
     this->pins.d5.id = d5;
     this->pins.d6.id = d6;
     this->pins.d7.id = d7;
+
+    this->pins.en.value = LOW;
   };
 
   struct Mode {
