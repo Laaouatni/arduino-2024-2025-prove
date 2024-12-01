@@ -51,7 +51,7 @@ class laaDisplay {
         - HIGH = 8BIT MODE
       */
       void setBitMode(bool _is8BitMode) {
-        this->configurations.functionSet.setFunctionSetMode(true);
+        // this->configurations.functionSet.setFunctionSetMode(true);
         this->updatePinState(this->pins.d4, _is8BitMode);
         // this->sendCommand();
       };
@@ -61,7 +61,7 @@ class laaDisplay {
         - HIGH = 2 LINE DISPLAY
       */
       void setNumberOfLines(bool _is2lines) {
-        this->configurations.functionSet.setFunctionSetMode(true);
+        // this->configurations.functionSet.setFunctionSetMode(true);
         this->updatePinState(this->pins.d3, _is2lines);
         // this->sendCommand();
       };
@@ -71,7 +71,7 @@ class laaDisplay {
         - HIGH = 5x11 DOTS MODE
       */
       void setDotMode(bool _is5x11) {
-        this->configurations.functionSet.setFunctionSetMode(true);
+        // this->configurations.functionSet.setFunctionSetMode(true);
         this->updatePinState(this->pins.d2, _is5x11);
         // this->sendCommand();
       };
@@ -139,6 +139,7 @@ class laaDisplay {
     this->configurations.functionSet.setBitMode(true);
     this->configurations.functionSet.setNumberOfLines(false);
     this->configurations.functionSet.setDotMode(false);
+    this->sendCommand();
     this->configurations.methods.clear();
     this->configurations.methods.home();
     this->configurations.methods.backlightCursorRegister(true, false, false);
