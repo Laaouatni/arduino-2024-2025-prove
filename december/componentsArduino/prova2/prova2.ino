@@ -106,7 +106,17 @@ class laaDisplay {
               this->pins.d2.value = LOW;
             };
             void mode5x11() {
-              
+              /*
+                D5:
+                - HIGH = FUNCTION SET MODE
+              */
+              this->pins.d5.value = HIGH;
+              /*
+                D2:
+                - LOW  = 5x8 DOTS MODE
+                - HIGH = 5x11 DOTS MODE
+              */
+              this->pins.d2.value = HIGH;
             };
           } dots;
         } setNumberOf;
