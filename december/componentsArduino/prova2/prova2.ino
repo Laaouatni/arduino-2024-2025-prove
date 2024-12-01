@@ -3,7 +3,7 @@ struct PinStruct {
 };
 
 class laaDisplay {
- private:
+private:
   struct thisPins {
     PinStruct rs, en, d4, d5, d6, d7;
   } pins;
@@ -26,7 +26,7 @@ class laaDisplay {
     this->pins.en.value = LOW;
     digitalWrite(this->pins.en.id, this->pins.en.value);
   };
- public:
+public:
   laaDisplay(int rs, int en, int d4, int d5, int d6, int d7) {
     this->pins.rs.id = rs;
     this->pins.en.id = en;
@@ -35,7 +35,7 @@ class laaDisplay {
     this->pins.d6.id = d6;
     this->pins.d7.id = d7;
 
-    this->setConfigMode();
+    this->mode.config.setConfigMode();
   };
 
   struct Mode {
@@ -47,11 +47,6 @@ class laaDisplay {
           - HIGH  = WRITING MODE
         */
         this->pins.rs.value = LOW;
-        this->pins.en.value = LOW;
-        this->pins.d4.value = LOW;
-        this->pins.d5.value = LOW;
-        this->pins.d6.value = LOW;
-        this->pins.d7.value = LOW;
 
         this->sendCommand();
       };
@@ -86,8 +81,8 @@ class laaDisplay {
         } bitMode;
         struct SetNumberOf {
           struct lines {
-            void setToOne() {};
-            void setToTwo() {};
+            void setToOne(){};
+            void setToTwo(){};
           } lines;
           struct Dots {
             void mode5x8() {
@@ -125,6 +120,8 @@ class laaDisplay {
 
 laaDisplay myDisplay(2, 3, 4, 5, 6, 7);
 
-void setup() { myDisplay.mode.config.functionSet.bitMode.setTo4(); };
+void setup() {
+  myDisplay.mode.config.functionSet.bitMode.setTo4();
+};
 
-void loop() {};
+void loop(){};
