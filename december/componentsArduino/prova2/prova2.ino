@@ -26,23 +26,6 @@ class laaDisplay {
     this->pins.en.value = LOW;
     digitalWrite(this->pins.en.id, this->pins.en.value);
   };
-
-  void setConfigMode() {
-    /*
-      RS:
-      - LOW   = CONFIG MODE
-      - HIGH  = WRITING MODE
-    */
-    this->pins.rs.value = LOW;
-    this->pins.en.value = LOW;
-    this->pins.d4.value = LOW;
-    this->pins.d5.value = LOW;
-    this->pins.d6.value = LOW;
-    this->pins.d7.value = LOW;
-
-    sendCommand();
-  };
-
  public:
   laaDisplay(int rs, int en, int d4, int d5, int d6, int d7) {
     this->pins.rs.id = rs;
@@ -57,6 +40,21 @@ class laaDisplay {
 
   struct Mode {
     struct Config {
+      void setConfigMode() {
+        /*
+          RS:
+          - LOW   = CONFIG MODE
+          - HIGH  = WRITING MODE
+        */
+        this->pins.rs.value = LOW;
+        this->pins.en.value = LOW;
+        this->pins.d4.value = LOW;
+        this->pins.d5.value = LOW;
+        this->pins.d6.value = LOW;
+        this->pins.d7.value = LOW;
+
+        this->sendCommand();
+      };
       struct FunctionSet {
         struct bitMode {
           void setTo4() {
