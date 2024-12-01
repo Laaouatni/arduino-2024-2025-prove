@@ -3,11 +3,16 @@ struct PinStruct {
 };
 
 class laaDisplay {
-private:
+ private:
   struct thisPins {
-    PinStruct rs, en, d4, d5, d6, d7;
+    PinStruct rs, en, d[8];  // d0-d7
   } pins;
   const int DELAY = 1;  // 300ns -> 0.0003ms -> 1ms
+
+  void updatePinState(PinStruct &_pin, int _value) {
+    _pin.value = _value;
+    digitalWrite(_pin.id, _pin.value);
+  };
 
   void sendCommand() {
     digitalWrite(this->pins.rs.id, this->pins.rs.value);
@@ -15,6 +20,13 @@ private:
     digitalWrite(this->pins.d5.id, this->pins.d5.value);
     digitalWrite(this->pins.d6.id, this->pins.d6.value);
     digitalWrite(this->pins.d7.id, this->pins.d7.value);
+
+    void sendingLogic() {
+      this->updatePinState(this->pins.en, LOW );
+      this->updatePinState(this->pins.en, HIGH);
+      delay(this->DELAY);
+      this->updatePinState(this->pins.en, LOW);
+    };
 
     this->pins.en.value = LOW;
     digitalWrite(this->pins.en.id, this->pins.en.value);
@@ -26,7 +38,8 @@ private:
     this->pins.en.value = LOW;
     digitalWrite(this->pins.en.id, this->pins.en.value);
   };
-public:
+
+ public:
   laaDisplay(int rs, int en, int d4, int d5, int d6, int d7) {
     this->pins.rs.id = rs;
     this->pins.en.id = en;
@@ -92,9 +105,9 @@ public:
                 - LOW  = 1 LINE DISPLAY
                 - HIGH = 2 LINE DISPLAY
               */
-              this->pins.d3.value = LOW; 
+              this->pins.d3.value = LOW;
             };
-            void setTo2(){
+            void setTo2() {
               this->mode.config.setConfigMode();
               this->mode.config.functionSet.setFunctionSet();
               /*
@@ -102,7 +115,7 @@ public:
                 - LOW  = 1 LINE DISPLAY
                 - HIGH = 2 LINE DISPLAY
               */
-              this->pins.d3.value = HIGH; 
+              this->pins.d3.value = HIGH;
             };
           } lines;
           struct Dots {
@@ -136,7 +149,6 @@ public:
 
 laaDisplay myDisplay(2, 3, 4, 5, 6, 7);
 
-void setup() {
-};
+void setup() {};
 
-void loop(){};
+void loop() {};
