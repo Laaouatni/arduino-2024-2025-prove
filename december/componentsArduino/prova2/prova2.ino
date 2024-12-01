@@ -34,8 +34,8 @@ class laaDisplay {
             void mode5x8 () {};
             void mode5x11 () {};
           } dots;
-        };
-      };
-    };
-  }
+        } setNumberOf;
+      } functionSet;
+    } config;
+  } Mode;
 };
