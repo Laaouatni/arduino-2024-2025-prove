@@ -152,10 +152,16 @@ class laaDisplay {
     for (int i = 0; i < _myString.length(); i++) {
       const char thisChar = _myString[i];
       const int asciiCode = (int)thisChar;
-      for (int bit = 0; bit < 8; bit++) {
-        bool bitValue = (asciiCode >> bit) & 1;
-        updatePinState(this->pins.data.d0.id + bit, bitValue);
-      };
+
+      updatePinState(pins.data.d0, asciiCode & 1);
+      updatePinState(pins.data.d1, (asciiCode >> 1) & 1);
+      updatePinState(pins.data.d2, (asciiCode >> 2) & 1);
+      updatePinState(pins.data.d3, (asciiCode >> 3) & 1);
+      updatePinState(pins.data.d4, (asciiCode >> 4) & 1);
+      updatePinState(pins.data.d5, (asciiCode >> 5) & 1);
+      updatePinState(pins.data.d6, (asciiCode >> 6) & 1);
+      updatePinState(pins.data.d7, (asciiCode >> 7) & 1);
+
       sendCommand();
     };
   };
