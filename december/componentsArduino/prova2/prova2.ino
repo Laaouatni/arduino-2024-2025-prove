@@ -46,41 +46,41 @@ class laaDisplay {
   struct Configurations {
     struct FunctionSet {
       /*
-      RS:
-      - LOW   = CONFIG MODE
-      - HIGH  = WRITING MODE
-    */
-    void setConfigMode() { 
-      this->updatePinState(this->pins.rs, LOW);
-      this->sendCommand();
-    };
-    /*
-      D4:
-      - LOW  = 4BIT MODE
-      - HIGH = 8BIT MODE
-    */
-    void setBitMode(bool _is8BitMode) {
-      this->updatePinState(this->pins.d4, _is8BitMode);
-      this->sendCommand();
-    };
-    /*
-      D3:
-      - LOW  = 1 LINE DISPLAY
-      - HIGH = 2 LINE DISPLAY
-    */
-    void setNumberOfLines(bool _is2lines) {
-      this->updatePinState(this->pins.d3, _is2lines);
-      this->sendCommand();
-    };
-    /*
-      D2:
-      - LOW  = 5x8 DOTS MODE
-      - HIGH = 5x11 DOTS MODE
-    */
-    void setDotMode(bool _is5x11) {
-      this->updatePinState(this->pins.d2, _is5x11);
-      this->sendCommand();
-    };
+        RS:
+        - LOW   = CONFIG MODE
+        - HIGH  = WRITING MODE
+      */
+      void setConfigMode() { 
+        this->updatePinState(this->pins.rs, LOW);
+        this->sendCommand();
+      };
+      /*
+        D4:
+        - LOW  = 4BIT MODE
+        - HIGH = 8BIT MODE
+      */
+      void setBitMode(bool _is8BitMode) {
+        this->updatePinState(this->pins.d4, _is8BitMode);
+        this->sendCommand();
+      };
+      /*
+        D3:
+        - LOW  = 1 LINE DISPLAY
+        - HIGH = 2 LINE DISPLAY
+      */
+      void setNumberOfLines(bool _is2lines) {
+        this->updatePinState(this->pins.d3, _is2lines);
+        this->sendCommand();
+      };
+      /*
+        D2:
+        - LOW  = 5x8 DOTS MODE
+        - HIGH = 5x11 DOTS MODE
+      */
+      void setDotMode(bool _is5x11) {
+        this->updatePinState(this->pins.d2, _is5x11);
+        this->sendCommand();
+      };
     } functionSet;
   } configurations;
 };
