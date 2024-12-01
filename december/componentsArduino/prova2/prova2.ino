@@ -21,7 +21,7 @@ class laaDisplay {
 
   void sendCommand() {
     this->updatePinState(this->pins.control.en, LOW);
-    this->updatePinStcontrol.ate(this->pins.control.en, HIGH);
+    this->updatePinState(this->pins.control.en, HIGH);
     delay(this->DELAY);
     this->updatePinState(this->pins.control.en, LOW);
   };
@@ -91,13 +91,12 @@ class laaDisplay {
       // this->sendCommand();
     };
     struct Methods {
+      Methods() { this->init(); }
       void clear() {
-        this->init();
         this->updatePinState(this->pins.data.d0, HIGH);
         this->sendCommand();
       };
       void home() {
-        this->init();
         this->updatePinState(this->pins.data.d1, HIGH);
         this->sendCommand();
       };
@@ -115,7 +114,6 @@ class laaDisplay {
         - HIGH  = CURSOR_BLINK ON
       */
       void backlightCursorRegister(bool _isBacklightOn, bool _isCursorOn = false, bool _isCursorBlinking = false) {
-        this->init();
         this->updatePinState(this->pins.data.d3, HIGH);
         this->updatePinState(this->pins.data.d2, _isBacklightOn);
         this->updatePinState(this->pins.data.d1, _isCursorOn);
