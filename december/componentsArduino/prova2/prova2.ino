@@ -99,8 +99,12 @@ class laaDisplay {
         - HIGH  = LCD ACCESSO
 
         D1:
-        - LOW   = CURSOR ON
-        - HIGH  = CURSOR OFF
+        - LOW   = CURSOR OFF
+        - HIGH  = CURSOR ON
+
+        D0:
+        - LOW   = CURSOR_BLINK OFF
+        - HIGH  = CURSOR_BLINK ON
       */
       void backlightCursorRegister(bool _isBacklightOn, bool _isCursorOn = false, bool _isCursorBlinking = false) {
         this->init();
@@ -109,16 +113,6 @@ class laaDisplay {
         this->updatePinState(this->pins.d1, _isCursorOn);
         this->updatePinState(this->pins.d0, _isCursorBlinking);
       };
-
-      void backlight(bool _isOn) {
-        this->init();
-        this->updatePinState(this->pins.d3, HIGH);
-        this->updatePinState(this->pins.d2, _isOn);
-        this->sendCommand();
-      };
-      void setCursor(bool _isOn) {
-        this->
-      }
     } methods;
   } configurations;
 
@@ -144,6 +138,7 @@ class laaDisplay {
     this->configurations.functionSet.setDotMode(false);
     this->configurations.methods.clear();
     this->configurations.methods.home();
+    this->configurations.methods.backlightCursorRegister(true, false, false);
   };
 };
 
