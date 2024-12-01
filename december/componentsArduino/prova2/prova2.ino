@@ -10,6 +10,12 @@ class laaDisplay {
   const int DELAY = 1;  // 300ns -> 0.0003ms -> 1ms
 
   void sendCommand() {
+    digitalWrite(this->pins.rs.id, this->pins.rs.value);
+    digitalWrite(this->pins.d4.id, this->pins.d4.value);
+    digitalWrite(this->pins.d5.id, this->pins.d5.value);
+    digitalWrite(this->pins.d6.id, this->pins.d6.value);
+    digitalWrite(this->pins.d7.id, this->pins.d7.value);
+
     this->pins.en.value = LOW;
     digitalWrite(this->pins.en.id, this->pins.en.value);
 
@@ -22,19 +28,17 @@ class laaDisplay {
   };
 
   void setConfigMode() {
-    this->pins.rs.value = LOW;  // LOW = CONFIG, HIGH = WRITING
+    /*
+      RS:
+      - LOW   = CONFIG MODE
+      - HIGH  = WRITING MODE
+    */
+    this->pins.rs.value = LOW;
     this->pins.en.value = LOW;
     this->pins.d4.value = LOW;
     this->pins.d5.value = LOW;
     this->pins.d6.value = LOW;
     this->pins.d7.value = LOW;
-
-    digitalWrite(this->pins.rs.id, this->pins.rs.value);
-    digitalWrite(this->pins.en.id, this->pins.en.value);
-    digitalWrite(this->pins.d4.id, this->pins.d4.value);
-    digitalWrite(this->pins.d5.id, this->pins.d5.value);
-    digitalWrite(this->pins.d6.id, this->pins.d6.value);
-    digitalWrite(this->pins.d7.id, this->pins.d7.value);
 
     sendCommand();
   };
@@ -56,8 +60,21 @@ class laaDisplay {
       struct FunctionSet {
         struct bitMode {
           void setTo4() {
-            pinMode(13, OUTPUT);
-            digitalWrite(13, HIGH);
+            this->pins.rs.value = LOW; 
+            this->pins.en.value = LOW;
+            /*
+              D4:
+              - LOW  = 4BIT MODE
+              - HIGH = 8BIT MODE
+            */
+            this->pins.d4.value = LOW;
+            /*
+              D5:
+              - HIGH = FUNCTION SET MODE
+            */
+            this->pins.d5.value = HIGH;
+            this->pins.d6.value = LOW;
+            this->pins.d7.value = LOW;
           };
           void setTo8() {};
         } bitMode;
