@@ -55,6 +55,17 @@ class laaDisplay {
       this->updatePinState(this->pins.rs, LOW);
       this->sendCommand();
     };
+    /*
+      D4:
+      - LOW  = 4BIT MODE
+      - HIGH = 8BIT MODE
+    */
+    void setBitMode(bool is8BitMode) {
+      this->updatePinState(this->pins.d4, this.pins.d4.value);
+      this->sendCommand();
+    };
+
+    void setNumberOfLines();
   }
 
   struct Mode {
