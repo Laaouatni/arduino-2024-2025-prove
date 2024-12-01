@@ -73,6 +73,15 @@ class laaDisplay {
       this->updatePinState(this->pins.d3, this.pins.d3.value);
       this->sendCommand();
     };
+    /*
+      D2:
+      - LOW  = 5x8 DOTS MODE
+      - HIGH = 5x11 DOTS MODE
+    */
+    void setDotMode(bool is5x11) {
+      this->updatePinState(this->pins.d2, this.pins.d2.value);
+      this->sendCommand();
+    };
   }
 
   struct Mode {
