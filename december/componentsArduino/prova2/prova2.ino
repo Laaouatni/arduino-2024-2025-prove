@@ -36,8 +36,8 @@ public:
     this->pins.d7.id = d7;
 
     this->mode.config.setConfigMode();
-    myDisplay.mode.config.functionSet.bitMode.setTo4();
-    myDisplay.mode.config.functionSet.setNumberOf.lines.setTo1();
+    this->mode.config.functionSet.bitMode.setTo4();
+    this->mode.config.functionSet.setNumberOf.lines.setTo1();
   };
 
   struct Mode {
@@ -62,6 +62,7 @@ public:
         };
         struct bitMode {
           void setTo4() {
+            this->mode.config.setConfigMode();
             this->mode.config.functionSet.setFunctionSet();
             /*
               D4:
@@ -71,6 +72,7 @@ public:
             this->pins.d4.value = LOW;
           };
           void setTo8() {
+            this->mode.config.setConfigMode();
             this->mode.config.functionSet.setFunctionSet();
             /*
               D4:
@@ -82,7 +84,8 @@ public:
         } bitMode;
         struct SetNumberOf {
           struct lines {
-            void setTo1() { 
+            void setTo1() {
+              this->mode.config.setConfigMode();
               this->mode.config.functionSet.setFunctionSet();
               /*
                 D3:
@@ -92,6 +95,7 @@ public:
               this->pins.d3.value = LOW; 
             };
             void setTo2(){
+              this->mode.config.setConfigMode();
               this->mode.config.functionSet.setFunctionSet();
               /*
                 D3:
@@ -103,6 +107,7 @@ public:
           } lines;
           struct Dots {
             void mode5x8() {
+              this->mode.config.setConfigMode();
               this->mode.config.functionSet.setFunctionSet();
               /*
                 D2:
@@ -112,6 +117,7 @@ public:
               this->pins.d2.value = LOW;
             };
             void mode5x11() {
+              this->mode.config.setConfigMode();
               this->mode.config.functionSet.setFunctionSet();
               /*
                 D2:
@@ -123,6 +129,7 @@ public:
           } dots;
         } setNumberOf;
       } functionSet;
+
     } config;
   } mode;
 };
