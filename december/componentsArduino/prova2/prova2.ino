@@ -15,12 +15,10 @@ class laaDisplay {
   };
 
   void sendCommand() {
-
-      this->updatePinState(this->pins.en, LOW );
-      this->updatePinState(this->pins.en, HIGH);
-      delay(this->DELAY);
-      this->updatePinState(this->pins.en, LOW);
-
+    this->updatePinState(this->pins.en, LOW );
+    this->updatePinState(this->pins.en, HIGH);
+    delay(this->DELAY);
+    this->updatePinState(this->pins.en, LOW);
   };
 
   struct Configurations {
