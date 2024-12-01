@@ -21,6 +21,19 @@ class laaDisplay {
     this->updatePinState(this->pins.en, LOW);
   };
 
+  void init() {
+    this->pins.rs = {rs, LOW};
+    this->pins.en = {en, LOW};
+    this->pins.d0 = {d0, LOW};
+    this->pins.d1 = {d1, LOW};
+    this->pins.d2 = {d2, LOW};
+    this->pins.d3 = {d3, LOW};
+    this->pins.d4 = {d4, LOW};
+    this->pins.d5 = {d5, LOW};
+    this->pins.d6 = {d6, LOW};
+    this->pins.d7 = {d7, LOW};
+  };
+
   struct Configurations {
     struct FunctionSet {
       /*
@@ -62,6 +75,7 @@ class laaDisplay {
     };
     void clear() {
 
+
     };
   } configurations;
 
@@ -73,19 +87,6 @@ class laaDisplay {
     this->configurations.functionSet.setBitMode(true);
     this->configurations.functionSet.setNumberOfLines(false);
     this->configurations.functionSet.setDotMode(false);
-
-    void _init() {
-      this->pins.rs = {rs, LOW};
-      this->pins.en = {en, LOW};
-      this->pins.d0 = {d0, LOW};
-      this->pins.d1 = {d1, LOW};
-      this->pins.d2 = {d2, LOW};
-      this->pins.d3 = {d3, LOW};
-      this->pins.d4 = {d4, LOW};
-      this->pins.d5 = {d5, LOW};
-      this->pins.d6 = {d6, LOW};
-      this->pins.d7 = {d7, LOW};
-    };
   };
 };
 
