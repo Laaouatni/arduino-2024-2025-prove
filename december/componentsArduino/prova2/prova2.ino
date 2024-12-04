@@ -27,24 +27,30 @@ void setup() {
 
 void loop() {
   const int livelloLux = analogRead(pins.sensoreLux);
+
   const bool isEntering = digitalWrite(pins.fotocellula.ingresso);
   const bool isExiting = digitalWrite(pins.fotocellula.uscita);
+
   if (isEntering) numberOfPeople++;
   const bool isNight = pins.sensoreLux.value < 250;
   bool isEmpty = numberOfPeople == 0;
   if (isExiting && !isEmpty) numberOfPeople--;
+
   isEmpty = numberOfPeople == 0;
   const bool canSystemTurnTheLight = !isEmpty && isNight;
+
   digitalWrite(pins.led.id, canSystemTurnTheLight);
 
   int thisCursorY = 0;
-  String outputs[] = {"numero persone", String(numberOfPeople), "luminosita",
-                      String(livelloLux)};
 
+  String outputs[] = {
+    "numero persone", String(numberOfPeople), 
+    "luminosita"    , String(livelloLux)
+  };
+  
   lcd.clear();
   for(auto thisString : outputs) {
     lcd.print(thisString);
-    thisCursor = x++;
-    lcd.setCursor(0, thisCursor);
+    lcd.setCursor(0, thisCursorY++);
   };
 }
