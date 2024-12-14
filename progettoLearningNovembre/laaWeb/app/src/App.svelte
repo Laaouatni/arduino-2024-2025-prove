@@ -52,17 +52,21 @@ void loop() {
   const bool foundError = false;
 
   if(!foundError) {
-    client.println("HTTP/1.1 200 OK");
-    client.println("Content-Type: application/json");
-    client.println("Access-Control-Allow-Origin: *");
-    client.println("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-    client.println("Access-Control-Allow-Headers: Content-Type");
-    client.println();
-    client.println("{\"status\":\"success\"}");
+    finishPostRequest(client);
   }
 
   client.stop();
 };
+
+void finishPostRequest(WiFiClient &client) {
+  client.println("HTTP/1.1 200 OK");
+  client.println("Content-Type: application/json");
+  client.println("Access-Control-Allow-Origin: *");
+  client.println("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+  client.println("Access-Control-Allow-Headers: Content-Type");
+  client.println();
+  client.println("{\"status\":\"success\"}");
+}
 
 void wifiSetupBoiderplate() {
   WiFi.begin("nomeWifi", "passwordWifi");
