@@ -2,12 +2,8 @@
   let isLedOn = $state(true);
 
   $effect(() => {
-    fetch("http://192.168.163.49/led", {
-      method: "POST",
-      body: JSON.stringify({svelteOn: isLedOn})
-    });
-    // const url = `http://192.168.163.49/led${isLedOn ? "On" : "Off"}`
-    // fetch(url);
+    const url = `http://192.168.163.49/led${isLedOn ? "On" : "Off"}`
+    fetch(url);
   });
 </script>
 
