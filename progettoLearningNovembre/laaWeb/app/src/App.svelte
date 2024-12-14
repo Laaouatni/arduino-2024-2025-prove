@@ -2,8 +2,12 @@
   let isLedOn = $state(true);
 
   $effect(() => {
-    const url = `http://192.168.163.49/led${isLedOn ? "On" : "Off"}`
-    fetch(url);
+    fetch("http://192.168.163.49/led", {
+      method: "POST",
+      body: JSON.stringify({svelteOn: isLedOn})
+    });
+    // const url = `http://192.168.163.49/led${isLedOn ? "On" : "Off"}`
+    // fetch(url);
   });
 </script>
 
@@ -14,6 +18,7 @@
 
 <!--
 #include <WiFi.h>
+#include <ArduinoJson.h>
 
 WiFiServer server(80);
 
@@ -29,13 +34,32 @@ void loop() {
   if (!client) return;
   String request = client.readStringUntil('\r');
 
-  const bool turnLedOn  = request.indexOf("GET /ledOn") != -1;
-  const bool turnLedOff = request.indexOf("GET /ledOff") != -1;
+  const bool postLedEndpoint  = request.indexOf("POST /led") != -1;
 
-  Serial.println(request + "\t\ton: " + String(turnLedOn) + "\toff: " + String(turnLedOff));
+  if(postLedEndpoint) {
+    while(client.available()) {
+      if(client.readStringUntil('\r') == "\n") break;
+    };
+    String jsonString = client.readString();
+    Serial.println(jsonString);
+    JsonDocument doc;
+    deserializeJson(doc, jsonString);
 
-  if (turnLedOn) digitalWrite(5, HIGH);
-  else if (turnLedOff) digitalWrite(5, LOW);
+    const bool isOn = doc["svelteOn"];
+    digitalWrite(5, isOn);
+  }
+
+  const bool foundError = false;
+
+  if(!foundError) {
+    client.println("HTTP/1.1 200 OK");
+    client.println("Content-Type: application/json");
+    client.println("Access-Control-Allow-Origin: *");
+    client.println("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+    client.println("Access-Control-Allow-Headers: Content-Type");
+    client.println();
+    client.println("{\"status\":\"success\"}");
+  }
 
   client.stop();
 };
