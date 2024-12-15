@@ -33,14 +33,11 @@ class laaClient {
       string withoutStarting;
       string withoutEnding;
       string withoutStartingAndEnding;
-    } modifiedString;
+    } modifiedRequestString;
 
-    // const String lastPartStringToRemove = "HTTP/1.1";
-
-    String modifiedString
-    const String modifiedRequestStringWithoutThePartToRemove =
-        _request.substring(0, (_request.length() - 1) -
+    modifiedRequestString.withoutEnding = _request.substring(0, (_request.length() - 1) -
                                   (requestStringPartToRemove.length() - 1));
+
     const String pathStringAfterValue = ;
   }
 };
