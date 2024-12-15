@@ -2,10 +2,9 @@
 
 class laaWifiSetup {
   protected:
-    WifiServer _server;
+    WiFiServer _server;
   public:
-    laaWifiSetup() {
-      _server = server(80);
+    laaWifiSetup() : _server(80) {
       _setup();
     };
   
@@ -35,8 +34,8 @@ class laaWifiGet : public laaWifiSetup {
       _request = _client.readStringUntil('\r');
     };
 
-    void listenToThisGetRequest(String varName, void(&callback)) {
-      const bool isRequestingThisVarName = request.indexOf("GET /" + String(varName)) != -1;
+    void listenToThisGetRequest(String varName, void(*callback)) {
+      const bool isRequestingThisVarName = _request.indexOf("GET /" + String(varName)) != -1;
       if(!isRequestingThisVarName) return;
       callback();
     };
@@ -48,19 +47,20 @@ class laaWifiGet : public laaWifiSetup {
       _client.println();
       _client.println("OK");
     };
-}
+};
 
 void setup() {
   Serial.begin(115200);
   pinMode(5, OUTPUT);
 
-  laaWifiSetup laaWifiSetup();
+  laaWifiSetup laaWifiSetup;
 }
 
 void loop() {
-  laaWifiGet get = laaWifiGet();
+  laaWifiGet get = laaWifiGet;
   get.listenToThisGetRequest("ledOn", ledOnLogic);
   get.listenToThisGetRequest("ledOff", ledOffLogic);
+  get.stopListening();
 };
 
 void ledOnLogic() {
