@@ -8,8 +8,8 @@ void setup() {
 }
 
 void loop() {
-  const int value = analogRead(thisPin);
+  const int value = analogRead(myPinInput);
   if (value != 0) {
-    Serial.println("I read from pin input n." + String(thisPin) + "\t this value: " + String(analogRead(thisPin)));
+    Serial.println("I read from pin input n." + String(myPinInput) + "\t this value: " + String(analogRead(myPinInput)));
   };
 };
