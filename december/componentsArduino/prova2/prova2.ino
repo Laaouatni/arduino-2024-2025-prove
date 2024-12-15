@@ -37,6 +37,9 @@ class laaClient {
 
     modifiedRequestString.withoutEnding = _request.substring(
         0, (_request.length() - 1) - (stringPartsToRemove.end.length() - 1));
+    modifiedRequestString.withoutStarting =
+        modifiedRequestString.withoutEnding.substring(
+            stringPartsToRemove.start.length - 1);
   };
 };
 
