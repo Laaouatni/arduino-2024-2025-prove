@@ -1,72 +1,72 @@
-// #include <ESP8266WiFi.h>
-// #include <WiFiClient.h>
+#include <WiFi.h>
 
-// const char* ssid = "nomeWifi";
-// const char* password = "passwordWifi";
+class laaWifiSetup {
+  protected:
+    WifiServer _server;
+  public:
+    laaWifiSetup() {
+      _server = server(80);
+      _setup();
+    };
+  
+  private:
+    void _setup() {
+      Serial.begin(115200);
+      WiFi.begin("nomeWifi", "passwordWifi");
+      Serial.println("Connecting to WiFi...");
+      while (WiFi.status() != WL_CONNECTED) {};
+      Serial.println("\nWiFi connected!");
+      Serial.print("IP Address: ");
+      Serial.println(WiFi.localIP());
+      _server.begin();
+      Serial.println("Server started. Waiting for clients...");
+    };
+};
 
-// const char* htmlContent = "<html><body><h1>Hello, World!</h1></body></html>";
+class laaWifiGet : public laaWifiSetup {
+  private:
+    String _request;
+    WiFiClient _client;
 
-// WiFiServer myServer(80);
+  public:
+    laaWifiGet() {
+      _client = _server.accept();
+      if (!_client) return;
+      _request = _client.readStringUntil('\r');
+    };
 
-// void setup() {
-//   Serial.begin(115200);
+    void listenToThisGetRequest(String varName, void(&callback)) {
+      const bool isRequestingThisVarName = request.indexOf("GET /" + String(varName)) != -1;
+      if(!isRequestingThisVarName) return;
+      callback();
+    };
 
-//   WiFi.begin("nomeWifi", "passwordWifi");
-//   while (WiFi.status() != WL_CONNECTED);
-
-//   myServer.begin();
-// }
-
-// void loop() {
-//   WiFiClient client = myServer.accept();
-//   if (!client) return;
-
-//   client.readStringUntil('\r');
-//   client.print(htmlContent);
-//   client.flush();
-//   client.stop();
-// };
-
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-
-const char* ssid = "nomeWifi";
-const char* password = "passwordWifi";
-
-const char* htmlContent = "<html><body><h1>Hello, World!12222</h1></body></html>";
-
-WiFiServer server(80);
-
-
+    void stopListening() {
+      _client.println("HTTP/1.1 200 OK");
+      _client.println("Content-Type: text/plain");
+      _client.println("Access-Control-Allow-Origin: *");
+      _client.println();
+      _client.println("OK");
+    };
+}
 
 void setup() {
   Serial.begin(115200);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
-  }
-  Serial.print("Connected to WiFi");
-  Serial.println(WiFi.localIP());
+  pinMode(5, OUTPUT);
 
-  server.begin();
-  Serial.println("HTTP server started");
+  laaWifiSetup laaWifiSetup();
 }
 
 void loop() {
-  WiFiClient client = server.accept();
-  if (!client) {
-    return;
-  }
+  laaWifiGet get = laaWifiGet();
+  get.listenToThisGetRequest("ledOn", ledOnLogic);
+  get.listenToThisGetRequest("ledOff", ledOffLogic);
+};
 
-  String request = client.readStringUntil('\r');
-  Serial.println(request);
+void ledOnLogic() {
+  digitalWrite(5, HIGH);
+};
 
-  client.print(htmlContent);
-  client.flush(); // Ensure data is sent
-
-  client.stop();
-
-  // Optional: Delay to avoid overloading the ESP8266
-  delay(100);
-}
+void ledOffLogic() {
+  digitalWrite(5, LOW);
+};
