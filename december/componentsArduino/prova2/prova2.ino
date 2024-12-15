@@ -35,11 +35,9 @@ class laaClient {
       string withoutStartingAndEnding;
     } modifiedRequestString;
 
-    modifiedRequestString.withoutEnding = _request.substring(0, (_request.length() - 1) -
-                                  (requestStringPartToRemove.length() - 1));
-
-    const String pathStringAfterValue = ;
-  }
+    modifiedRequestString.withoutEnding = _request.substring(
+        0, (_request.length() - 1) - (stringPartsToRemove.end.length() - 1));
+  };
 };
 
 void setup() {
