@@ -1,6 +1,8 @@
 const int inputs[19] = { 15, 2, 4, 5, 18, 19, 21, 22, 23, 13, 12, 14, 27, 26, 25, 33, 32, 35, 34 };
 const int myPinInput = inputs[0];
 
+// PROBLEMA FATTO CON RESISTENZA DI PULL_DOWN
+
 void setup() {
   pinMode(myPinInput, INPUT);
   Serial.begin(115200);
