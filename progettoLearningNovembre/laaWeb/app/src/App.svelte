@@ -14,8 +14,6 @@
 
 <!--
 #include <WiFi.h>
-#include <ArduinoJson.h>
-
 WiFiServer server(80);
 
 void setup() {
@@ -26,43 +24,28 @@ void setup() {
 }
 
 void loop() {
-  WiFiClient client = server.accept();
-  if (!client) return;
-  String request = client.readStringUntil('\r');
-
-  const bool postLedEndpoint  = request.indexOf("POST /led") != -1;
-
-  if(postLedEndpoint) {
-    while(client.available()) {
-      if(client.readStringUntil('\r') == "\n") break;
-    };
-    String jsonString = client.readString();
-    Serial.println(jsonString);
-    JsonDocument doc;
-    deserializeJson(doc, jsonString);
-
-    const bool isOn = doc["svelteOn"];
-    digitalWrite(5, isOn);
-  }
-
-  const bool foundError = false;
-
-  if(!foundError) {
-    finishPostRequest(client);
-  }
-
-  client.stop();
+  listenToNewGetRequests("ledOn", ledOnLogic);
+  listenToNewGetRequests("ledOff", ledOffLogic);
 };
 
-void finishPostRequest(WiFiClient &client) {
-  client.println("HTTP/1.1 200 OK");
-  client.println("Content-Type: application/json");
-  client.println("Access-Control-Allow-Origin: *");
-  client.println("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-  client.println("Access-Control-Allow-Headers: Content-Type");
-  client.println();
-  client.println("{\"status\":\"success\"}");
-}
+void ledOnLogic() {
+  digitalWrite(5, HIGH);
+};
+
+void ledOffLogic() {
+  digitalWrite(5, LOW);
+};
+
+void listenToNewGetRequests(String varName, void(&callback)()) {
+  WiFiClient client = server.accept();
+  if(!client) return;
+  const String request = client.readStringUntil('\r');
+  const bool isRequestingThisVarName = request.indexOf("GET /" + String(varName)) != -1;
+  if(!isRequestingThisVarName) return;
+  Serial.print(request);
+  callback();
+  client.stop();
+};
 
 void wifiSetupBoiderplate() {
   WiFi.begin("nomeWifi", "passwordWifi");
