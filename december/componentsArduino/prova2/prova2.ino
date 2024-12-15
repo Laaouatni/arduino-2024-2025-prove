@@ -35,6 +35,16 @@ class laaClient {
         String withoutStartingAndEnding;
       } modifiedRequestString;
 
+      struct SubStringParams {
+        struct End {
+          const int from = 0;
+          const int to = (_request.length() - 1) - (stringPartsToRemove.end.length() - 1);
+        } end;
+        struct Start {
+          const int from = stringPartsToRemove.start.length() - 1;
+        } start;
+      }
+
       modifiedRequestString.withoutEnding = _request.substring(
           0, (_request.length() - 1) - (stringPartsToRemove.end.length() - 1));
       modifiedRequestString.withoutStarting =
