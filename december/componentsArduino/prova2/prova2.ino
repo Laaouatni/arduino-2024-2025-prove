@@ -9,7 +9,7 @@ class laaClient {
   public:
     laaClient(String requestLineString) : _request(requestLineString) {};
     void get(String filePath, void(&callback)()) {
-      bool isRequesting = _request.indexOf("GET /" + String(filePath)) != -1;
+      bool isRequesting = _request.startsWith("GET /" + String(filePath));
       if (!isRequesting) return;
       callback();
     };
@@ -29,6 +29,7 @@ void setup() {
 void loop() {
   WiFiClient client = server.accept();
   if (!client) return;
+  Serial.println("Client connected! IP Address: " + client.remoteIP().toString());
   client.println("HTTP/1.1 200 OK");
   client.println("Access-Control-Allow-Origin: *");
 
@@ -37,7 +38,7 @@ void loop() {
   app.get("ledOn",  ledOnLogic);
   app.get("ledOff", ledOffLogic);
 
-  // client.stop();
+  client.stop();
 };
 
 void ledOnLogic()  { digitalWrite(5, HIGH); };
