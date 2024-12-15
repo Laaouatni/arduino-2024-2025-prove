@@ -2,12 +2,25 @@
 
 WiFiServer server(80);
 
+class laaClient {
+  private:
+    String _request;
+
+  public:
+    laaClient(String requestLineString) : _request(requestLineString) {};
+    void get(String directory, void(&callback)()) {
+      bool isRequesting = _request.indexOf("GET /" + String(directory)) != -1;
+      if (!isRequesting) return;
+      callback();
+    };
+};
+
 void setup() {
   Serial.begin(115200);
 
   WiFi.begin("nomeWifi", "passwordWifi");
   while (WiFi.status() != WL_CONNECTED) {};
-  Serial.println("WiFi connected! IP Address: " + String(WiFi.localIP()));
+  Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
   server.begin();
 
   pinMode(5, OUTPUT);
@@ -16,7 +29,7 @@ void setup() {
 void loop() {
   WiFiClient client = server.accept();
   if (!client) return;
-  laaClient app(client.readStringUntil('\r'));
+  laaClient app = laaClient(client.readStringUntil('\r'));
 
   app.get("ledOn",  ledOnLogic);
   app.get("ledOff", ledOffLogic);
@@ -26,16 +39,3 @@ void loop() {
 
 void ledOnLogic()  { digitalWrite(5, HIGH); };
 void ledOffLogic() { digitalWrite(5, LOW); };
-
-class laaClient {
-  private:
-    String _request;
-
-  public:
-    laaClient(String requestLineString) : _request(requestLineString) {};
-    void get(String directory, void(&callback)()) {
-      bool isRequesting = request.indexOf("GET /" + String(directory)) != -1;
-      if (!isRequesting) return;
-      callback();
-    };
-};
