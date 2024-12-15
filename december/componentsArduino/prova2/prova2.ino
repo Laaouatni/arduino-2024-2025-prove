@@ -1,6 +1,6 @@
 struct Pins {
-  const int inputs[1] = {5};
-  const int outputs[2] = {5, 2};
+  const int inputs[1] = { 5 };
+  const int outputs[2] = { 2, 5 };
 } pins;
 
 void setup() {
@@ -12,13 +12,14 @@ void setup() {
   // };
   for (auto thisPin : pins.outputs) {
     pinMode(thisPin, OUTPUT);
-    while(true) {
-      digitalWrite(thisPin, HIGH);
-      delay(500);
-      digitalWrite(thisPin, LOW);
-      delay(500);
-    }
   };
 }
 
-void loop() {};
+void loop() {
+  for (auto thisPin : pins.outputs) {
+    digitalWrite(thisPin, HIGH);
+    delay(500);
+    digitalWrite(thisPin, LOW);
+    delay(500);
+  };
+};
