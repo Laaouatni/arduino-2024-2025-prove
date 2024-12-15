@@ -29,9 +29,9 @@ void setup() {
 void loop() {
   WiFiClient client = server.accept();
   if (!client) return;
-  Serial.println("Client connected! IP Address: " + client.remoteIP().toString());
   client.println("HTTP/1.1 200 OK");
   client.println("Access-Control-Allow-Origin: *");
+  client.println("Connection: keep-alive");
 
   laaClient app(client.readStringUntil('\r'));
 
