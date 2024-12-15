@@ -29,12 +29,16 @@ void setup() {
 void loop() {
   WiFiClient client = server.accept();
   if (!client) return;
-  laaClient app = laaClient(client.readStringUntil('\r'));
+  if (!client.available()) return;
+
+  laaClient app(client.readStringUntil('\r'));
+
+  // client.println("HTTP/1.1 200 OK");
+  // client.println("Access-Control-Allow-Origin: *");
 
   app.get("ledOn",  ledOnLogic);
   app.get("ledOff", ledOffLogic);
 
-  
   client.stop();
 };
 
