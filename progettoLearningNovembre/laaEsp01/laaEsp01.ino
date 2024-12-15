@@ -2,8 +2,7 @@
 
 class laaWifiSetup {
   public:
-    WiFiServer _server;
-    laaWifiSetup() : _server(80) {
+    laaWifiSetup(WiFiServer _server) {
       _setup();
     };
   
@@ -27,8 +26,7 @@ class laaWifiGet {
     WiFiClient _client;
 
   public:
-    laaWifiGet() {
-      WiFiServer _server(80);
+    laaWifiGet(WiFiServer _server) {
       _client = _server.accept();
       if (!_client) return;
       _request = _client.readStringUntil('\r');
@@ -46,19 +44,20 @@ class laaWifiGet {
       _client.println("Access-Control-Allow-Origin: *");
       _client.println();
       _client.println("OK");
-      _client.stop();
     };
 };
+
+WifiServer server(80);
 
 void setup() {
   Serial.begin(115200);
   pinMode(5, OUTPUT);
 
-  laaWifiSetup laaWifiSetup;
+  laaWifiSetup laaWifiSetup(server);
 }
 
 void loop() {
-  laaWifiGet get;
+  laaWifiGet get(server);
   get.listenToThisGetRequest("ledOn", ledOnLogic);
   get.listenToThisGetRequest("ledOff", ledOffLogic);
   get.stopListening();
