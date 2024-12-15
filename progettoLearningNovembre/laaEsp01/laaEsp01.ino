@@ -1,9 +1,8 @@
 #include <WiFi.h>
 
 class laaWifiSetup {
-  protected:
-    WiFiServer _server;
   public:
+    WiFiServer _server;
     laaWifiSetup() : _server(80) {
       _setup();
     };
@@ -22,13 +21,14 @@ class laaWifiSetup {
     };
 };
 
-class laaWifiGet : public laaWifiSetup {
+class laaWifiGet {
   private:
     String _request;
     WiFiClient _client;
 
   public:
     laaWifiGet() {
+      WiFiServer _server(80);
       _client = _server.accept();
       if (!_client) return;
       _request = _client.readStringUntil('\r');
@@ -46,6 +46,7 @@ class laaWifiGet : public laaWifiSetup {
       _client.println("Access-Control-Allow-Origin: *");
       _client.println();
       _client.println("OK");
+      _client.stop();
     };
 };
 
