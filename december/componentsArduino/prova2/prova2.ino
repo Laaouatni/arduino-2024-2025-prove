@@ -24,14 +24,14 @@ class laaClient {
       return;
     }
 
-    const String requestStringPartToRemove = "HTTP/1.1";
-
-    struct SubstringParams {
-      const int from = 0;
-      const int to = (_request.length()-1) - (requestStringPartToRemove.length()-1);
-    } substringParams;
-
-    const String modifiedRequestStringWithoutThePartToRemove = _request.substring(substringParams.from, substringParams.to);
+    struct StringPartsToRemove {
+      const String start = "GET ";
+      const String end = "HTTP/1.1";
+    }
+    const String lastPartStringToRemove = "HTTP/1.1";
+    const String modifiedRequestStringWithoutThePartToRemove =
+        _request.substring(0, (_request.length() - 1) -
+                                  (requestStringPartToRemove.length() - 1));
     const String pathStringAfterValue = ;
   }
 };
