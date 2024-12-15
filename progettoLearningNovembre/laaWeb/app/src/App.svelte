@@ -1,8 +1,10 @@
 <script lang="ts">
   let isLedOn = $state(true);
+  const esp32adress = "192.168.21.49";
 
   $effect(() => {
-    const url = `http://192.168.163.49/led${isLedOn ? "On" : "Off"}`
+    const choosedPath = `led${isLedOn ? "On" : "Off"}`;
+    const url = `http://${esp32adress}/${choosedPath}`
     fetch(url);
   });
 </script>
