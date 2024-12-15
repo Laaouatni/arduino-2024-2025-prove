@@ -17,7 +17,7 @@
 
 class laaWifiSetup {
   protected:
-    WifiServer _server;
+    WiFiServer _server;
   public:
     laaWifiSetup() {
       _server = server(80);
@@ -51,7 +51,7 @@ class laaWifiGet : public laaWifiSetup {
     };
 
     void listenToThisGetRequest(String varName, void(&callback)) {
-      const bool isRequestingThisVarName = request.indexOf("GET /" + String(varName)) != -1;
+      const bool isRequestingThisVarName = _request.indexOf("GET /" + String(varName)) != -1;
       if(!isRequestingThisVarName) return;
       callback();
     };
@@ -63,7 +63,7 @@ class laaWifiGet : public laaWifiSetup {
       _client.println();
       _client.println("OK");
     };
-}
+};
 
 void setup() {
   Serial.begin(115200);
