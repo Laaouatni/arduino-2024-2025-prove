@@ -1,68 +1,74 @@
-const int inputs[19] = { 15, 2, 4, 5, 18, 19, 21, 22, 23, 13, 12, 14, 27, 26, 25, 33, 32, 35, 34 };
-int myPinInput = inputs[0];
+#include <WiFi.h>
+
+class laaWifiSetup {
+  public:
+    laaWifiSetup(WiFiServer _server) : _server(_server) {
+      _setup();
+    };
+  
+  private:
+    WiFiServer _server;
+    void _setup() {
+      Serial.begin(115200);
+      WiFi.begin("nomeWifi", "passwordWifi");
+      Serial.println("Connecting to WiFi...");
+      while (WiFi.status() != WL_CONNECTED) {};
+      Serial.println("\nWiFi connected!");
+      Serial.print("IP Address: ");
+      Serial.println(WiFi.localIP());
+      _server.begin();
+      Serial.println("Server started. Waiting for clients...");
+    };
+};
+
+class laaWifiGet {
+  private:
+    String _request;
+    WiFiClient _client;
+
+  public:
+    laaWifiGet(WiFiServer _server) {
+      _client = _server.accept();
+      if (!_client) return;
+      _request = _client.readStringUntil('\r');
+    };
+
+    void listenToThisGetRequest(String varName, void(&callback)()) {
+      const bool isRequestingThisVarName = _request.indexOf("GET /" + String(varName)) != -1;
+      if(!isRequestingThisVarName) return;
+      callback();
+    };
+
+    void stopListening() {
+      _client.println("HTTP/1.1 200 OK");
+      _client.println("Content-Type: text/plain");
+      _client.println("Access-Control-Allow-Origin: *");
+      _client.println();
+      _client.println("OK");
+      _client.stop();
+    };
+};
+
+WiFiServer server(80);
 
 void setup() {
-  pinMode(myPinInput, INPUT);
   Serial.begin(115200);
-  Serial.print("pinMode: " + String(myPinInput) + " INPUT");
+  pinMode(5, OUTPUT);
+
+  laaWifiSetup laaWifiSetup(server);
 }
 
 void loop() {
-  if(Serial.available() > 0) {
-    myPinInput = String(Serial.readStringUntil('\n')).toInt();
-  };
-  const int value = analogRead(myPinInput);
-  if (value != 0) {
-    Serial.println("I read from pin input n." + String(myPinInput) + "\t this value: " + String(value));
-  };
+  laaWifiGet get(server);
+  get.listenToThisGetRequest("ledOn", ledOnLogic);
+  get.listenToThisGetRequest("ledOff", ledOffLogic);
+  get.stopListening();
 };
 
-// INPUT:
-// 15
-// 2
-// 4
-// 13
-// 12
-// 14
-// 27
-// 26
-// 25
+void ledOnLogic() {
+  digitalWrite(5, HIGH);
+};
 
-
-// INPUT (LOW è 10-40/50)
-// 33 
-// 32 
-// 35
-// 34
-
-// NO INPUT
-// 5
-// 18
-// 19
-// 21
-// 22
-// 23
-
-//-------
-
-// OUTPUT MA CON PULL_DOWN RESISTOR
-// 2
-// 4
-// 5
-// 18
-// 19
-// 21
-// 22
-// 23
-// 13
-// 12
-// 14
-// 27
-// 26
-// 25
-// 33
-// 32
-
-// NO OUTPUT
-// 35
-// 34
+void ledOffLogic() {
+  digitalWrite(5, LOW);
+};
