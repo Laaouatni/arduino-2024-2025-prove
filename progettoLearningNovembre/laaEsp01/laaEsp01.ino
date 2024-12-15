@@ -40,11 +40,11 @@ class laaWifiGet {
     };
 
     void stopListening() {
-      _client.println("HTTP/1.1 200 OK");
-      _client.println("Content-Type: text/plain");
-      _client.println("Access-Control-Allow-Origin: *");
-      _client.println();
-      _client.println("OK");
+      // _client.println("HTTP/1.1 200 OK");
+      // _client.println("Content-Type: text/plain");
+      // _client.println("Access-Control-Allow-Origin: *");
+      // _client.println();
+      // _client.println("OK");
       _client.stop();
     };
 };
