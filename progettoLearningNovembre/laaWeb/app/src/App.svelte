@@ -16,14 +16,13 @@
 #include <WiFi.h>
 
 class laaWifiSetup {
-  protected:
-    WiFiServer _server;
   public:
-    laaWifiSetup() : _server(80) {
+    laaWifiSetup(WiFiServer _server) : _server(_server) {
       _setup();
     };
   
   private:
+    WiFiServer _server;
     void _setup() {
       Serial.begin(115200);
       WiFi.begin("nomeWifi", "passwordWifi");
@@ -37,13 +36,13 @@ class laaWifiSetup {
     };
 };
 
-class laaWifiGet : public laaWifiSetup {
+class laaWifiGet {
   private:
     String _request;
     WiFiClient _client;
 
   public:
-    laaWifiGet() {
+    laaWifiGet(WiFiServer _server) {
       _client = _server.accept();
       if (!_client) return;
       _request = _client.readStringUntil('\r');
@@ -64,15 +63,17 @@ class laaWifiGet : public laaWifiSetup {
     };
 };
 
+WiFiServer server(80);
+
 void setup() {
   Serial.begin(115200);
   pinMode(5, OUTPUT);
 
-  laaWifiSetup laaWifiSetup;
+  laaWifiSetup laaWifiSetup(server);
 }
 
 void loop() {
-  laaWifiGet get;
+  laaWifiGet get(server);
   get.listenToThisGetRequest("ledOn", ledOnLogic);
   get.listenToThisGetRequest("ledOff", ledOffLogic);
   get.stopListening();

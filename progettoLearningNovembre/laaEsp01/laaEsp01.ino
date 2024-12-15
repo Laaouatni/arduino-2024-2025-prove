@@ -2,11 +2,12 @@
 
 class laaWifiSetup {
   public:
-    laaWifiSetup(WiFiServer _server) {
+    laaWifiSetup(WiFiServer _server) : _server(_server) {
       _setup();
     };
   
   private:
+    WiFiServer _server;
     void _setup() {
       Serial.begin(115200);
       WiFi.begin("nomeWifi", "passwordWifi");
@@ -47,7 +48,7 @@ class laaWifiGet {
     };
 };
 
-WifiServer server(80);
+WiFiServer server(80);
 
 void setup() {
   Serial.begin(115200);
