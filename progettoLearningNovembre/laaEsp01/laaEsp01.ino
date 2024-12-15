@@ -14,25 +14,28 @@ void setup() {
 }
 
 void loop() {
-  WifiClient client = server.accept();
+  WiFiClient client = server.accept();
   if (!client) return;
   laaClient app(client.readStringUntil('\r'));
 
   app.get("ledOn",  ledOnLogic);
-  app.get("ledOff", ledOffLogic)
+  app.get("ledOff", ledOffLogic);
 
   client.stop();
 };
 
-class laaClient {
-  String _request;
-  laaClient(String requestLineString) : _request(requestLineString) {};
-  void get(String directory, void(&callback)()) {
-    bool isRequesting = request.indexOf("GET /" + String(directory)) != -1;
-    if (!isRequesting) return;
-    callback();
-  };
-}
-
 void ledOnLogic()  { digitalWrite(5, HIGH); };
 void ledOffLogic() { digitalWrite(5, LOW); };
+
+class laaClient {
+  private:
+    String _request;
+
+  public:
+    laaClient(String requestLineString) : _request(requestLineString) {};
+    void get(String directory, void(&callback)()) {
+      bool isRequesting = request.indexOf("GET /" + String(directory)) != -1;
+      if (!isRequesting) return;
+      callback();
+    };
+};
