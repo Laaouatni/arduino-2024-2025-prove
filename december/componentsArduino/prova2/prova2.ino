@@ -3,23 +3,45 @@
 WiFiServer server(80);
 
 class laaClient {
-  private:
-    String _request;
+ private:
+  String _request;
 
-  public:
-    laaClient(String requestLineString) : _request(requestLineString) {};
-    void get(String filePath, void(&callback)()) {
+ public:
+  laaClient(String requestLineString) : _request(requestLineString) {};
+  void get(String filePath, void (&callback)()) {
+    bool isRequesting = _request.startsWith("GET /" + String(filePath));
+    if (!isRequesting) return;
+    callback();
+  };
+  void getDynamic(String filePath, void (&callback)()) {
+    const bool isContainingDynamicValueInTheFilePath =
+        _request.indexOf(":") != -1;
+
+    if (!isContainingDynamicValueInTheFilePath) {
       bool isRequesting = _request.startsWith("GET /" + String(filePath));
       if (!isRequesting) return;
       callback();
-    };
+      return;
+    }
+
+    const String requestStringPartToRemove = "HTTP/1.1";
+
+    struct SubstringParams {
+      const int from = 0;
+      const int to = (_request.length()-1) - (requestStringPartToRemove.length()-1);
+    } substringParams;
+
+    const String modifiedRequestStringWithoutThePartToRemove = _request.substring(substringParams.from, substringParams.to);
+    const String pathStringAfterValue = ;
+  }
 };
 
 void setup() {
   Serial.begin(115200);
 
   WiFi.begin("nomeWifi", "passwordWifi");
-  while (WiFi.status() != WL_CONNECTED) {};
+  while (WiFi.status() != WL_CONNECTED) {
+  };
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
   server.begin();
 
@@ -35,11 +57,11 @@ void loop() {
 
   laaClient app(client.readStringUntil('\r'));
 
-  app.get("ledOn",  ledOnLogic);
+  app.get("ledOn", ledOnLogic);
   app.get("ledOff", ledOffLogic);
 
   client.stop();
 };
 
-void ledOnLogic()  { digitalWrite(5, HIGH); };
+void ledOnLogic() { digitalWrite(5, HIGH); };
 void ledOffLogic() { digitalWrite(5, LOW); };
