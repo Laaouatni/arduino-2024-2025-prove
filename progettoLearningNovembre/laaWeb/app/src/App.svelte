@@ -49,7 +49,7 @@ class laaWifiGet : public laaWifiSetup {
       _request = _client.readStringUntil('\r');
     };
 
-    void listenToThisGetRequest(String varName, void(*callback)) {
+    void listenToThisGetRequest(String varName, void(&callback)()) {
       const bool isRequestingThisVarName = _request.indexOf("GET /" + String(varName)) != -1;
       if(!isRequestingThisVarName) return;
       callback();
@@ -72,7 +72,7 @@ void setup() {
 }
 
 void loop() {
-  laaWifiGet get = laaWifiGet;
+  laaWifiGet get;
   get.listenToThisGetRequest("ledOn", ledOnLogic);
   get.listenToThisGetRequest("ledOff", ledOffLogic);
   get.stopListening();
