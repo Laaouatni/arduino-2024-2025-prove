@@ -60,6 +60,7 @@ class laaWifiGet {
       _client.println("Access-Control-Allow-Origin: *");
       _client.println();
       _client.println("OK");
+      _client.stop();
     };
 };
 
