@@ -38,11 +38,11 @@ class laaClient {
     struct SubstringParams {
       struct End {
         const int from = 0;
-        const int to =
+        int to =
             (_request.length() - 1) - (stringPartsToRemove.end.length() - 1);
       } end;
       struct Start {
-        const int from = stringPartsToRemove.start.length() - 1;
+        int from = stringPartsToRemove.start.length() - 1;
       } start;
     } substringParams;
 
