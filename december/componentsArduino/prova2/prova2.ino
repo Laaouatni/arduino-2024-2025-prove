@@ -3,54 +3,54 @@
 WiFiServer server(80);
 
 class laaClient {
-  private:
-    String _request;
+ private:
+  String _request;
 
-  public:
-    laaClient(String requestLineString) : _request(requestLineString) {};
-    void get(String filePath, void (&callback)()) {
+ public:
+  laaClient(String requestLineString) : _request(requestLineString) {};
+  void get(String filePath, void (&callback)()) {
+    bool isRequesting = _request.startsWith("GET /" + String(filePath));
+    if (!isRequesting) return;
+    callback();
+  };
+  void getDynamic(String filePath, void (&callback)()) {
+    const bool isContainingDynamicValueInTheFilePath =
+        _request.indexOf(":") != -1;
+
+    if (!isContainingDynamicValueInTheFilePath) {
       bool isRequesting = _request.startsWith("GET /" + String(filePath));
       if (!isRequesting) return;
       callback();
-    };
-    void getDynamic(String filePath, void (&callback)()) {
-      const bool isContainingDynamicValueInTheFilePath =
-          _request.indexOf(":") != -1;
+      return;
+    }
 
-      if (!isContainingDynamicValueInTheFilePath) {
-        bool isRequesting = _request.startsWith("GET /" + String(filePath));
-        if (!isRequesting) return;
-        callback();
-        return;
-      }
+    struct StringPartsToRemove {
+      const String start = "GET ";
+      const String end = "HTTP/1.1";
+    } stringPartsToRemove;
 
-      struct StringPartsToRemove {
-        const String start = "GET ";
-        const String end = "HTTP/1.1";
-      } stringPartsToRemove;
+    struct ModifiedStringWithout {
+      String withoutStarting;
+      String withoutEnding;
+      String withoutStartingAndEnding;
+    } modifiedRequestString;
 
-      struct ModifiedStringWithout {
-        String withoutStarting;
-        String withoutEnding;
-        String withoutStartingAndEnding;
-      } modifiedRequestString;
+    struct SubstringParams {
+      struct End {
+        const int from = 0;
+        const int to =
+            (_request.length() - 1) - (stringPartsToRemove.end.length() - 1);
+      } end;
+      struct Start {
+        const int from = stringPartsToRemove.start.length() - 1;
+      } start;
+    } substringParams;
 
-      struct SubStringParams {
-        struct End {
-          const int from = 0;
-          const int to = (_request.length() - 1) - (stringPartsToRemove.end.length() - 1);
-        } end;
-        struct Start {
-          const int from = stringPartsToRemove.start.length() - 1;
-        } start;
-      }
-
-      modifiedRequestString.withoutEnding = _request.substring(
-          0, (_request.length() - 1) - (stringPartsToRemove.end.length() - 1));
-      modifiedRequestString.withoutStarting =
-          modifiedRequestString.withoutEnding.substring(
-              stringPartsToRemove.start.length() - 1);
-    };
+    modifiedRequestString.withoutEnding =
+        _request.substring(substringParams.end.from, substringParams.end.to);
+    modifiedRequestString.withoutStarting =
+        modifiedRequestString.withoutEnding.substring(substringParams.end.from);
+  };
 };
 
 void setup() {
