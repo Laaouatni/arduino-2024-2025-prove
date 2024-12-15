@@ -1,6 +1,6 @@
 struct Pins {
   const int inputs[1] = {5};
-  const int outputs[1] = {2};
+  const int outputs[1] = {5, 2};
 } pins;
 
 void setup() {
