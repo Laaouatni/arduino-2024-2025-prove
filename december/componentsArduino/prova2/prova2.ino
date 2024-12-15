@@ -1,6 +1,6 @@
 struct Pins {
   const int inputs[1] = { 5 };
-  const int outputs[17] = { 2,5,18,19,21,22,23,31,12,14,27,26,25,33,32,35,34 };
+  const int outputs[] = { 15,2,4,5,18,19,21,22,23,13,12,14,27,26,25,33,32,35,34 };
 } pins;
 
 void setup() {
