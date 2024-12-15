@@ -27,8 +27,17 @@ class laaClient {
     struct StringPartsToRemove {
       const String start = "GET ";
       const String end = "HTTP/1.1";
-    }
-    const String lastPartStringToRemove = "HTTP/1.1";
+    } stringPartsToRemove;
+
+    struct ModifiedStringWithout {
+      string withoutStarting;
+      string withoutEnding;
+      string withoutStartingAndEnding;
+    } modifiedString;
+
+    // const String lastPartStringToRemove = "HTTP/1.1";
+
+    String modifiedString
     const String modifiedRequestStringWithoutThePartToRemove =
         _request.substring(0, (_request.length() - 1) -
                                   (requestStringPartToRemove.length() - 1));
