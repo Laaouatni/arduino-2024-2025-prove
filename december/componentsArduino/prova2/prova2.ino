@@ -1,5 +1,5 @@
-#include <ESPAsyncWebServer.h>
 #include <WiFi.h>
+#include <ESPAsyncWebServer.h>
 
 AsyncWebServer server(80);
 
@@ -12,7 +12,7 @@ void setup() {
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
   server.on("/digitalRead", HTTP_POST, [](AsyncWebServerRequest *req) {
-    req->send(HTTP_CODE_OK, "application/json", "ciao");
+    req->send(200, "application/json", "ciao");
   });
 
   pinMode(5, OUTPUT);
