@@ -16,8 +16,7 @@ void setup() {
   Serial.begin(115200);
   WiFi.begin("nomeWifi", "passwordWifi");
 
-  while (WiFi.status() != WL_CONNECTED) {
-  };
+  while (WiFi.status() != WL_CONNECTED) {};
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
@@ -27,17 +26,19 @@ void setup() {
     JsonDocument receivedStringToJson;
     DeserializationError error = deserializeJson(receivedStringToJson, receivedString);
     if (error) return;
+
+    pinMode(receivedStringToJson["id"], OUTPUT);
     digitalWrite(receivedStringToJson["id"], receivedStringToJson["value"]);
+
     JsonDocument jsonResponse;
     for(auto thisOutputPinId : usablePins.outputs) {
-      jsonResponse[thisOutputPinId] = digitalRead(thisPin);
+      jsonResponse[thisOutputPinId] = digitalRead(thisOutputPinId);
     };
     String jsonResponseToString;
     serializeJson(jsonResponse, jsonResponseToString);
+
     req->send(200, "application/json", jsonResponseToString);
   });
-
-  pinMode(5, OUTPUT);
 
   server.begin();
 }
