@@ -32,7 +32,6 @@ class laaClient {
     struct ModifiedStringWithout {
       String withoutStarting;
       String withoutEnding;
-      String withoutStartingAndEnding;
     } modifiedRequestString;
 
     struct SubstringParams {
@@ -52,6 +51,7 @@ class laaClient {
         _request.substring(substringParams.end.from, substringParams.end.to);
     modifiedRequestString.withoutStarting =
         modifiedRequestString.withoutEnding.substring(substringParams.end.from);
+    Serial.println(modifiedRequ)
   };
 };
 
@@ -76,8 +76,8 @@ void loop() {
 
   laaClient app(client.readStringUntil('\r'));
 
-  app.get("ledOn", ledOnLogic);
-  app.get("ledOff", ledOffLogic);
+  app.getDynamic("ledOn", ledOnLogic);
+  app.getDynamic("ledOff", ledOffLogic);
 
   client.stop();
 };
