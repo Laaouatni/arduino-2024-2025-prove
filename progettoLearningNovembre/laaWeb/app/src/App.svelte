@@ -8,7 +8,7 @@
     fetch(url, {
       method: "POST",
       body: {
-        id: 5,
+        id: 2,
         value: isLedOn,
       },
     });

@@ -22,22 +22,33 @@ void setup() {
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
 
   server.on("/digitalWrite", HTTP_POST, [](AsyncWebServerRequest *req) {
+    Serial.print("1. server on");
     const String receivedString = req->getParam("body", true)->value();
+    Serial.print("2. body value");
     JsonDocument receivedStringToJson;
     DeserializationError error = deserializeJson(receivedStringToJson, receivedString);
+    Serial.print("3. before if error");
     if (error) return;
+    Serial.print("4. after if error");
 
     pinMode(receivedStringToJson["id"], OUTPUT);
     digitalWrite(receivedStringToJson["id"], receivedStringToJson["value"]);
+    Serial.print("5. pinMode/digital");
 
     JsonDocument jsonResponse;
+    Serial.print("6. before Loop");
     for(auto thisOutputPinId : usablePins.outputs) {
       jsonResponse[thisOutputPinId] = digitalRead(thisOutputPinId);
     };
+    Serial.print("6. after Loop");
     String jsonResponseToString;
+    Serial.print("7. before serialize");
     serializeJson(jsonResponse, jsonResponseToString);
+    Serial.print("8. after serialize");
 
+    Serial.print("9. before send");
     req->send(200, "application/json", jsonResponseToString);
+    Serial.print("10. after send CONGRATS");
   });
 
   server.begin();
