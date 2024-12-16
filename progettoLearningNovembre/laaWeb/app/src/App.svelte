@@ -4,15 +4,13 @@
 
   $effect(() => {
     const choosedPath = `digitalWrite`;
-    const url = `http://${esp32adress}/${choosedPath}`
+    const url = `http://${esp32adress}/${choosedPath}`;
     fetch(url, {
       method: "POST",
       body: {
-        pin: {
-          id: 5,
-          value: 1
-        }
-      }
+        id: 5,
+        value: isLedOn,
+      },
     });
   });
 </script>

@@ -31,7 +31,7 @@ void setup() {
     JsonDocument jsonResponse;
     for(auto thisPinId : usablePins.outputs) {
       jsonResponse[thisPin] = digitalRead(thisPin);
-    }
+    };
     String jsonResponseToString;
     serializeJson(jsonResponse, jsonResponseToString);
     req->send(200, "application/json", jsonResponseToString);
