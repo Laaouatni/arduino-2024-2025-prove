@@ -20,36 +20,46 @@ void setup() {
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
+  // Serial.print("0. before server on");
+  // server.on("/digitalWrite", HTTP_POST, [](AsyncWebServerRequest *req) {
+  //   Serial.print("1. server on");
+  //   const String receivedString = req->getParam("body", true)->value();
+  //   Serial.print("2. body value");
+  //   JsonDocument receivedStringToJson;
+  //   DeserializationError error = deserializeJson(receivedStringToJson, receivedString);
+  //   Serial.print("3. before if error");
+  //   if (error) return;
+  //   Serial.print("4. after if error");
 
-  server.on("/digitalWrite", HTTP_POST, [](AsyncWebServerRequest *req) {
-    Serial.print("1. server on");
-    const String receivedString = req->getParam("body", true)->value();
-    Serial.print("2. body value");
-    JsonDocument receivedStringToJson;
-    DeserializationError error = deserializeJson(receivedStringToJson, receivedString);
-    Serial.print("3. before if error");
-    if (error) return;
-    Serial.print("4. after if error");
+  //   pinMode(receivedStringToJson["id"], OUTPUT);
+  //   digitalWrite(receivedStringToJson["id"], receivedStringToJson["value"]);
+  //   Serial.print("5. pinMode/digital");
 
-    pinMode(receivedStringToJson["id"], OUTPUT);
-    digitalWrite(receivedStringToJson["id"], receivedStringToJson["value"]);
-    Serial.print("5. pinMode/digital");
+  //   JsonDocument jsonResponse;
+  //   Serial.print("6. before Loop");
+  //   for(auto thisOutputPinId : usablePins.outputs) {
+  //     jsonResponse[thisOutputPinId] = digitalRead(thisOutputPinId);
+  //   };
+  //   Serial.print("6. after Loop");
+  //   String jsonResponseToString;
+  //   Serial.print("7. before serialize");
+  //   serializeJson(jsonResponse, jsonResponseToString);
+  //   Serial.print("8. after serialize");
 
-    JsonDocument jsonResponse;
-    Serial.print("6. before Loop");
-    for(auto thisOutputPinId : usablePins.outputs) {
-      jsonResponse[thisOutputPinId] = digitalRead(thisOutputPinId);
-    };
-    Serial.print("6. after Loop");
-    String jsonResponseToString;
-    Serial.print("7. before serialize");
-    serializeJson(jsonResponse, jsonResponseToString);
-    Serial.print("8. after serialize");
+  //   Serial.print("9. before send");
+  //   req->send(200, "application/json", jsonResponseToString);
+  //   Serial.print("10. after send CONGRATS");
+  // });
 
-    Serial.print("9. before send");
-    req->send(200, "application/json", jsonResponseToString);
-    Serial.print("10. after send CONGRATS");
-  });
+  server.on("/post", HTTP_POST, [](AsyncWebServerRequest *request){
+        String message;
+        if (request->hasParam("message", true)) {
+            message = request->getParam("message", true)->value();
+        } else {
+            message = "No message sent";
+        }
+        request->send(200, "text/plain", "Hello, POST: " + message);
+    });
 
   server.begin();
 }

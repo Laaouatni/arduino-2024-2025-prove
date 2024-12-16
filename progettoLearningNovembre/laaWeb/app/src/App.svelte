@@ -9,7 +9,7 @@
       method: "POST",
       body: {
         id: 2,
-        value: isLedOn,
+        value: Number(isLedOn),
       },
     });
   });
