@@ -28,12 +28,13 @@ void setup() {
     DeserializationError error = deserializeJson(receivedStringToJson, receivedString);
     if (error) return;
     digitalWrite(receivedStringToJson["id"], receivedStringToJson["value"]);
-
-    JsonDocument jsonToSendBack;
-    for(auto thisPin : usablePins.outputs) {
-
+    JsonDocument jsonResponse;
+    for(auto thisPinId : usablePins.outputs) {
+      jsonResponse[thisPin] = digitalRead(thisPin);
     }
-    req->send(200, "application/json", "{\"idk\":\"2\"}");
+    String jsonResponseToString;
+    serializeJson(jsonResponse, jsonResponseToString);
+    req->send(200, "application/json", jsonResponseToString);
   });
 
   pinMode(5, OUTPUT);
