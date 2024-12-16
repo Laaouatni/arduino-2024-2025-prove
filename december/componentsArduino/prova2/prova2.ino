@@ -14,12 +14,15 @@ void setup() {
   };
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
+  DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
   server.on("/digitalRead", HTTP_POST, [](AsyncWebServerRequest *req) {
     Serial.println("post");
-    req->send(200, "application/json", "{\"idk\":\"2\"");
+    req->send(200, "application/json", "{\"idk\":\"2\"}");
   });
 
   pinMode(5, OUTPUT);
+
+  server.begin();
 }
 
 void loop() {};

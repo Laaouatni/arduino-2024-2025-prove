@@ -3,9 +3,14 @@
   const esp32adress = "192.168.21.49";
 
   $effect(() => {
-    const choosedPath = `led${isLedOn ? "On" : "Off"}`;
+    const choosedPath = `digitalRead`;
     const url = `http://${esp32adress}/${choosedPath}`
-    fetch(url);
+    fetch(url, {
+      method: "POST",
+      body: {
+        idk: isLedOn
+      }
+    });
   });
 </script>
 
