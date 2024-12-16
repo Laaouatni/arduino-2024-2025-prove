@@ -1,15 +1,44 @@
 <script lang="ts">
-  let isLedOn = $state(true);
+  import "./app.css";
+
   const esp32adress = "192.168.21.49";
 
-  $effect(() => {
-    const choosedPath = `digitalWrite`;
-    const url = `http://${esp32adress}/${choosedPath}/2/${Number(isLedOn)}`;
-    fetch(url, { method: "POST" });
-  });
+  let pianoButtons: { key: string; value: boolean }[] = $state(
+    [
+      { key: "DO" },
+      { key: "RE" },
+      { key: "MI" },
+      { key: "FA" },
+      { key: "SOL" },
+      { key: "LA" },
+      { key: "SI" },
+      { key: "DO" },
+    ].map((thisObj) => {
+      return { ...thisObj, value: false };
+    }),
+  );
+
+  console.log(pianoButtons);
+
+  // $effect(() => {
+  //   const choosedPath = `digitalWrite`;
+  //   const url = `http://${esp32adress}/${choosedPath}/2/${Number(isLedOn)}`;
+  //   fetch(url, { method: "POST" });
+  // });
 </script>
 
-<main class="p-2">
-  <input type="checkbox" bind:checked={isLedOn} />
-  <p>{isLedOn}</p>
+<main class="p-4 grid place-items-center">
+  <div class="flex w-full gap-2 group active:gap-6 transition duration-500">
+    {#each pianoButtons as thisPianoButton}
+      <button class="flex-1 rounded-lg bg-slate-200 p-2 grid place-items-center font-bold hover:scale-105 hover:shadow-lg transition duration-500 active:scale-150 active:bg-blue-500">
+        {thisPianoButton.key}
+      </button>
+    {/each}
+  </div>
 </main>
+
+<style>
+  :global(body, html, #app, main) {
+    @apply h-full;
+  }
+</style>
