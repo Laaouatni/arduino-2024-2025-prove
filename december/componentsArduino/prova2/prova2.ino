@@ -21,7 +21,7 @@ void setup() {
 
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
 
-  server.on("/digitalWrite/2/1", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/digitalWrite/2/1", HTTP_POST, [](AsyncWebServerRequest *request) {
     // Get path variables
     String pin = "2";
     String value = "1";
@@ -39,7 +39,7 @@ void setup() {
     request->send(200, "text/plain", response);
   });
 
-  server.on("/digitalWrite/2/0", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/digitalWrite/2/0", HTTP_POST, [](AsyncWebServerRequest *request) {
     // Get path variables
     String pin = "2";
     String value = "0";
