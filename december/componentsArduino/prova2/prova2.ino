@@ -21,10 +21,28 @@ void setup() {
 
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
 
-  server.on("/digitalWrite/:pin/:value", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/digitalWrite/2/1", HTTP_GET, [](AsyncWebServerRequest *request) {
     // Get path variables
-    String pin = request->getParam("pin")->value();
-    String value = request->getParam("value")->value();
+    String pin = "2";
+    String value = "1";
+
+    // Convert pin and value to integers
+    int pinNumber = pin.toInt();
+    int pinValue = value.toInt();
+
+    // Set the pin mode and perform digitalWrite
+    pinMode(pinNumber, OUTPUT);
+    digitalWrite(pinNumber, pinValue);
+
+    // Respond back with the action
+    String response = "Pin " + String(pinNumber) + " set to " + String(pinValue);
+    request->send(200, "text/plain", response);
+  });
+
+  server.on("/digitalWrite/2/0", HTTP_GET, [](AsyncWebServerRequest *request) {
+    // Get path variables
+    String pin = "2";
+    String value = "0";
 
     // Convert pin and value to integers
     int pinNumber = pin.toInt();
