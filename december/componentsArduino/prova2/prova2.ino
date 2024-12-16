@@ -53,8 +53,8 @@ void setup() {
 
   server.on("/post", HTTP_POST, [](AsyncWebServerRequest *request){
         String message;
-        if (request->hasParam("message", true)) {
-            message = request->getParam("message", true)->value();
+        if (request->hasParam("body", true)) {
+            message = request->getParam("body", true)->value();
         } else {
             message = "No message sent";
         }
