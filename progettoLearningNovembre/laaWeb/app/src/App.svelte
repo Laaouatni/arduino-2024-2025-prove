@@ -3,12 +3,15 @@
   const esp32adress = "192.168.21.49";
 
   $effect(() => {
-    const choosedPath = `digitalRead`;
+    const choosedPath = `digitalWrite`;
     const url = `http://${esp32adress}/${choosedPath}`
     fetch(url, {
       method: "POST",
       body: {
-        idk: isLedOn
+        pin: {
+          id: 5,
+          value: 1
+        }
       }
     });
   });

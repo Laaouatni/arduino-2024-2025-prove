@@ -3,6 +3,7 @@
 
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
+#include <ArduinoJson.h>
 
 AsyncWebServer server(80);
 
@@ -15,8 +16,17 @@ void setup() {
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
-  server.on("/digitalRead", HTTP_POST, [](AsyncWebServerRequest *req) {
-    Serial.println("post");
+
+  server.on("/digitalWrite", HTTP_POST, [](AsyncWebServerRequest *req) {
+    const String receivedString = req->getParam("body", true)->value();
+    JsonDocument receivedStringToJson;
+    DeserializationError error = deserializeJson(receivedStringToJson, receivedString);
+    if (error) return;
+    struct Pin {
+      const int id = receivedStringToJson["id"];
+      const int value = receivedStringToJson["value"];
+    } thisPin;
+    digitalWrite(thisPin.id, thisPin.value);
     req->send(200, "application/json", "{\"idk\":\"2\"}");
   });
 
