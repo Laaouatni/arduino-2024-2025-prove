@@ -7,6 +7,11 @@
 
 AsyncWebServer server(80);
 
+struct UsablePins {
+  const int outputs[]  = {2,4,5,18,19,21,22,23,13,12,14,27,26,25,33,32};
+  const int inputs[]   = {15,2,4,13,12,14,27,26,25};
+} usablePins;
+
 void setup() {
   Serial.begin(115200);
   WiFi.begin("nomeWifi", "passwordWifi");
@@ -22,11 +27,12 @@ void setup() {
     JsonDocument receivedStringToJson;
     DeserializationError error = deserializeJson(receivedStringToJson, receivedString);
     if (error) return;
-    struct Pin {
-      const int id = receivedStringToJson["id"];
-      const int value = receivedStringToJson["value"];
-    } thisPin;
-    digitalWrite(thisPin.id, thisPin.value);
+    digitalWrite(receivedStringToJson["id"], receivedStringToJson["value"]);
+
+    JsonDocument jsonToSendBack;
+    for(auto thisPin : usablePins.outputs) {
+
+    }
     req->send(200, "application/json", "{\"idk\":\"2\"}");
   });
 
