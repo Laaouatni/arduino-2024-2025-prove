@@ -28,9 +28,9 @@
 </script>
 
 <main class="p-4 grid place-items-center">
-  <div class="flex w-full gap-2 group active:gap-6 transition duration-500">
+  <div class="flex w-full group h-full">
     {#each pianoButtons as thisPianoButton}
-      <button class="flex-1 rounded-lg bg-slate-200 p-2 grid place-items-center font-bold hover:scale-105 hover:shadow-lg transition duration-500 active:scale-150 active:bg-blue-500">
+      <button class="flex-1 rounded-lg bg-slate-200 p-2 grid place-items-center font-bold hover:scale-x-105 hover:shadow-lg transition mx-1 active:mx-5 active:scale-x-150 active:bg-blue-500">
         {thisPianoButton.key}
       </button>
     {/each}
