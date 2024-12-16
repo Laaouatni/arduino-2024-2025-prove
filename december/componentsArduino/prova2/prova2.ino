@@ -8,8 +8,8 @@
 AsyncWebServer server(80);
 
 struct UsablePins {
-  const int outputs[]  = {2,4,5,18,19,21,22,23,13,12,14,27,26,25,33,32};
-  const int inputs[]   = {15,2,4,13,12,14,27,26,25};
+  const int outputs[16]  = {2,4,5,18,19,21,22,23,13,12,14,27,26,25,33,32};
+  const int inputs[9]   = {15,2,4,13,12,14,27,26,25};
 } usablePins;
 
 void setup() {
@@ -29,8 +29,8 @@ void setup() {
     if (error) return;
     digitalWrite(receivedStringToJson["id"], receivedStringToJson["value"]);
     JsonDocument jsonResponse;
-    for(auto thisPinId : usablePins.outputs) {
-      jsonResponse[thisPin] = digitalRead(thisPin);
+    for(auto thisOutputPinId : usablePins.outputs) {
+      jsonResponse[thisOutputPinId] = digitalRead(thisPin);
     };
     String jsonResponseToString;
     serializeJson(jsonResponse, jsonResponseToString);
