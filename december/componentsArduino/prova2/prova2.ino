@@ -1,59 +1,60 @@
 #include <WiFi.h>
+#include <ESPAsyncWebServer.h>
 
-WiFiServer server(80);
+ESPAsyncWebServer server(80);
 
-class laaClient {
- private:
-  String _request;
+// class laaClient {
+//  private:
+//   String _request;
 
- public:
-  laaClient(String requestLineString) : _request(requestLineString) {};
-  void get(String filePath, void (&callback)()) {
-    bool isRequesting = _request.startsWith("GET /" + String(filePath));
-    if (!isRequesting) return;
-    callback();
-  };
-  void getDynamic(String filePath, void (&callback)()) {
-    const bool isContainingDynamicValueInTheFilePath =
-        _request.indexOf(":") != -1;
+//  public:
+//   laaClient(String requestLineString) : _request(requestLineString) {};
+//   void get(String filePath, void (&callback)()) {
+//     bool isRequesting = _request.startsWith("GET /" + String(filePath));
+//     if (!isRequesting) return;
+//     callback();
+//   };
+//   void getDynamic(String filePath, void (&callback)()) {
+//     const bool isContainingDynamicValueInTheFilePath =
+//         _request.indexOf(":") != -1;
 
-    if (!isContainingDynamicValueInTheFilePath) {
-      bool isRequesting = _request.startsWith("GET /" + String(filePath));
-      if (!isRequesting) return;
-      callback();
-      return;
-    }
+//     if (!isContainingDynamicValueInTheFilePath) {
+//       bool isRequesting = _request.startsWith("GET /" + String(filePath));
+//       if (!isRequesting) return;
+//       callback();
+//       return;
+//     }
 
-    struct StringPartsToRemove {
-      const String start = "GET ";
-      const String end = "HTTP/1.1";
-    } stringPartsToRemove;
+//     struct StringPartsToRemove {
+//       const String start = "GET ";
+//       const String end = "HTTP/1.1";
+//     } stringPartsToRemove;
 
-    struct ModifiedStringWithout {
-      String withoutStarting;
-      String withoutEnding;
-    } modifiedRequestString;
+//     struct ModifiedStringWithout {
+//       String withoutStarting;
+//       String withoutEnding;
+//     } modifiedRequestString;
 
-    struct SubstringParams {
-      struct Start {
-        int from;
-      } start;
-      struct End {
-        const int from = 0;
-        int to;
-      } end;
-    } substringParams;
+//     struct SubstringParams {
+//       struct Start {
+//         int from;
+//       } start;
+//       struct End {
+//         const int from = 0;
+//         int to;
+//       } end;
+//     } substringParams;
 
-    substringParams.start.from = stringPartsToRemove.start.length() - 1;
-    substringParams.end.to = (_request.length() - 1) - (stringPartsToRemove.end.length() - 1);
+//     substringParams.start.from = stringPartsToRemove.start.length() - 1;
+//     substringParams.end.to = (_request.length() - 1) - (stringPartsToRemove.end.length() - 1);
 
-    modifiedRequestString.withoutEnding =
-        _request.substring(substringParams.end.from, substringParams.end.to);
-    modifiedRequestString.withoutStarting =
-        modifiedRequestString.withoutEnding.substring(substringParams.end.from);
-    Serial.println(modifiedRequ)
-  };
-};
+//     modifiedRequestString.withoutEnding =
+//         _request.substring(substringParams.end.from, substringParams.end.to);
+//     modifiedRequestString.withoutStarting =
+//         modifiedRequestString.withoutEnding.substring(substringParams.end.from);
+//     Serial.println(modifiedRequ)
+//   };
+// };
 
 void setup() {
   Serial.begin(115200);
@@ -68,19 +69,20 @@ void setup() {
 }
 
 void loop() {
-  WiFiClient client = server.accept();
-  if (!client) return;
-  client.println("HTTP/1.1 200 OK");
-  client.println("Access-Control-Allow-Origin: *");
-  client.println("Connection: keep-alive");
+  ledOnLogic();
+  // WiFiClient client = server.accept();
+  // if (!client) return;
+  // client.println("HTTP/1.1 200 OK");
+  // client.println("Access-Control-Allow-Origin: *");
+  // client.println("Connection: keep-alive");
 
-  laaClient app(client.readStringUntil('\r'));
+  // laaClient app(client.readStringUntil('\r'));
 
-  app.getDynamic("ledOn", ledOnLogic);
-  app.getDynamic("ledOff", ledOffLogic);
+  // app.getDynamic("ledOn", ledOnLogic);
+  // app.getDynamic("ledOff", ledOffLogic);
 
-  client.stop();
+  // client.stop();
 };
 
-void ledOnLogic() { digitalWrite(5, HIGH); };
-void ledOffLogic() { digitalWrite(5, LOW); };
+// void ledOnLogic() { digitalWrite(5, HIGH); };
+// void ledOffLogic() { digitalWrite(5, LOW); };
