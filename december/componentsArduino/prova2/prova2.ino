@@ -8,8 +8,8 @@
 AsyncWebServer server(80);
 
 struct UsablePins {
-  const int outputs[16]  = {2,4,5,18,19,21,22,23,13,12,14,27,26,25,33,32};
-  const int inputs[9]   = {15,2,4,13,12,14,27,26,25};
+  const int outputs[16] = { 2, 4, 5, 18, 19, 21, 22, 23, 13, 12, 14, 27, 26, 25, 33, 32 };
+  const int inputs[9] = { 15, 2, 4, 13, 12, 14, 27, 26, 25 };
 } usablePins;
 
 void setup() {
@@ -20,48 +20,26 @@ void setup() {
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
-  // Serial.print("0. before server on");
-  // server.on("/digitalWrite", HTTP_POST, [](AsyncWebServerRequest *req) {
-  //   Serial.print("1. server on");
-  //   const String receivedString = req->getParam("body", true)->value();
-  //   Serial.print("2. body value");
-  //   JsonDocument receivedStringToJson;
-  //   DeserializationError error = deserializeJson(receivedStringToJson, receivedString);
-  //   Serial.print("3. before if error");
-  //   if (error) return;
-  //   Serial.print("4. after if error");
 
-  //   pinMode(receivedStringToJson["id"], OUTPUT);
-  //   digitalWrite(receivedStringToJson["id"], receivedStringToJson["value"]);
-  //   Serial.print("5. pinMode/digital");
+  server.on("/digitalWrite/:pin/:value", HTTP_GET, [](AsyncWebServerRequest *request) {
+    // Get path variables
+    String pin = request->getParam("pin")->value();
+    String value = request->getParam("value")->value();
 
-  //   JsonDocument jsonResponse;
-  //   Serial.print("6. before Loop");
-  //   for(auto thisOutputPinId : usablePins.outputs) {
-  //     jsonResponse[thisOutputPinId] = digitalRead(thisOutputPinId);
-  //   };
-  //   Serial.print("6. after Loop");
-  //   String jsonResponseToString;
-  //   Serial.print("7. before serialize");
-  //   serializeJson(jsonResponse, jsonResponseToString);
-  //   Serial.print("8. after serialize");
+    // Convert pin and value to integers
+    int pinNumber = pin.toInt();
+    int pinValue = value.toInt();
 
-  //   Serial.print("9. before send");
-  //   req->send(200, "application/json", jsonResponseToString);
-  //   Serial.print("10. after send CONGRATS");
-  // });
+    // Set the pin mode and perform digitalWrite
+    pinMode(pinNumber, OUTPUT);
+    digitalWrite(pinNumber, pinValue);
 
-  server.on("/post", HTTP_POST, [](AsyncWebServerRequest *request){
-        String message;
-        if (request->hasParam("body", true)) {
-            message = request->getParam("body", true)->value();
-        } else {
-            message = "No message sent";
-        }
-        request->send(200, "text/plain", "Hello, POST: " + message);
-    });
-
+    // Respond back with the action
+    String response = "Pin " + String(pinNumber) + " set to " + String(pinValue);
+    request->send(200, "text/plain", response);
+  });
+  
   server.begin();
 }
 
-void loop() {};
+void loop(){};
