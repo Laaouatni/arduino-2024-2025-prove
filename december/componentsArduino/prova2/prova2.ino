@@ -15,10 +15,16 @@ void setup() {
 
   server.onNotFound([](AsyncWebServerRequest *request) {
     String urlPath = request->url();
-    
-    Serial.println("Full URL: " + urlPath);
-    
-    // Send a response
+
+    if(urlPath.startsWith("/digitalRead")) {
+    };
+    if(urlPath.startWith("/analogRead")) {
+    };
+    if(urlPath.startWith("/digitalWrite/")) {
+    };
+    if(urlPath.startWith("/analogWrite/")) {
+    };
+
     request->send(200, "text/plain", "You requested: " + urlPath);
   });
 
