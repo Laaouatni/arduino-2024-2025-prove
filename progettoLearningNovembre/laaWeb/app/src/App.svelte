@@ -31,14 +31,10 @@
 
 <main class="p-4 grid place-items-center">
   <div class="flex w-full group h-full gap-2">
-    {#each pianoButtons as thisPianoButton}
+    {#each pianoButtons as thisPianoButton, i}
       <button
-        onmousedown={() => {
-          thisPianoButton.value = true;
-        }}
-        onmouseup={() => {
-          thisPianoButton.value = false;
-        }}
+        onmousedown={() => (pianoButtons[i].value = true)}
+        onmouseup={() => (thisPianoButton.value = false)}
         class="flex-grow active:flex-[8] rounded-lg bg-slate-200 p-2 grid place-items-center font-bold hover:shadow-lg transition-all duration-500 active:bg-blue-500 text-[3vw] active:text-[15vw]"
       >
         {thisPianoButton.key}
