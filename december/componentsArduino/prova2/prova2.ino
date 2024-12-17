@@ -31,8 +31,7 @@ void setup() {
       const bool isThisCharSlash = thisChar == '/';
       if (isLastAvailablePartInArray || isLastCharIteration) {
         const int choosedEndIndex = isLastCharIteration && isThisCharSlash ? urlPath.length()-1 : urlPath.length();
-        if()
-        foundedSplittedParts[numberOfFoundedParts] = urlPath.substring(thisStartIndex);
+        foundedSplittedParts[numberOfFoundedParts] = urlPath.substring(thisStartIndex, choosedEndIndex);
         break;
       };
       if (!isThisCharSlash) continue;
