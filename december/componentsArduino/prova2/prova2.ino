@@ -19,44 +19,48 @@ void setup() {
     String valueToReturn;
 
     const int MAX_SPLITTED_PARTS = 3;
-    int thisStartIndex = 0+1;
+    int thisStartIndex = 0 + 1;
     int numberOfFoundedParts = 0;
 
     String foundedSplittedParts[MAX_SPLITTED_PARTS];
 
     for (int charIndex = thisStartIndex; charIndex < urlPath.length(); charIndex++) {
       const char thisChar = urlPath[charIndex];
-      const bool isLastCharIteration = charIndex == urlPath.length()-1;
+      const bool isLastCharIteration = charIndex == urlPath.length() - 1;
       const bool isLastAvailablePartInArray = numberOfFoundedParts == MAX_SPLITTED_PARTS;
       const bool isThisCharSlash = thisChar == '/';
       if (isLastAvailablePartInArray || isLastCharIteration) {
-        const int choosedEndIndex = isLastCharIteration && isThisCharSlash ? urlPath.length()-1 : urlPath.length();
+        const int choosedEndIndex = isLastCharIteration && isThisCharSlash ? urlPath.length() - 1 : urlPath.length();
         foundedSplittedParts[numberOfFoundedParts] = urlPath.substring(thisStartIndex, choosedEndIndex);
         break;
       };
       if (!isThisCharSlash) continue;
-      foundedSplittedParts[numberOfFoundedParts] =urlPath.substring(thisStartIndex, charIndex);
+      foundedSplittedParts[numberOfFoundedParts] = urlPath.substring(thisStartIndex, charIndex);
       numberOfFoundedParts++;
-      thisStartIndex = charIndex+1;
+      thisStartIndex = charIndex + 1;
     };
 
     struct ReceivedData {
-      const String commandName = foundedSplittedParts[0];
-      const int pinId = foundedSplittedParts[1].toInt();
-      const int pinValue = foundedSplittedParts[2].toInt();
+      const String commandName;
+      const int pinId;
+      const int pinValue;
     } receivedData;
+
+    receivedData.commandName = foundedSplittedParts[0];
+    receivedData.pinId = foundedSplittedParts[1].toInt();
+    receivedData.pinValue = foundedSplittedParts[2].toInt();
 
     if (receivedData.commandName == "digitalRead") {
       pinMode(receivedData.pinId, OUTPUT);
       request->send(200, "text/plain", digitalRead(receivedData.pinId));
     };
 
-    if(receivedData.commandName == "analogRead") {
+    if (receivedData.commandName == "analogRead") {
       pinMode(receivedData.pinId, OUTPUT);
       request->send(200, "text/plain", analogRead(receivedData.pinId));
     };
 
-    if(receivedData.commandName == "digitalWrite") {
+    if (receivedData.commandName == "digitalWrite") {
       pinMode(receivedData.pinId, INPUT);
       digitalWrite(receivedData.pinId, receivedData.pinValue);
     };
@@ -72,4 +76,4 @@ void setup() {
   server.begin();
 }
 
-void loop() {};
+void loop(){};
