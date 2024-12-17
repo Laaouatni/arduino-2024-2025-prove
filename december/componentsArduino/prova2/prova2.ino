@@ -29,12 +29,16 @@ void setup() {
       const bool isLastCharIteration = charIndex == urlPath.length()-1;
       const bool isLastAvailablePartInArray = numberOfFoundedParts == MAX_SPLITTED_PARTS;
       const bool isThisCharSlash = thisChar == '/';
+        Serial.println("BEFOREIF: " + String(numberOfFoundedParts));
+
       if (isLastAvailablePartInArray || isLastCharIteration) {
+        Serial.println("PRIMOIF: " + String(numberOfFoundedParts));
         const int choosedEndIndex = isLastCharIteration && isThisCharSlash ? urlPath.length()-1 : urlPath.length();
         foundedSplittedParts[numberOfFoundedParts] = urlPath.substring(thisStartIndex, choosedEndIndex);
         break;
       };
       if (!isThisCharSlash) continue;
+      Serial.println("NORMAL: " + String(numberOfFoundedParts));
 
       foundedSplittedParts[numberOfFoundedParts] =
           urlPath.substring(thisStartIndex, charIndex);
