@@ -53,7 +53,7 @@ void setup() {
 
     if(receivedData.commandName == "analogRead") {
       pinMode(receivedData.pinId, OUTPUT);
-      request->send(200, "text/plain", analogWrite(receivedData.pinId));
+      request->send(200, "text/plain", analogRead(receivedData.pinId));
     };
 
     if(receivedData.commandName == "digitalWrite") {
