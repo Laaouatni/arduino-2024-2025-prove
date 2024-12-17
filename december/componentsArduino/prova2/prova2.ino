@@ -49,7 +49,7 @@ void setup() {
       request->send(200, "text/plain", String(digitalRead(receivedPinId)));
     };
 
-    if (receivedCommandName == "analogRead") {
+    if (receivedCommandName == "analogRead") { // 33,32,35,34
       pinMode(receivedPinId, INPUT);
       request->send(200, "text/plain", String(analogRead(receivedPinId)));
     };
