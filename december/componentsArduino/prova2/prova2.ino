@@ -18,7 +18,7 @@ void setup() {
     String urlPath = request->url();
     String valueToReturn;
 
-    const int MAX_SPLITTED_PARTS = 4;
+    const int MAX_SPLITTED_PARTS = 5;
     int thisStartIndex = 0+1;
     int numberOfFoundedParts = 0;
 
@@ -43,7 +43,7 @@ void setup() {
       thisStartIndex = charIndex + 1;
     };
 
-    for (int i = 0; i < MAX_SPLITTED_PARTS; i++) {  // Print the 3 parts
+    for (int i = 0; i <= MAX_SPLITTED_PARTS; i++) {  // Print the 3 parts
       Serial.println(String(i) + foundedSplittedParts[i]);
     }
 
