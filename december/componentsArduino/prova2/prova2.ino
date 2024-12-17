@@ -40,20 +40,30 @@ void setup() {
       thisStartIndex = charIndex+1;
     };
 
-    if (foundedSplittedParts[0] == "digitalRead") {
-      const int pinId = foundedSplittedParts[1].toInt();
+    struct ReceivedData {
+      const String commandName = foundedSplittedParts[0];
+      const pinId = foundedSplittedParts[1].toInt();
+      const pinValue = foundedSplittedParts[2].toInt();
+    } receivedData;
+
+    if (commandName == "digitalRead") {
+      pinMode(receivedData.pinId, OUTPUT);
+      request->send(200, "text/plain", digitalRead(receivedData.pinId));
     };
 
-    if(foundedSplittedParts[0] == "analogRead") {
-      const int pinId = foundedSplittedParts[1].toInt();
+    if(commandName == "analogRead") {
+      pinMode(receivedData.pinId, OUTPUT);
+      request->send(200, "text/plain", analogWrite(receivedData.pinId));
     };
 
-    if(foundedSplittedParts[0] == "digitalWrite") {
-      const int pinId = foundedSplittedParts[1].toInt();
+    if(commandName == "digitalWrite") {
+      pinMode(receivedData.pinId, INPUT);
+      digitalWrite(receivedData.pinId, receivedData.pinValue);
     };
 
-    if (foundedSplittedParts[0] == "analogWrite") {
-      const int pinId = foundedSplittedParts[1].toInt();
+    if (commandName == "analogWrite") {
+      pinMode(receivedData.pinId, INPUT);
+      analogWrite(receivedData.pinId, receivedData.pinValue);
     };
 
     request->send(404, "text/plain", "404");
