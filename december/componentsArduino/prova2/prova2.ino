@@ -45,23 +45,23 @@ void setup() {
     const int receivedPinValue = foundedSplittedParts[2].toInt();
 
     if (receivedCommandName == "digitalRead") {
-      pinMode(receivedPinId, OUTPUT);
+      pinMode(receivedPinId, INPUT);
       request->send(200, "text/plain", String(digitalRead(receivedPinId)));
     };
 
     if (receivedCommandName == "analogRead") {
-      pinMode(receivedPinId, OUTPUT);
+      pinMode(receivedPinId, INPUT);
       request->send(200, "text/plain", String(analogRead(receivedPinId)));
     };
 
     if (receivedCommandName == "digitalWrite") {
-      pinMode(receivedPinId, INPUT);
+      pinMode(receivedPinId, OUTPUT);
       digitalWrite(receivedPinId, receivedPinValue);
       request->send(200, "text/plain", String(digitalRead(receivedPinId)));
     };
 
     if (receivedCommandName == "analogWrite") {
-      pinMode(receivedPinId, INPUT);
+      pinMode(receivedPinId, OUTPUT);
       analogWrite(receivedPinId, receivedPinValue);
       request->send(200, "text/plain", String(analogRead(receivedPinId)));
     };
