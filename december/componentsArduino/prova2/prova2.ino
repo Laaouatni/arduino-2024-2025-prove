@@ -42,8 +42,8 @@ void setup() {
 
     struct ReceivedData {
       const String commandName = foundedSplittedParts[0];
-      const pinId = foundedSplittedParts[1].toInt();
-      const pinValue = foundedSplittedParts[2].toInt();
+      const int pinId = foundedSplittedParts[1].toInt();
+      const int pinValue = foundedSplittedParts[2].toInt();
     } receivedData;
 
     if (commandName == "digitalRead") {
