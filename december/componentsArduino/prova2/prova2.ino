@@ -40,34 +40,30 @@ void setup() {
       thisStartIndex = charIndex + 1;
     };
 
-    struct ReceivedData {
-      const String commandName;
-      const int pinId;
-      const int pinValue;
-    } receivedData;
+    const String receivedCommandName = foundedSplittedParts[0];
+    const int receivedPinId = foundedSplittedParts[1].toInt();
+    const int receivedPinValue = foundedSplittedParts[2].toInt();
 
-    receivedData.commandName = foundedSplittedParts[0];
-    receivedData.pinId = foundedSplittedParts[1].toInt();
-    receivedData.pinValue = foundedSplittedParts[2].toInt();
-
-    if (receivedData.commandName == "digitalRead") {
-      pinMode(receivedData.pinId, OUTPUT);
-      request->send(200, "text/plain", digitalRead(receivedData.pinId));
+    if (receivedCommandName == "digitalRead") {
+      pinMode(receivedPinId, OUTPUT);
+      request->send(200, "text/plain", String(digitalRead(receivedPinId)));
     };
 
-    if (receivedData.commandName == "analogRead") {
-      pinMode(receivedData.pinId, OUTPUT);
-      request->send(200, "text/plain", analogRead(receivedData.pinId));
+    if (receivedCommandName == "analogRead") {
+      pinMode(receivedPinId, OUTPUT);
+      request->send(200, "text/plain", String(analogRead(receivedPinId)));
     };
 
-    if (receivedData.commandName == "digitalWrite") {
-      pinMode(receivedData.pinId, INPUT);
-      digitalWrite(receivedData.pinId, receivedData.pinValue);
+    if (receivedCommandName == "digitalWrite") {
+      pinMode(receivedPinId, INPUT);
+      digitalWrite(receivedPinId, receivedPinValue);
+      request->send(200, "text/plain", String(digitalRead(receivedPinId)));
     };
 
-    if (receivedData.commandName == "analogWrite") {
-      pinMode(receivedData.pinId, INPUT);
-      analogWrite(receivedData.pinId, receivedData.pinValue);
+    if (receivedCommandName == "analogWrite") {
+      pinMode(receivedPinId, INPUT);
+      analogWrite(receivedPinId, receivedPinValue);
+      request->send(200, "text/plain", String(analogRead(receivedPinId)));
     };
 
     request->send(404, "text/plain", "404");
