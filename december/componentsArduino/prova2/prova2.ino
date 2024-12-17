@@ -46,22 +46,22 @@ void setup() {
       const int pinValue = foundedSplittedParts[2].toInt();
     } receivedData;
 
-    if (commandName == "digitalRead") {
+    if (receivedData.commandName == "digitalRead") {
       pinMode(receivedData.pinId, OUTPUT);
       request->send(200, "text/plain", digitalRead(receivedData.pinId));
     };
 
-    if(commandName == "analogRead") {
+    if(receivedData.commandName == "analogRead") {
       pinMode(receivedData.pinId, OUTPUT);
       request->send(200, "text/plain", analogWrite(receivedData.pinId));
     };
 
-    if(commandName == "digitalWrite") {
+    if(receivedData.commandName == "digitalWrite") {
       pinMode(receivedData.pinId, INPUT);
       digitalWrite(receivedData.pinId, receivedData.pinValue);
     };
 
-    if (commandName == "analogWrite") {
+    if (receivedData.commandName == "analogWrite") {
       pinMode(receivedData.pinId, INPUT);
       analogWrite(receivedData.pinId, receivedData.pinValue);
     };
