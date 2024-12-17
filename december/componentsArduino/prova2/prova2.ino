@@ -18,32 +18,26 @@ void setup() {
     String urlPath = request->url();
     String valueToReturn;
 
-    auto split = [](String _thisString) {
-      const int MAX_SPLITTED_PARTS = 3;
-      int thisStartIndex = 0;
-      int numberOfFoundedParts = 0;
+    const int MAX_SPLITTED_PARTS = 3;
+    int thisStartIndex = 0;
+    int numberOfFoundedParts = 0;
 
-      String foundedSplittedParts[MAX_SPLITTED_PARTS];
+    String foundedSplittedParts[MAX_SPLITTED_PARTS];
 
-      for (int charIndex = 0; i < _thisString.length(); charIndex++) {
-        const char thisChar = _thisString[charIndex];
-        if (numberOfFoundedParts == MAX_SPLITTED_PARTS)
-          return foundedSplittedParts;
-        if (thisChar != "/") continue;
+    for (int charIndex = 0; i < urlPath.length(); charIndex++) {
+      const char thisChar = urlPath[charIndex];
+      if (numberOfFoundedParts == MAX_SPLITTED_PARTS) break;
+      if (thisChar != "/") continue;
 
-        foundedSplittedParts[numberOfFoundedParts] =
-            _thisString.substring(thisStartIndex, charIndex - 1);
-        numberOfFoundedParts++;
-        thisStartIndex = charIndex + 1;
-      };
+      foundedSplittedParts[numberOfFoundedParts] =
+          urlPath.substring(thisStartIndex, charIndex - 1);
+
+      numberOfFoundedParts++;
+      thisStartIndex = charIndex + 1;
     };
 
-    String testString = "param0/param1/1011/hello";
-    String* parts = split(testString);
-
-    Serial.println("Split parts:");
     for (int i = 0; i < 3; i++) {  // Print the 3 parts
-      Serial.println(parts[i]);
+      Serial.println(foundedSplittedParts[i]);
     }
 
     if (urlPath.startsWith("/digitalRead/")) {
