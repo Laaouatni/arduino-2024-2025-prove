@@ -24,10 +24,10 @@ void setup() {
 
     String foundedSplittedParts[MAX_SPLITTED_PARTS];
 
-    for (int charIndex = 0; i < urlPath.length(); charIndex++) {
+    for (int charIndex = 0; charIndex < urlPath.length(); charIndex++) {
       const char thisChar = urlPath[charIndex];
       if (numberOfFoundedParts == MAX_SPLITTED_PARTS) break;
-      if (thisChar != "/") continue;
+      if (thisChar != '/') continue;
 
       foundedSplittedParts[numberOfFoundedParts] =
           urlPath.substring(thisStartIndex, charIndex - 1);
