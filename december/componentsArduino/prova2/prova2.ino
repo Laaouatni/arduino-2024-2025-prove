@@ -40,18 +40,20 @@ void setup() {
       thisStartIndex = charIndex+1;
     };
 
-    for (int i = 0; i < MAX_SPLITTED_PARTS; i++) {
-      Serial.println(String(i) + foundedSplittedParts[i]);
-    }
+    if (foundedSplittedParts[0] == "digitalRead") {
+      const int pinId = foundedSplittedParts[1].toInt();
+    };
 
-    if (urlPath.startsWith("/digitalRead/")) {
-      // const String pinId =
+    if(foundedSplittedParts[0] == "analogRead") {
+      const int pinId = foundedSplittedParts[1].toInt();
     };
-    if (urlPath.startsWith("/analogRead/")) {
+
+    if(foundedSplittedParts[0] == "digitalWrite") {
+      const int pinId = foundedSplittedParts[1].toInt();
     };
-    if (urlPath.startsWith("/digitalWrite/")) {
-    };
-    if (urlPath.startsWith("/analogWrite/")) {
+
+    if (foundedSplittedParts[0] == "analogWrite") {
+      const int pinId = foundedSplittedParts[1].toInt();
     };
 
     request->send(404, "text/plain", "404");
