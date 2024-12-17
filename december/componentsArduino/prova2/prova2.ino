@@ -19,12 +19,22 @@ void setup() {
     String valueToReturn;
 
     auto split = [](String _thisString) { 
-      int startIndex = 0;
-      int endIndex;
+      int thisStartIndex = 0;
 
-      for(auto thisChar : _thisString) {
-        if(thisChar)
-      }
+      int numberOfFoundedParts = 0;
+
+      String foundedSplittedParts[3] = {};
+
+      for (int charIndex = 0; i < _thisString.length(); charIndex++) {
+        const char thisChar = _thisString[charIndex];
+        
+        if(thisChar == "/") {
+          foundedSplittedParts[numberOfFoundedParts] =
+              _thisString.substring(thisStartIndex, charIndex - 1);
+          numberOfFoundedParts++;
+          thisStartIndex = charIndex + 1;
+        }
+      };
     };
 
     if (urlPath.startsWith("/digitalRead/")){const String pinId = };
