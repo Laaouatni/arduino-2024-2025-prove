@@ -13,15 +13,15 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {};
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
-
-  server.on("", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.onNotFound([](AsyncWebServerRequest *request) {
+    String urlPath = request->url();
     
+    Serial.println("Full URL: " + urlPath);
+    
+    // Send a response
+    request->send(200, "text/plain", "You requested: " + urlPath);
   });
 
-  server.on("/digitalWrite/2/0", HTTP_POST, [](AsyncWebServerRequest *request) {
-    
-  });
-  
   server.begin();
 }
 
