@@ -30,18 +30,27 @@ void setup() {
       const bool isLastAvailablePartInArray = numberOfFoundedParts == MAX_SPLITTED_PARTS;
       const bool isThisCharSlash = thisChar == '/';
         Serial.println("BEFOREIF: " + String(numberOfFoundedParts));
-
-      if (isLastAvailablePartInArray || isLastCharIteration) {
-        Serial.println("PRIMOIF: " + String(numberOfFoundedParts));
-        const int choosedEndIndex = isLastCharIteration && isThisCharSlash ? urlPath.length()-1 : urlPath.length();
-        foundedSplittedParts[numberOfFoundedParts] = urlPath.substring(thisStartIndex, choosedEndIndex);
+      if(isLastAvailablePartInArray) {
+        foundedSplittedParts[numberOfFoundedParts] = urlPath.substring(thisStartIndex);
         break;
       };
+      // if(isLastCharIteration) {
+      //   founded
+      // }
+      // if (isLastAvailablePartInArray || isLastCharIteration) {
+      //   Serial.println("PRIMOIF: " + String(numberOfFoundedParts));
+      //   const int choosedEndIndex = isLastCharIteration && isThisCharSlash ? urlPath.length()-1 : urlPath.length();
+      //   foundedSplittedParts[numberOfFoundedParts] = urlPath.substring(thisStartIndex, choosedEndIndex);
+      //   break;
+      // };
       if (!isThisCharSlash) continue;
-      Serial.println("NORMAL: " + String(numberOfFoundedParts));
+      Serial.println("NORMAL: " + String(numberOfFoundedParts) + "\t" + urlPath.substring(thisStartIndex, charIndex));
+
+      if(thisStartIndex != charIndex) {
 
       foundedSplittedParts[numberOfFoundedParts] =
           urlPath.substring(thisStartIndex, charIndex);
+      }
 
       numberOfFoundedParts++;
       thisStartIndex = charIndex + 1;
