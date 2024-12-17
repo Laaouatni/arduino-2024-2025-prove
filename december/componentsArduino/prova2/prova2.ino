@@ -26,11 +26,16 @@ void setup() {
 
     for (int charIndex = thisStartIndex; charIndex < urlPath.length(); charIndex++) {
       const char thisChar = urlPath[charIndex];
-      if (numberOfFoundedParts == MAX_SPLITTED_PARTS || charIndex == urlPath.length()-1) {
-        foundedSplittedParts[numberOfFoundedParts] = urlPath.substring(thisStartIndex, );
+      const bool isLastCharIteration = charIndex == urlPath.length()-1;
+      const bool isLastAvailablePartInArray = numberOfFoundedParts == MAX_SPLITTED_PARTS;
+      const bool isThisCharSlash = thisChar == '/';
+      if (isLastAvailablePartInArray || isLastCharIteration) {
+        const int choosedEndIndex = isLastCharIteration && isThisCharSlash ? urlPath.length()-1 : urlPath.length();
+        if()
+        foundedSplittedParts[numberOfFoundedParts] = urlPath.substring(thisStartIndex);
         break;
       };
-      if (thisChar != '/') continue;
+      if (!isThisCharSlash) continue;
 
       foundedSplittedParts[numberOfFoundedParts] =
           urlPath.substring(thisStartIndex, charIndex);
