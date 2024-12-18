@@ -7,14 +7,14 @@ AsyncWebServer server(80);
 
 void setup() {
   Serial.begin(115200);
-  WiFi.mode(WIFI_AP_STA);
-  WiFi.begin("nomeWifi", "passwordWifi");
-  WiFi.softAP("espWifi", "espPassword");
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
 
-  while (WiFi.status() != WL_CONNECTED) {
-  };
-  Serial.println("WiFi connected! IP local   Address: " + WiFi.localIP().toString());
+  // WiFi.begin("nomeWifi", "passwordWifi");
+  // while (WiFi.status() != WL_CONNECTED) {
+  // };
+  // Serial.println("WiFi connected! IP local   Address: " + WiFi.localIP().toString());
+  WiFi.mode(WIFI_AP);
+  WiFi.softAP("espWifi", "espPassword");
   Serial.println("WiFi connected! IP hostpot Address: " + WiFi.softAPIP().toString());
 
   server.onNotFound([](AsyncWebServerRequest* request) {
