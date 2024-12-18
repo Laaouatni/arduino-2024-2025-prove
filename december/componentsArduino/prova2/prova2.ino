@@ -47,23 +47,23 @@ void setup() {
     const int receivedPinId = foundedSplittedParts[1].toInt();
     const int receivedPinValue = foundedSplittedParts[2].toInt();
 
-    if (receivedCommandName == "digitalRead") {
+    if (receivedCommandName == "digitalRead") { // NO 5,RX0-3,TX0-1
       pinMode(receivedPinId, INPUT);
       request->send(200, "text/plain", String(digitalRead(receivedPinId)));
     };
 
-    if (receivedCommandName == "analogRead") { // 33,32,35,34
+    if (receivedCommandName == "analogRead") { // SI 33,32,35,34
       pinMode(receivedPinId, INPUT);
       request->send(200, "text/plain", String(analogRead(receivedPinId)));
     };
 
-    if (receivedCommandName == "digitalWrite") {
+    if (receivedCommandName == "digitalWrite") { // NO 35,34
       pinMode(receivedPinId, OUTPUT);
       digitalWrite(receivedPinId, receivedPinValue);
       request->send(200, "text/plain", String(digitalRead(receivedPinId)));
     };
 
-    if (receivedCommandName == "analogWrite") {
+    if (receivedCommandName == "analogWrite") { // NO 27,26,25,33,35,34
       pinMode(receivedPinId, OUTPUT);
       analogWrite(receivedPinId, receivedPinValue);
       request->send(200, "text/plain", String(receivedPinValue));
