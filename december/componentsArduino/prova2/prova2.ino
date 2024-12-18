@@ -9,13 +9,13 @@ void setup() {
   Serial.begin(115200);
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
 
-  // WiFi.begin("nomeWifi", "passwordWifi");
-  // while (WiFi.status() != WL_CONNECTED) {
-  // };
-  // Serial.println("WiFi connected! IP local   Address: " + WiFi.localIP().toString());
-  WiFi.mode(WIFI_AP);
-  WiFi.softAP("espWifi", "espPassword");
-  Serial.println("WiFi connected! IP hostpot Address: " + WiFi.softAPIP().toString());
+  WiFi.begin("nomeWifi", "passwordWifi");
+  while (WiFi.status() != WL_CONNECTED) {
+  };
+  Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
+  // WiFi.mode(WIFI_AP);
+  // WiFi.softAP("espWifi", "espPassword");
+  // Serial.println("WiFi connected! IP hostpot Address: " + WiFi.softAPIP().toString());
 
   server.onNotFound([](AsyncWebServerRequest* request) {
     String urlPath = request->url();
