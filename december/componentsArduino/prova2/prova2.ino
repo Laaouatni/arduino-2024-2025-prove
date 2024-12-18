@@ -66,7 +66,7 @@ void setup() {
     if (receivedCommandName == "analogWrite") {
       pinMode(receivedPinId, OUTPUT);
       analogWrite(receivedPinId, receivedPinValue);
-      request->send(200, "text/plain", String(analogRead(receivedPinId)));
+      request->send(200, "text/plain", receivedPinValue);
     };
 
     request->send(404, "text/plain", "404");
