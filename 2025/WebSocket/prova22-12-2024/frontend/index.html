@@ -11,7 +11,9 @@
 
     ws.addEventListener('open', () => {
       console.log('Connected');
-      ws.send('Hello Server!');
+      setInterval(() => {
+        ws.send('Hello Server!');
+      }, 20);
     });
 
     ws.addEventListener('message', (message) => {
