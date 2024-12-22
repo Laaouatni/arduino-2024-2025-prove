@@ -23,7 +23,7 @@ void setup() {
     
     if (!hasData) return;
 
-    ws.textAll("Hello from ESP32 textall");
+    ws.textAll("Hello from ESP32 textall" + String((char*)data).substring(0, len));
   });
 
   server.onNotFound([](AsyncWebServerRequest *request) {

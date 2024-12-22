@@ -7,16 +7,15 @@
 </head>
 <body>
   <script>
-    // const ws = new WebSocket('ws://192.168.239.49:80/ws');
-    const ws = new WebSocket('/ws');
-    // const ws = new WebSocket('');
+    const ws = new WebSocket('ws://192.168.239.49:80/ws');
+    // const ws = new WebSocket('/ws');
 
     let i=0
     ws.addEventListener('open', () => {
       console.log('Connected');
       setInterval(() => {
         ws.send(`Hello Server! ${i++}`);
-      }, 1);
+      }, 200);
     });
 
     ws.addEventListener('message', (message) => {
