@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const ws = new WebSocket('ws://localhost:8080');
+
+    ws.addEventListener('open', () => {
+      console.log('Connected');
+      ws.send('Hello Server!');
+    });
+
+    ws.addEventListener('message', (message) => {
+      console.log(`Received: ${message.data}`);
+    });
+
+    ws.addEventListener('close', () => {
+      console.log('Disconnected');
+    });
+
+    ws.addEventListener('error', (error) => {
+      console.log(`Error: ${error}`);
+    });
+
+    // ws.onopen = () => {
+    //   console.log('Connected');
+    //   ws.send('Hello Server!');
+    // };
+
+    // ws.onmessage = (message) => {
+    //   console.log(`Received: ${message.data}`);
+    // };
+
+    // ws.onclose = () => {
+    //   console.log('Disconnected');
+    // };
+
+    // ws.onerror = (error) => {
+    //   console.log(`Error: ${error}`);
+    // };
+  </script>
+</body>
+</html>
