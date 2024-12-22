@@ -2,7 +2,7 @@
 #include <ESPAsyncWebServer.h>
 #include <WiFi.h>
 
-// AsyncWebServer server(80);
+AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 
 void setup() {
@@ -30,13 +30,13 @@ void setup() {
     ws.textAll("Hello from ESP32 textall");
   });
 
-  // server.onNotFound([](AsyncWebServerRequest *request) {
-  //   Serial.println("Server Client onNotFound IP Address: " + request->client()->remoteIP().toString());
-  //   request->send(200, "text/plain", "web server call");
-  // });
+  server.onNotFound([](AsyncWebServerRequest *request) {
+    Serial.println("Server Client onNotFound IP Address: " + request->client()->remoteIP().toString());
+    request->send(200, "text/plain", "web server call");
+  });
 
-  // server.addHandler(&ws);
-  // server.begin();
+  server.addHandler(&ws);
+  server.begin();
 }
 
 void loop() { 
