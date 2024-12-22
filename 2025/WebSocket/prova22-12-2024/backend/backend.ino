@@ -12,11 +12,6 @@ void setup() {
   };
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
-  server.onNotFound([](AsyncWebServerRequest *request) {
-    Serial.println("Server Client onNotFound IP Address: " + request->client()->remoteIP().toString());
-    request->send(200, "text/plain", "web server call");
-  });
-
   ws.onEvent([](AsyncWebSocket *server, AsyncWebSocketClient *client,
                 AwsEventType type, void *arg, uint8_t *data, size_t len) {
     const bool isConnecting = type == WS_EVT_CONNECT;
@@ -35,10 +30,15 @@ void setup() {
     ws.textAll("Hello from ESP32 textall");
   });
 
+  server.onNotFound([](AsyncWebServerRequest *request) {
+    Serial.println("Server Client onNotFound IP Address: " + request->client()->remoteIP().toString());
+    request->send(200, "text/plain", "web server call");
+  });
+
   server.addHandler(&ws);
   server.begin();
 }
 
 void loop() { 
-  // ws.cleanupClients(); 
+  ws.cleanupClients(); 
 };
