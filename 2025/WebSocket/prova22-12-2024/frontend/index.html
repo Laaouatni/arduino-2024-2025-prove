@@ -7,7 +7,7 @@
 </head>
 <body>
   <script>
-    const ws = new WebSocket('/ws');
+    const ws = new WebSocket('ws://192.168.239.201/ws');
 
     ws.addEventListener('open', () => {
       console.log('Connected');
@@ -23,7 +23,7 @@
     });
 
     ws.addEventListener('error', (error) => {
-      console.log(`Error: ${error}`);
+      console.log(`Error: ${JSON.stringify(error)}`);
     });
 
     // ws.onopen = () => {
