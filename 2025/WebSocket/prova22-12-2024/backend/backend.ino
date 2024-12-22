@@ -13,7 +13,7 @@ void setup() {
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
   server.onNotFound([](AsyncWebServerRequest *request) {
-    Serial.println("server client ip", request->client()->remoteIP().toString());
+    Serial.println("Server Client onNotFound IP Address: " + request->client()->remoteIP().toString());
     request->send(200, "text/plain", "web server call");
   });
 
