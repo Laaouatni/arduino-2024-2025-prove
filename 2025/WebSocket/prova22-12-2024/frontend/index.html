@@ -13,7 +13,7 @@
       console.log('Connected');
       setInterval(() => {
         ws.send('Hello Server!');
-      }, 20);
+      }, 10);
     });
 
     ws.addEventListener('message', (message) => {
