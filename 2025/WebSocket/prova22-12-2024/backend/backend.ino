@@ -2,7 +2,7 @@
 #include <ESPAsyncWebServer.h>
 
 AsyncWebServer server(80);
-AsyncWebSocket ws("/ws")
+AsyncWebSocket ws();
 
 void setup() {
   Serial.begin(115200);
@@ -11,6 +11,7 @@ void setup() {
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
   server.onNotFound([](AsyncWebServerRequest *request) {
+    Serial.println("server client ip", request->remoteIP().toString());
     request->send(200, "text/plain", "web server call");
   });
 
