@@ -23,7 +23,9 @@ void setup() {
     
     if (!hasData) return;
 
-    ws.textAll("Hello from ESP32 textall" + String((char*)data).substring(0, len));
+    Serial.println("data: " + String(*data) + "\t ((char*)data): " + String((char*)data) + "\t len: " + String(len) + "\t string.substring(0, len): " + String((char*)data).substring(0, len));
+
+    ws.textAll("Hello from ESP32 textall " + String((char*)data).substring(0, len));
   });
 
   server.onNotFound([](AsyncWebServerRequest *request) {
