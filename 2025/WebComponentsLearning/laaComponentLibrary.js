@@ -5,6 +5,11 @@ document.querySelectorAll("template").forEach((template) => {
       const shadow = this.attachShadow({ mode: "open" });
       shadow.appendChild(template.content.cloneNode(true));
     }
+
+    static get observedAttributes() {
+      return ["checked"];
+    }
+    
     attributeChangedCallback(attributeName, oldValue, newValue) {
       console.log({ attributeName, oldValue, newValue });
     }
