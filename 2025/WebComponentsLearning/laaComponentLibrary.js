@@ -1,15 +1,20 @@
 document.querySelectorAll("template").forEach((template) => {
   class ThisComponent extends HTMLElement {
-    shadow;
-  
     constructor() {
       super();
-      this.shadow = this.attachShadow({ mode: "open" });
-      this.shadow.appendChild(template.content.cloneNode(true));
+      let shadow = this.attachShadow({ mode: "open" });
+      shadow.appendChild(template.content.cloneNode(true));
     }
 
     static get observedAttributes() {
-      console.log(this.shadow);
+      const attributesToObserve = [...template.attributes]
+        .map((thisAttribute) => {
+          const isIdAttribute = thisAttribute.nodeName === "id";
+          if (isIdAttribute) return;
+          return thisAttribute.nodeName;
+        })
+        .filter((thisAttribute) => thisAttribute);
+      console.log(attributesToObserve);
       return ["checked"];
     }
 
