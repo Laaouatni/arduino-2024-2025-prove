@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script defer src="./laaComponentLibrary.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    h3 {
-      color: red;
-    }
-  </style>
 </head>
-<body class="text-red-500">
-  <h3>other</h3>
-  <!-- <todo-item>test</todo-item> -->
+
+<body>
   <template-ciao></template-ciao>
 
   <template id="template-ciao">
-    ciao <slot><h3>altro</h3></slot> ciao
+    ciao <slot>
+      <h3>altro</h3>
+    </slot> ciao
   </template>
 </body>
+
 </html>
