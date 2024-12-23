@@ -10,7 +10,13 @@
 </head>
 
 <body>
-  <template-ciao></template-ciao>
+  <template-ciao checked="true">
+    <script>
+      console.log(
+        document.currentScript.parentElement.getAttribute('checked')
+      )
+    </script>
+  </template-ciao>
 
   <template id="template-ciao">
     ciao <slot>
