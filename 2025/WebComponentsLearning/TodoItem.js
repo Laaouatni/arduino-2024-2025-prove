@@ -1,7 +1,8 @@
 class TodoItem extends HTMLElement {
   constructor() {
     super();
-    this.innerHTML = `Hi I am custom <h3>${this.innerText}</h3>!`;
+    const shadow = this.attachShadow({ mode: "open" });
+    shadow.appendChild(document.getElementById("template-ciao").content.cloneNode(true));
   }
 }
 
