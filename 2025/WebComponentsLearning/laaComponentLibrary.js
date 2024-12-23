@@ -7,13 +7,11 @@ document.querySelectorAll("template").forEach((template) => {
     }
 
     static get observedAttributes() {
-      const attributesToObserve = [...template.attributes]
-        .map((thisAttribute) => {
-          const isIdAttribute = thisAttribute.nodeName === "id";
-          if (isIdAttribute) return;
-          return thisAttribute.nodeName;
-        })
-        .filter((thisAttribute) => thisAttribute);
+      const attributesToObserve = [...template.attributes].filter((thisAttribute) => {
+        const isIdAttribute = thisAttribute.nodeName === "id";
+        if (isIdAttribute) return;
+        return thisAttribute.nodeName;
+      });
       console.log(attributesToObserve);
       return ["checked"];
     }
