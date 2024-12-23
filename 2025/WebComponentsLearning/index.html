@@ -12,9 +12,11 @@
 <body>
   <template-ciao checked="true">
     <script>
-      console.log(
-        document.currentScript.parentElement.getAttribute('checked')
-      )
+      const { parentElement } = document.currentScript;
+      setInterval(() => {
+        console.log(parentElement.getAttribute('checked'))
+        parentElement.setAttribute('checked', !(parentElement.getAttribute('checked')))
+      }, 500)
     </script>
   </template-ciao>
 
@@ -22,6 +24,11 @@
     ciao <slot>
       <h3>altro</h3>
     </slot> ciao
+    <!-- <script>
+      console.log(
+        this
+      )
+    </script> -->
   </template>
 </body>
 
