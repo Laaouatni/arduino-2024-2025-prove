@@ -1,7 +1,7 @@
 class TodoItem extends HTMLElement {
   constructor() {
     super();
-    this.innerHTML = `Hi I am custom ${this.innerText}!`;
+    this.innerHTML = `Hi I am custom <h3>${this.innerText}</h3>!`;
   }
 }
 
