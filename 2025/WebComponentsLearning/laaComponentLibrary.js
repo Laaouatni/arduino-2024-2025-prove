@@ -12,8 +12,7 @@ document.querySelectorAll("template").forEach((template) => {
         if (isIdAttribute) return;
         return thisAttribute.nodeName;
       });
-      console.log(attributesToObserve);
-      return ["checked"];
+      return attributesToObserve
     }
 
     attributeChangedCallback(attributeName, oldValue, newValue) {

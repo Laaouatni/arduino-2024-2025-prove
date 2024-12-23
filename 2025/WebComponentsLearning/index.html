@@ -19,6 +19,13 @@
     </script>
   </template-ciao>
 
+  <altro-altro>
+    <script>
+      const { parentElement: parentElement1 } = document.currentScript;
+      console.log(parentElement1.attributeChangedCallback)
+    </script>
+  </altro-altro>
+
   <br><br>
 
   <template-ciao>
@@ -40,7 +47,7 @@
   </template>
 
   <template id="altro-altro" hello world>
-    altro
+    altro <slot></slot>
   </template>
 </body>
 
