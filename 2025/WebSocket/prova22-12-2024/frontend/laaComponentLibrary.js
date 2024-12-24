@@ -28,10 +28,11 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       const attributesToObserve = [...thisTemplateElement.attributes]
         .map((thisAttribute) => thisAttribute.nodeName)
         .filter((thisAttribute) => {
-          const isIdAttribute = thisAttribute === "id";
-          const isClassAttribute = thisAttribute === "class";
-          if (isIdAttribute || isClassAttribute) return;
-          return true;
+          let canSkip = false;
+          ["id", "class"].forEach((thisAttributeName) => {
+            if (thisAttribute == thisAttributeName) canSkip = true;
+          });
+          return !canSkip;
         });
       return attributesToObserve;
     }
