@@ -14,12 +14,14 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       });
 
       /**
-       * 
-       * @param {String} thisScriptString 
-       * @returns {String}
+       * @param   {string} thisScriptString
+       * @returns {string}
        */
       function isolateScriptStringInsideComponent(thisScriptString) {
-        return `(()=>{${thisScriptString}})()`;
+        return `(()=>{
+          const thisComponent = document.currentScript.parentElement;
+          ${thisScriptString}}
+        )()`;
       }
     }
 
