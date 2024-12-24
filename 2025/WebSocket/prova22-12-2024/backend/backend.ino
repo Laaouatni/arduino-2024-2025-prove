@@ -1,3 +1,6 @@
+// https://randomnerdtutorials.com/arduino-ide-2-install-esp32-littlefs/
+// https://github.com/earlephilhower/arduino-littlefs-upload
+
 #include <AsyncTCP.h>
 #include <LittleFS.h>
 #include <ESPAsyncWebServer.h>
@@ -9,16 +12,12 @@ AsyncWebSocket ws("/ws");
 void setup() {
   Serial.begin(115200);
   WiFi.begin("nomeWifi", "12345678");
-
-  if (!LittleFS.format()) {
-    Serial.println("Failed to format LittleFS!");
-    return;
-  }
   
   if(!LittleFS.begin()) {
     Serial.println("Errore di inizializzazione di 'LittleFS', risolvi e clicca RESET");
     return;
   }
+  
   while (WiFi.status() != WL_CONNECTED) {};
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
