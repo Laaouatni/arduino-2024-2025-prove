@@ -25,17 +25,17 @@
     test1 <slot></slot> test2
 
     <script nomodule>
-      const thisTemplate = document.currentScript.parentElement;
+      (() => {const thisTemplate = document.currentScript.parentElement;
       setInterval(() => {
         thisTemplate.setAttribute('checked', !(thisTemplate.getAttribute('checked') === 'true'));
-      }, 500)
+      }, 500)})();
     </script>
     
-    <script nomodule>
+    <!-- <script nomodule>
       document.currentScript.parentElement.constructor.prototype._attributeChangedCallback = (attributeName, oldValue, newValue) => {
         console.log('attributeChangedCallback', attributeName, oldValue, newValue);
       };
-    </script>
+    </script> -->
   </template>
 </body>
 
