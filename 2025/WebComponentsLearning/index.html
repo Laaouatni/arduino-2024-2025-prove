@@ -9,27 +9,8 @@
   <script defer src="./laaComponentLibrary.js"></script>
 </head>
 
-<body class="grid">
-  <template-ciao checked="true"></template-ciao>
-  <template-ciao checked="true"></template-ciao>
-  <template-ciao checked="true"></template-ciao>
-  <template-ciao checked="true"></template-ciao>
-
-  <template id="template-ciao" checked ciao test>
-    test1 <slot></slot> test2
-
-    <script nomodule>
-      let i = 0;
-
-      thisComponent.addEventListener('click', () => {
-        console.log(++i);
-      });
-
-      setInterval(() => {
-        thisComponent.setAttribute('checked', !(thisComponent.getAttribute('checked') === 'true'));
-      }, 500);
-    </script>
-  </template>
+<body>
+  
 </body>
 
 </html>
