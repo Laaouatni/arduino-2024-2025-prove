@@ -13,6 +13,15 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
           );
         }
       });
+
+      const allScriptElementsInsideTemplate = thisTemplateElement.content.querySelectorAll("script");
+      allScriptElementsInsideTemplate.forEach((thisScriptTemplateElement) => {
+        const generatedScriptElementInsideComponent = document.createElement("script");
+        generatedScriptElementInsideComponent.textContent = isolateScriptStringInsideComponent(
+          thisScriptTemplateElement.textContent || ""
+        )
+        this.appendChild(generatedScriptElementInsideComponent);
+      });
     }
 
     static get observedAttributes() {
