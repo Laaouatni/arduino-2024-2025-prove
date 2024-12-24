@@ -7,10 +7,25 @@
   <title>Document</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="./laaComponentLibrary.js"></script>
+  <script>
+    const ws = new WebSocket('ws://192.168.239.49:80/ws');
+
+    ws.addEventListener('message', (message) => {
+      console.log(`Received: ${message.data}`);
+    });
+  </script>
 </head>
 
-<body>
-  
+<body class="bg-slate-900">
+  <template id="user-list">
+    <script nomodule>
+      
+    </script>
+  </template>
+
+  <template id="user-card">
+    
+  </template>
 </body>
 
 </html>
