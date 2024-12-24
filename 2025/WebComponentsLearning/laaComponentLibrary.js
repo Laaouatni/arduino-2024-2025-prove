@@ -19,11 +19,15 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         if (isIdAttribute) return;
         return thisAttribute.nodeName;
       });
-      return attributesToObserve;
+      return ["checked"];
     }
 
+    // _attributeChangedCallback(attributeName, oldValue, newValue) {
+    // };
+
     attributeChangedCallback(attributeName, oldValue, newValue) {
-      // console.log({ attributeName, oldValue, newValue });
+      // console.log(`Attribute: ${attributeName} changed from ${oldValue} to ${newValue}`);
+      this._attributeChangedCallback(attributeName, oldValue, newValue);
     }
   }
   customElements.define(thisTemplateElement.id, ThisComponent);
