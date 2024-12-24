@@ -1,4 +1,5 @@
 #include <AsyncTCP.h>
+#include <LittleFS.h>
 #include <ESPAsyncWebServer.h>
 #include <WiFi.h>
 
@@ -8,8 +9,11 @@ AsyncWebSocket ws("/ws");
 void setup() {
   Serial.begin(115200);
   WiFi.begin("nomeWifi", "12345678");
-  while (WiFi.status() != WL_CONNECTED) {
-  };
+  if(!LittleFS.begin()) {
+    Serial.println("Errore di inizializzazione di 'LittleFS', risolvi e clicca RESET");
+    return;
+  }
+  while (WiFi.status() != WL_CONNECTED) {};
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
 
   ws.onEvent([](AsyncWebSocket *server, AsyncWebSocketClient *client,
@@ -28,10 +32,7 @@ void setup() {
     ws.textAll(thisStringData);
   });
 
-  server.onNotFound([](AsyncWebServerRequest *request) {
-    Serial.println("Server Client onNotFound IP Address: " + request->client()->remoteIP().toString());
-    request->send(200, "text/plain", "web server call");
-  });
+  server.serveStatic("/", LittleFS, "/").setDefaultFile("index.html");
 
   server.addHandler(&ws);
   server.begin();
