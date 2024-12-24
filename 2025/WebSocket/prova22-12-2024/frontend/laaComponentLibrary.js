@@ -28,11 +28,11 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         },
       );
 
-      ["class", "style"].forEach((thisAttribute) => {
-        if (thisTemplateElement.hasAttribute(thisAttribute)) {
-          this[thisAttribute] = `${
-            this[thisAttribute]
-          } ${thisTemplateElement.getAttribute(thisAttribute)}`;
+      [["class", "classList"], ["style", "style"]].forEach((thisAttribute) => {
+        if (thisTemplateElement.hasAttribute(thisAttribute[0])) {
+          this[thisAttribute[1]] = `${
+            this[thisAttribute[1]]
+          } ${thisTemplateElement.getAttribute(thisAttribute[0])}`;
         }
       });
     }
