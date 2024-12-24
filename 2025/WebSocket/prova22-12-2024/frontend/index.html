@@ -23,13 +23,14 @@
 </head>
 
 <body class="bg-slate-900 p-4">
-  <comp-lista-messaggi></comp-lista-messaggi>
+  <comp-lista-messaggi>1</comp-lista-messaggi>
+  <comp-bubble-messaggio>2</comp-bubble-messaggio>
+  <comp-bubble-messaggio>3</comp-bubble-messaggio>
+  <comp-bubble-messaggio>4</comp-bubble-messaggio>
 
   <input onchange="ws.send(this.value)" type="text" />
 
   <template id="comp-lista-messaggi" class="grid gap-2">
-    <comp-bubble-messaggio>ciao</comp-bubble-messaggio>
-    <comp-bubble-messaggio>ciao1</comp-bubble-messaggio>
   </template>
 
   <template id="comp-bubble-messaggio" class="bg-white">
