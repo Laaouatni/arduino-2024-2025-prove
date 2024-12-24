@@ -29,11 +29,11 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       );
 
       if (thisTemplateElement.hasAttribute("class")) {
-        this.classList.add(thisTemplateElement.getAttribute("class") || "");
+        this.classList = `${this.classList} ${thisTemplateElement.getAttribute("class")}`;
       }
 
       if(thisTemplateElement.hasAttribute("style")) {
-        this.setAttribute("style", thisTemplateElement.getAttribute("style") || "");
+        this.style = `${this.style} ${thisTemplateElement.getAttribute("style")}`;
       }
     }
 
