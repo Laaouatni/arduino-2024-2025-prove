@@ -16,7 +16,7 @@
     test1 <slot></slot> test2
     
     <script nomodule>
-      console.log(document.currentScript.parentElement)
+      console.log({parentElement: document.currentScript.parentElement.constructor});
     </script>
   </template>
 </body>
