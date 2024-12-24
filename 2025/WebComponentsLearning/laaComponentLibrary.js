@@ -1,24 +1,30 @@
-document.querySelectorAll("template").forEach((template) => {
+document.querySelectorAll("template").forEach((thisTemplateElement) => {
   class ThisComponent extends HTMLElement {
     constructor() {
       super();
       let shadow = this.attachShadow({ mode: "open" });
-      shadow.appendChild(template.content.cloneNode(true));
+      shadow.appendChild(thisTemplateElement.content.cloneNode(true));
+
+      const hasScriptTag = thisTemplateElement.content.querySelector("script");
+      if (hasScriptTag) {
+        const generatedShadowScript = document.createElement("script");
+        generatedShadowScript.textContent = hasScriptTag.textContent;
+        shadow.host.appendChild(generatedShadowScript);
+      }
     }
 
     static get observedAttributes() {
-      const attributesToObserve = [...template.attributes].filter((thisAttribute) => {
+      const attributesToObserve = [...thisTemplateElement.attributes].filter((thisAttribute) => {
         const isIdAttribute = thisAttribute.nodeName === "id";
         if (isIdAttribute) return;
         return thisAttribute.nodeName;
       });
-      console.log(attributesToObserve);
-      return ["checked"];
+      return attributesToObserve;
     }
 
     attributeChangedCallback(attributeName, oldValue, newValue) {
       // console.log({ attributeName, oldValue, newValue });
     }
   }
-  customElements.define(template.id, ThisComponent);
+  customElements.define(thisTemplateElement.id, ThisComponent);
 });
