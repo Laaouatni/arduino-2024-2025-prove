@@ -24,8 +24,10 @@
     
     <script nomodule>
       document.currentScript.parentElement.constructor.prototype.attributeChangedCallback = (attributeName, oldValue, newValue) => {
-        console.log('attributeChangedCallback', name, oldValue, newValue);
+        console.log('attributeChangedCallback', attributeName, oldValue, newValue);
       };
+
+      document.currentScript.parentElement.constructor.prototype.attributeChangedCallback();
     </script>
   </template>
 </body>
