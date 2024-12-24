@@ -14,16 +14,17 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     }
 
     static get observedAttributes() {
-      const attributesToObserve = [...thisTemplateElement.attributes].filter((thisAttribute) => {
-        const isIdAttribute = thisAttribute.nodeName === "id";
-        if (isIdAttribute) return;
-        return thisAttribute.nodeName;
-      });
-      return ["checked"];
+      const attributesToObserve = [...thisTemplateElement.attributes]
+        .map((thisAttribute) => thisAttribute.nodeName)
+        .filter((thisAttribute) => {
+          const isIdAttribute = thisAttribute === "id";
+          if (isIdAttribute) return;
+          return true;
+        });
+      return attributesToObserve;
     }
 
-    // _attributeChangedCallback(attributeName, oldValue, newValue) {
-    // };
+    _attributeChangedCallback(attributeName, oldValue, newValue) {}
 
     attributeChangedCallback(attributeName, oldValue, newValue) {
       // console.log(`Attribute: ${attributeName} changed from ${oldValue} to ${newValue}`);
