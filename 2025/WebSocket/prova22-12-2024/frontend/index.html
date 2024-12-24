@@ -22,15 +22,21 @@
   </script>
 </head>
 
-<body class="bg-slate-900 p-4">
-  <comp-lista-messaggi>1</comp-lista-messaggi>
-  <comp-bubble-messaggio>2</comp-bubble-messaggio>
-  <comp-bubble-messaggio>3</comp-bubble-messaggio>
-  <comp-bubble-messaggio>4</comp-bubble-messaggio>
+<body class="bg-slate-900 p-4 grid gap-4">
+  <comp-lista-messaggi>
+    <comp-bubble-messaggio>2</comp-bubble-messaggio>
+    <comp-bubble-messaggio>3</comp-bubble-messaggio>
+    <comp-bubble-messaggio>4</comp-bubble-messaggio>
+  </comp-lista-messaggi>
 
   <input onchange="ws.send(this.value)" type="text" />
 
   <template id="comp-lista-messaggi" class="grid gap-2">
+    <script>
+      console.log("ciao")
+    </script>
+    ciao
+    <slot></slot>
   </template>
 
   <template id="comp-bubble-messaggio" class="bg-white">
