@@ -28,13 +28,13 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         },
       );
 
-      if (thisTemplateElement.hasAttribute("class")) {
-        this.classList = `${this.classList} ${thisTemplateElement.getAttribute("class")}`;
-      }
-
-      if(thisTemplateElement.hasAttribute("style")) {
-        this.style = `${this.style} ${thisTemplateElement.getAttribute("style")}`;
-      }
+      ["class", "style"].forEach((thisAttribute) => {
+        if (thisTemplateElement.hasAttribute(thisAttribute)) {
+          this[thisAttribute] = `${
+            this[thisAttribute]
+          } ${thisTemplateElement.getAttribute(thisAttribute)}`;
+        }
+      });
     }
 
     static get observedAttributes() {
