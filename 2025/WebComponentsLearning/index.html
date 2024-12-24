@@ -25,12 +25,12 @@
     test1 <slot></slot> test2
 
     <script nomodule>
-      (() => {const thisTemplate = document.currentScript.parentElement;
+      const thisTemplate = document.currentScript.parentElement;
       let i = 0;
 
       thisTemplate.addEventListener('click', () => {
         console.log(++i);
-      });})();
+      });
 
       // console.log(++i);
     </script>

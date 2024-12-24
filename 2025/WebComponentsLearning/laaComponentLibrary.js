@@ -9,9 +9,18 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
 
       hasScriptTag.forEach((thisScriptTag) => {
         const generatedShadowScript = document.createElement("script");
-        generatedShadowScript.textContent = thisScriptTag.textContent;
+        generatedShadowScript.textContent = isolateScriptStringInsideComponent(thisScriptTag.textContent || "");
         shadow.host.appendChild(generatedShadowScript);
       });
+
+      /**
+       * 
+       * @param {String} thisScriptString 
+       * @returns {String}
+       */
+      function isolateScriptStringInsideComponent(thisScriptString) {
+        return `(()=>{${thisScriptString}})()`;
+      }
     }
 
     static get observedAttributes() {
