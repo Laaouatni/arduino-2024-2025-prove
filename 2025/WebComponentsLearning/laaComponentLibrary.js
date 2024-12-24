@@ -5,11 +5,14 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       let shadow = this.attachShadow({ mode: "open" });
       shadow.appendChild(thisTemplateElement.content.cloneNode(true));
 
-      const hasScriptTag = thisTemplateElement.content.querySelectorAll("script[nomodule]");
+      const hasScriptTag =
+        thisTemplateElement.content.querySelectorAll("script[nomodule]");
 
       hasScriptTag.forEach((thisScriptTag) => {
         const generatedShadowScript = document.createElement("script");
-        generatedShadowScript.textContent = isolateScriptStringInsideComponent(thisScriptTag.textContent || "");
+        generatedShadowScript.textContent = isolateScriptStringInsideComponent(
+          thisScriptTag.textContent || "",
+        );
         shadow.host.appendChild(generatedShadowScript);
       });
 
@@ -36,10 +39,29 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       return attributesToObserve;
     }
 
+    // ovveride these methods in the component
+    _connectedCallback() {}
+    _disconnectedCallback() { }
+    /**
+     * @param {string} attributeName
+     * @param {any} oldValue
+     * @param {any} newValue
+     */
     _attributeChangedCallback(attributeName, oldValue, newValue) {}
 
+    connectedCallback() {
+      this._connectedCallback();
+    }
+
+    disconnectedCallback() {
+      this._disconnectedCallback();
+    }
+    /**
+     * @param {string} attributeName
+     * @param {any} oldValue
+     * @param {any} newValue
+     */
     attributeChangedCallback(attributeName, oldValue, newValue) {
-      // console.log(`Attribute: ${attributeName} changed from ${oldValue} to ${newValue}`);
       this._attributeChangedCallback(attributeName, oldValue, newValue);
     }
   }
