@@ -3,13 +3,16 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     constructor() {
       super();
 
-      if (thisTemplateElement.hasAttribute("class")) {
-        this.classList = `${this.getAttribute("class") || ""} ${thisTemplateElement.getAttribute("class")}`.trim();
-      };
-
-      if (thisTemplateElement.hasAttribute("style")) {
-        this.style = `${this.style} ${thisTemplateElement.getAttribute("style")}`.trim();
-      };
+      ["class", "style"].forEach((thisAttributeName) => {
+        if (thisTemplateElement.hasAttribute(thisAttributeName)) {
+          this.setAttribute(
+            thisAttributeName,
+            `${
+              this.getAttribute(thisAttributeName) || ""
+            } ${thisTemplateElement.getAttribute(thisAttributeName)}`.trim(),
+          );
+        }
+      });
     }
 
     static get observedAttributes() {
