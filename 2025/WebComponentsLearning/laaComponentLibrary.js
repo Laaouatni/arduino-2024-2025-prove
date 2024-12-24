@@ -9,16 +9,18 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       this.shadow = this.attachShadow({ mode: "open" });
       this.shadow.appendChild(thisTemplateElement.content.cloneNode(true));
 
-      const hasScriptTag =
+      const hasScriptTagInTemplateComponent =
         thisTemplateElement.content.querySelectorAll("script[nomodule]");
 
-      hasScriptTag.forEach((thisScriptTag) => {
+      hasScriptTagInTemplateComponent.forEach((thisTemplateComponentScriptNoModule) => {
         const generatedShadowScript = document.createElement("script");
         generatedShadowScript.textContent = isolateScriptStringInsideComponent(
-          thisScriptTag.textContent || "",
+          thisTemplateComponentScriptNoModule.textContent || "",
         );
         this.shadow.host.appendChild(generatedShadowScript);
-        thisScriptTag.remove();
+        this.shadow.querySelectorAll("script[nomodule]").forEach((thisComponentScriptNoModule) => {
+          thisComponentScriptNoModule.remove();
+        });
       });
     }
 
@@ -33,7 +35,6 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       return attributesToObserve;
     }
 
-    // ovveride these methods in the component
     _connectedCallback() {}
     _disconnectedCallback() {}
     /**
