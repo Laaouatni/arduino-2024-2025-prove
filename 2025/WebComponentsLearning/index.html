@@ -11,21 +11,30 @@
 
 <body>
   <template-ciao checked="true">
-    <script>
+    <!-- <script>
+      const thisTemplate = document.currentScript.parentElement;
+      setInterval(() => {
+        thisTemplate.setAttribute('checked', !(thisTemplate.getAttribute('checked') === 'true'));
+      }, 500)
+    </script> -->
+  </template-ciao>
+
+  <template-ciao checked="true"></template-ciao>
+
+  <template id="template-ciao" checked ciao test>
+    test1 <slot></slot> test2
+
+    <script nomodule>
       const thisTemplate = document.currentScript.parentElement;
       setInterval(() => {
         thisTemplate.setAttribute('checked', !(thisTemplate.getAttribute('checked') === 'true'));
       }, 500)
     </script>
-  </template-ciao>
-
-  <template id="template-ciao" checked ciao test>
-    test1 <slot></slot> test2
     
     <script nomodule>
-      // document.currentScript.parentElement.constructor.prototype._attributeChangedCallback = (attributeName, oldValue, newValue) => {
-      //   console.log('attributeChangedCallback', attributeName, oldValue, newValue);
-      // };
+      document.currentScript.parentElement.constructor.prototype._attributeChangedCallback = (attributeName, oldValue, newValue) => {
+        console.log('attributeChangedCallback', attributeName, oldValue, newValue);
+      };
     </script>
   </template>
 </body>

@@ -5,12 +5,13 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       let shadow = this.attachShadow({ mode: "open" });
       shadow.appendChild(thisTemplateElement.content.cloneNode(true));
 
-      const hasScriptTag = thisTemplateElement.content.querySelector("script");
-      if (hasScriptTag) {
+      const hasScriptTag = thisTemplateElement.content.querySelectorAll("script[nomodule]");
+
+      hasScriptTag.forEach((thisScriptTag) => {
         const generatedShadowScript = document.createElement("script");
-        generatedShadowScript.textContent = hasScriptTag.textContent;
+        generatedShadowScript.textContent = thisScriptTag.textContent;
         shadow.host.appendChild(generatedShadowScript);
-      }
+      });
     }
 
     static get observedAttributes() {
