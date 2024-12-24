@@ -2,7 +2,32 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
   class ThisComponent extends HTMLElement {
     constructor() {
       super();
+    }
 
+    static get observedAttributes() {
+      const attributesToObserve = [...thisTemplateElement.attributes]
+        .map((thisAttribute) => thisAttribute.nodeName)
+        .filter((thisAttribute) => {
+          let canSkip = false;
+          ["id", "class"].forEach((thisAttributeName) => {
+            if (thisAttribute == thisAttributeName) canSkip = true;
+          });
+          return !canSkip;
+        });
+      return attributesToObserve;
+    }
+
+    _connectedCallback() {}
+    _disconnectedCallback() {}
+    /**
+     * @param {string} attributeName
+     * @param {any} oldValue
+     * @param {any} newValue
+     */
+    _attributeChangedCallback(attributeName, oldValue, newValue) {}
+
+    connectedCallback() {
+      this._connectedCallback();
       ["class", "style"].forEach((thisAttributeName) => {
         if (thisTemplateElement.hasAttribute(thisAttributeName)) {
           this.setAttribute(
@@ -36,33 +61,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
           const thisComponent = document.currentScript.parentElement;
           ${thisScriptString}}
         )()`;
-      };
-    }
-
-    static get observedAttributes() {
-      const attributesToObserve = [...thisTemplateElement.attributes]
-        .map((thisAttribute) => thisAttribute.nodeName)
-        .filter((thisAttribute) => {
-          let canSkip = false;
-          ["id", "class"].forEach((thisAttributeName) => {
-            if (thisAttribute == thisAttributeName) canSkip = true;
-          });
-          return !canSkip;
-        });
-      return attributesToObserve;
-    }
-
-    _connectedCallback() {}
-    _disconnectedCallback() {}
-    /**
-     * @param {string} attributeName
-     * @param {any} oldValue
-     * @param {any} newValue
-     */
-    _attributeChangedCallback(attributeName, oldValue, newValue) {}
-
-    connectedCallback() {
-      this._connectedCallback();
+      }
     }
 
     disconnectedCallback() {

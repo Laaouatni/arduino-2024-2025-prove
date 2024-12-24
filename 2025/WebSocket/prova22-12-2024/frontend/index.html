@@ -8,35 +8,29 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="./laaComponentLibrary.js"></script>
   <script>
-    const messaggi = [];
     const ws = new WebSocket('ws://192.168.162.49:80/ws');
 
-    ws.addEventListener('open', () => {
-      ws.send('');
-    });
+    const messaggi = [];
 
     ws.addEventListener('message', (message) => {
       messaggi.push(message.data);
-      console.log(messaggi);
     });
   </script>
 </head>
 
 <body class="bg-slate-900 p-4 grid gap-4">
-  <comp-lista-messaggi>
-    <comp-bubble-messaggio>2</comp-bubble-messaggio>
-    <comp-bubble-messaggio>3</comp-bubble-messaggio>
-    <comp-bubble-messaggio>4</comp-bubble-messaggio>
-  </comp-lista-messaggi>
+  <comp-lista-messaggi></comp-lista-messaggi>
 
   <input onchange="ws.send(this.value)" type="text" />
 
   <template id="comp-lista-messaggi" class="grid gap-2">
     <script>
-      console.log(thisComponent)
+      ws.addEventListener('message', (message) => {
+        const messaggioComponente = document.createElement('comp-bubble-messaggio');
+        messaggioComponente.innerText = message.data;
+        document.querySelector('comp-lista-messaggi').appendChild(messaggioComponente);
+      });
     </script>
-    ciao
-    <slot></slot>
   </template>
 
   <template id="comp-bubble-messaggio" class="bg-white">
