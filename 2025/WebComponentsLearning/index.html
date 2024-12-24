@@ -10,13 +10,22 @@
 </head>
 
 <body>
-  <template-ciao checked="true"></template-ciao>
+  <template-ciao checked="true">
+    <script>
+      const thisTemplate = document.currentScript.parentElement;
+      setInterval(() => {
+        thisTemplate.setAttribute('checked', !(thisTemplate.getAttribute('checked') === 'true'));
+      }, 500)
+    </script>
+  </template-ciao>
 
   <template id="template-ciao" checked ciao test>
     test1 <slot></slot> test2
     
     <script nomodule>
-      console.log({parentElement: document.currentScript.parentElement.constructor});
+      document.currentScript.parentElement.constructor.prototype.attributeChangedCallback = (attributeName, oldValue, newValue) => {
+        console.log('attributeChangedCallback', name, oldValue, newValue);
+      };
     </script>
   </template>
 </body>
