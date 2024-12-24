@@ -1,9 +1,13 @@
 document.querySelectorAll("template").forEach((thisTemplateElement) => {
   class ThisComponent extends HTMLElement {
+    /**
+     * @type {ShadowRoot}
+     */
+    shadow;
     constructor() {
       super();
-      let shadow = this.attachShadow({ mode: "open" });
-      shadow.appendChild(thisTemplateElement.content.cloneNode(true));
+      this.shadow = this.attachShadow({ mode: "open" });
+      this.shadow.appendChild(thisTemplateElement.content.cloneNode(true));
 
       const hasScriptTag =
         thisTemplateElement.content.querySelectorAll("script[nomodule]");
@@ -13,19 +17,9 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         generatedShadowScript.textContent = isolateScriptStringInsideComponent(
           thisScriptTag.textContent || "",
         );
-        shadow.host.appendChild(generatedShadowScript);
+        this.shadow.host.appendChild(generatedShadowScript);
+        thisScriptTag.remove();
       });
-
-      /**
-       * @param   {string} thisScriptString
-       * @returns {string}
-       */
-      function isolateScriptStringInsideComponent(thisScriptString) {
-        return `(()=>{
-          const thisComponent = document.currentScript.parentElement;
-          ${thisScriptString}}
-        )()`;
-      }
     }
 
     static get observedAttributes() {
@@ -41,7 +35,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
 
     // ovveride these methods in the component
     _connectedCallback() {}
-    _disconnectedCallback() { }
+    _disconnectedCallback() {}
     /**
      * @param {string} attributeName
      * @param {any} oldValue
@@ -67,3 +61,14 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
   }
   customElements.define(thisTemplateElement.id, ThisComponent);
 });
+
+/**
+ * @param   {string} thisScriptString
+ * @returns {string}
+ */
+function isolateScriptStringInsideComponent(thisScriptString) {
+  return `(()=>{
+    const thisComponent = document.currentScript.parentElement;
+    ${thisScriptString}}
+  )()`;
+}
