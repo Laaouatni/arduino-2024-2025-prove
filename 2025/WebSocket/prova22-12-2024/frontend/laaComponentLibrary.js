@@ -27,6 +27,14 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
             });
         },
       );
+
+      if (thisTemplateElement.hasAttribute("class")) {
+        this.classList.add(thisTemplateElement.getAttribute("class") || "");
+      }
+
+      if(thisTemplateElement.hasAttribute("style")) {
+        this.setAttribute("style", thisTemplateElement.getAttribute("style") || "");
+      }
     }
 
     static get observedAttributes() {
@@ -34,7 +42,8 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         .map((thisAttribute) => thisAttribute.nodeName)
         .filter((thisAttribute) => {
           const isIdAttribute = thisAttribute === "id";
-          if (isIdAttribute) return;
+          const isClassAttribute = thisAttribute === "class";
+          if (isIdAttribute || isClassAttribute) return;
           return true;
         });
       return attributesToObserve;
@@ -65,7 +74,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       this._attributeChangedCallback(attributeName, oldValue, newValue);
     }
   }
-  
+
   customElements.define(thisTemplateElement.id, ThisComponent);
 });
 

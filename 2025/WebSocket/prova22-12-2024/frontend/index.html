@@ -8,6 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="./laaComponentLibrary.js"></script>
   <script>
+    const messaggi = [];
     const ws = new WebSocket('ws://192.168.162.49:80/ws');
 
     ws.addEventListener('open', () => {
@@ -15,14 +16,25 @@
     });
 
     ws.addEventListener('message', (message) => {
-      // ws.send('Hello!');
-      console.log(`Received: ${message.data}`);
+      messaggi.push(message.data);
+      console.log(messaggi);
     });
   </script>
 </head>
 
-<body class="bg-slate-900">
-  
+<body class="bg-slate-900 p-4">
+  <comp-lista-messaggi></comp-lista-messaggi>
+
+  <input onchange="ws.send(this.value)" type="text" />
+
+  <template id="comp-lista-messaggi" class="bg-white">
+    <comp-bubble-messaggio>ciao</comp-bubble-messaggio>
+    <comp-bubble-messaggio>ciao1</comp-bubble-messaggio>
+  </template>
+
+  <template id="comp-bubble-messaggio">
+    <slot></slot>
+  </template>
 </body>
 
 </html>
