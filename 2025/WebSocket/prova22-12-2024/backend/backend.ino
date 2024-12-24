@@ -9,6 +9,7 @@ AsyncWebSocket ws("/ws");
 void setup() {
   Serial.begin(115200);
   WiFi.begin("nomeWifi", "12345678");
+
   if(!LittleFS.begin()) {
     Serial.println("Errore di inizializzazione di 'LittleFS', risolvi e clicca RESET");
     return;
