@@ -26,10 +26,21 @@
 
     <script nomodule>
       (() => {const thisTemplate = document.currentScript.parentElement;
+      let i = 0;
+
+      thisTemplate.addEventListener('click', () => {
+        console.log(++i);
+      });})();
+
+      // console.log(++i);
+    </script>
+
+    <!-- <script nomodule>
+      (() => {const thisTemplate = document.currentScript.parentElement;
       setInterval(() => {
         thisTemplate.setAttribute('checked', !(thisTemplate.getAttribute('checked') === 'true'));
       }, 500)})();
-    </script>
+    </script> -->
     
     <!-- <script nomodule>
       document.currentScript.parentElement.constructor.prototype._attributeChangedCallback = (attributeName, oldValue, newValue) => {
