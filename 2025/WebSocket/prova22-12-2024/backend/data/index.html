@@ -8,7 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="./laaComponentLibrary.js"></script>
   <script>
-    const ws = new WebSocket('ws://192.168.162.49:80/ws');
+    const thisIp = window.location.hostname;
+    const ws = new WebSocket(`ws://${thisIp}/ws`);
 
     const messaggi = [];
 
