@@ -7,7 +7,7 @@ AsyncWebSocket ws("/ws");
 
 void setup() {
   Serial.begin(115200);
-  WiFi.begin("nomeWifi", "passwordWifi");
+  WiFi.begin("nomeWifi", "12345678");
   while (WiFi.status() != WL_CONNECTED) {
   };
   Serial.println("WiFi connected! IP Address: " + WiFi.localIP().toString());
@@ -23,9 +23,9 @@ void setup() {
     
     if (!hasData) return;
 
-    Serial.println("data: " + String(*data) + "\t ((char*)data): " + String((char*)data) + "\t len: " + String(len) + "\t string.substring(0, len): " + String((char*)data).substring(0, len));
+    const String thisStringData = String((char*)data).substring(0, len);
 
-    ws.textAll("Hello from ESP32 textall " + String((char*)data).substring(0, len));
+    ws.textAll(thisStringData);
   });
 
   server.onNotFound([](AsyncWebServerRequest *request) {

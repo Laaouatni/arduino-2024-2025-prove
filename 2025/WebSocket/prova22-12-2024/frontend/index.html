@@ -1,51 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-</head>
-<body>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="./laaComponentLibrary.js"></script>
   <script>
-    const ws = new WebSocket('ws://192.168.239.49:80/ws');
-    // const ws = new WebSocket('/ws');
+    const ws = new WebSocket('ws://192.168.162.49:80/ws');
 
-    let i=0
     ws.addEventListener('open', () => {
-      console.log('Connected');
-      setInterval(() => {
-        ws.send(`Hello Server! ${i++}`);
-      }, 200);
+      ws.send('init');
     });
 
     ws.addEventListener('message', (message) => {
+      // ws.send('Hello!');
       console.log(`Received: ${message.data}`);
     });
-
-    ws.addEventListener('close', () => {
-      console.log('Disconnected');
-    });
-
-    ws.addEventListener('error', (error) => {
-      console.log(`Error: ${JSON.stringify(error)}`);
-    });
-
-    // ws.onopen = () => {
-    //   console.log('Connected');
-    //   ws.send('Hello Server!');
-    // };
-
-    // ws.onmessage = (message) => {
-    //   console.log(`Received: ${message.data}`);
-    // };
-
-    // ws.onclose = () => {
-    //   console.log('Disconnected');
-    // };
-
-    // ws.onerror = (error) => {
-    //   console.log(`Error: ${error}`);
-    // };
   </script>
+</head>
+
+<body class="bg-slate-900">
+  
 </body>
+
 </html>
