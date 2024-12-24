@@ -14,14 +14,29 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         }
       });
 
-      const allScriptElementsInsideTemplate = thisTemplateElement.content.querySelectorAll("script");
+      const allScriptElementsInsideTemplate =
+        thisTemplateElement.content.querySelectorAll("script");
+
       allScriptElementsInsideTemplate.forEach((thisScriptTemplateElement) => {
-        const generatedScriptElementInsideComponent = document.createElement("script");
-        generatedScriptElementInsideComponent.textContent = isolateScriptStringInsideComponent(
-          thisScriptTemplateElement.textContent || ""
-        )
+        const generatedScriptElementInsideComponent =
+          document.createElement("script");
+        generatedScriptElementInsideComponent.textContent =
+          isolateScriptStringInsideComponent(
+            thisScriptTemplateElement.textContent || "",
+          );
         this.appendChild(generatedScriptElementInsideComponent);
       });
+
+      /**
+       * @param   {string} thisScriptString
+       * @returns {string}
+       */
+      function isolateScriptStringInsideComponent(thisScriptString) {
+        return `(()=>{
+          const thisComponent = document.currentScript.parentElement;
+          ${thisScriptString}}
+        )()`;
+      };
     }
 
     static get observedAttributes() {
@@ -65,14 +80,3 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
 
   customElements.define(thisTemplateElement.id, ThisComponent);
 });
-
-/**
- * @param   {string} thisScriptString
- * @returns {string}
- */
-function isolateScriptStringInsideComponent(thisScriptString) {
-  return `(()=>{
-    const thisComponent = document.currentScript.parentElement;
-    ${thisScriptString}}
-  )()`;
-}

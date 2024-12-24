@@ -12,7 +12,7 @@
     const ws = new WebSocket('ws://192.168.162.49:80/ws');
 
     ws.addEventListener('open', () => {
-      ws.send('init');
+      ws.send('');
     });
 
     ws.addEventListener('message', (message) => {
