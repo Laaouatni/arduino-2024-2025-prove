@@ -35,12 +35,10 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       // this.append(thisTemplateElement.content.cloneNode(true));
 
       function copyTextContentFromTemplateToComponent() {
-        /**
-         * @type {HTMLElement}
-         */
-        let stringToInsertInsideComponent = thisTemplateElement.cloneNode(true).innerHTML;
-        stringToInsertInsideComponent.querySelectorAll("script").forEach((thisScriptElement) => {
-          stringToInsertInsideComponent.removeChild(thisScriptElement);
+        const thisCopiedTemplateElement = thisTemplateElement.cloneNode(true);
+        let stringToInsertInsideComponent = thisCopiedTemplateElement.innerHTML;
+        thisCopiedTemplateElement.querySelectorAll("script").forEach((thisScriptElement) => {
+          thisCopiedTemplateElement.removeChild(thisScriptElement);
         });
         this.innerHTML = stringToInsertInsideComponent;
       }
