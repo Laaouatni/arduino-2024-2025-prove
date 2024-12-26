@@ -10,7 +10,10 @@
 </head>
 
 <body class="grid gap-2 p-2">
-  <laa-example>sono uno slot {n}</laa-example>
+  <laa-example>
+    <div>sono uno slot {n}</div>
+    <div>{n}</div>
+  </laa-example>
   <!-- <laa-example>hello world</laa-example>
   <laa-example>hello world</laa-example>
   <laa-example>hello world</laa-example> -->
@@ -20,7 +23,16 @@
 
     <div>
       {n}
-      <p>hello {n} <div>{n}</div> <main><div><p><div>{n}</div></p></div></main></p>
+      <p>hello {n}
+      <div>{n}</div>
+      <main>
+        <div>
+          <p>
+          <div>{n}</div>
+          </p>
+        </div>
+      </main>
+      </p>
     </div>
 
     <script>

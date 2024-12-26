@@ -35,10 +35,15 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       copyFromTemplateToComponent.attributes(["class", "style"]);
       copyFromTemplateToComponent.scripts();
 
-      updateInnerHtmlVariables.bind(this)(this);
+      updateInnerHtmlVariables(this);
 
+      /**
+       * 
+       * @param {ThisComponent} thisComponent 
+       */
       function updateInnerHtmlVariables(thisComponent) {
-        const shadowDomStringMinified = this.shadowDom.innerHTML
+        console.log(thisComponent.childNodes)
+        const shadowDomStringMinified = thisComponent.shadowDom.innerHTML
           .replaceAll("\n", "")
           .replaceAll("  ", "");
         const regexGetAllVariableInInnerHTML = /({[^}]*})/g;
@@ -46,11 +51,28 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
           regexGetAllVariableInInnerHTML,
         );
 
+        const splittedShadowDomStringWithSlotReplaced = [...splittedShadowDomString].map((thisString) => { 
+          const isStringIncludesSlot = thisString.includes("slot");
+          if (!isStringIncludesSlot) return thisString;
+
+          let slotWantedElementsArray = [];
+
+          thisComponent.childNodes.forEach((thisChild) => {
+            const isThisChildScriptElement = thisChild instanceof HTMLScriptElement;
+            if (!isThisChildScriptElement) {
+              slotWantedElementsArray.push(thisChild)
+            }
+          });
+          console.log(slotWantedElementsArray)
+
+          return thisString;
+        });
+
         console.log("before", splittedShadowDomString);
 
         let n = 8;
 
-        const splittedShadowDomStringWithValues = splittedShadowDomString.map(
+        const splittedShadowDomStringWithValues = [...splittedShadowDomStringWithSlotReplaced].map(
           (thisString) => {
             const isThisStringVariableType =
               thisString.startsWith("{") && thisString.endsWith("}");
@@ -65,7 +87,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
 
         thisComponent.shadowDom.innerHTML = splittedShadowDomStringWithValues.join("");
 
-        console.log("after", splittedShadowDomStringWithValues);
+        // console.log("after", splittedShadowDomStringWithValues);
       }
     }
 
