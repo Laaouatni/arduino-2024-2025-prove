@@ -31,13 +31,23 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         scripts: copyScriptsFromTemplateToComponent.bind(this),
       };
 
-      console.log({ a: this });
-
-      // makeReactiveVariablesInsideComponent.bind(this)();
-
       copyFromTemplateToComponent.templateContent();
       copyFromTemplateToComponent.attributes(["class", "style"]);
       copyFromTemplateToComponent.scripts();
+
+      const shadowDomStringMinified = this.shadowDom.innerHTML.replaceAll("\n", "").replaceAll("  ", "");
+      const regexGetAllVariableInInnerHTML = /({[^}]*})/g;
+      const splittedShadowDomString = shadowDomStringMinified.split(regexGetAllVariableInInnerHTML);
+      
+      splittedShadowDomString.forEach((thisString) => {
+        const isThisStringVariableType = thisString.startsWith("{") && thisString.endsWith("}");
+        if (isThisStringVariableType) {
+          const thisVariableName = thisString.replace("{", "").replace("}", "");
+          return Function(`return ${thisVariableName};`)();
+        }
+      });
+
+      // makeReactiveVariablesInsideComponent.bind(this)();
     }
 
     _disconnectedCallback() {}
