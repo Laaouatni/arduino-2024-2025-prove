@@ -10,18 +10,21 @@
 </head>
 
 <body class="grid gap-2 p-2">
-  <laa-example>2</laa-example>
+  <laa-example>sono uno slot {n}</laa-example>
+  <!-- <laa-example>hello world</laa-example>
   <laa-example>hello world</laa-example>
-  <laa-example>hello world</laa-example>
-  <laa-example>hello world</laa-example>
+  <laa-example>hello world</laa-example> -->
 
   <template id="laa-example" class="classNameTest">
     il valore di n è: {n}! e lo slot è: <slot></slot>
+
+    <div>
+      {n}
+      <p>hello{n} <div>{n}</div> <main><div><p><div>{n}</div></p></div></main></p>
+    </div>
+
     <script>
       let n = 0;
-      thisComponent.onclick = () => {
-        console.log(n++);
-      }
     </script>
   </template>
 </body>

@@ -40,6 +40,8 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         clonedTemplateContent.childNodes.forEach((thisChild) => {
           const isChildScriptElement = thisChild instanceof HTMLScriptElement;
           if (isChildScriptElement) thisChild.remove();
+
+          console.log(thisChild);
         });
 
         thisShadowDom.appendChild(clonedTemplateContent);
