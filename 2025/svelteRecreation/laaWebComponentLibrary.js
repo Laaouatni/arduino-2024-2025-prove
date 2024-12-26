@@ -35,24 +35,36 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       copyFromTemplateToComponent.attributes(["class", "style"]);
       copyFromTemplateToComponent.scripts();
 
-      // const shadowDomStringMinified = this.shadowDom.innerHTML
-      //   .replaceAll("\n", "")
-      //   .replaceAll("  ", "");
-      // const regexGetAllVariableInInnerHTML = /({[^}]*})/g;
-      // const splittedShadowDomString = shadowDomStringMinified.split(
-      //   regexGetAllVariableInInnerHTML,
-      // );
+      makeInnerHtmlVariablesReactive.bind(this)();
 
-      // splittedShadowDomString.forEach((thisString) => {
-      //   const isThisStringVariableType =
-      //     thisString.startsWith("{") && thisString.endsWith("}");
-      //   if (isThisStringVariableType) {
-      //     const thisVariableName = thisString.replace("{", "").replace("}", "");
-      //     return Function(`return ${thisVariableName};`)();
-      //   }
-      // });
+      function makeInnerHtmlVariablesReactive() {
+        const shadowDomStringMinified = this.shadowDom.innerHTML
+          .replaceAll("\n", "")
+          .replaceAll("  ", "");
+        const regexGetAllVariableInInnerHTML = /({[^}]*})/g;
+        const splittedShadowDomString = shadowDomStringMinified.split(
+          regexGetAllVariableInInnerHTML,
+        );
 
-      // makeReactiveVariablesInsideComponent.bind(this)();
+        console.log("before", splittedShadowDomString);
+
+        let n = 5;
+
+        const splittedShadowDomStringWithValues = splittedShadowDomString.map(
+          (thisString) => {
+            const isThisStringVariableType =
+              thisString.startsWith("{") && thisString.endsWith("}");
+            if (!isThisStringVariableType) return thisString;
+
+            const thisVariableName = thisString
+              .replace("{", "")
+              .replace("}", "");
+            return eval(thisVariableName);
+          },
+        );
+
+        console.log("after", splittedShadowDomStringWithValues);
+      }
     }
 
     _disconnectedCallback() {}
@@ -77,10 +89,6 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
   }
 
   customElements.define(thisTemplateElement.id, ThisComponent);
-
-  // function makeReactiveVariablesInsideComponent() {
-  //   console.log(this);
-  // }
 
   function copyTemplateContentToComponentShadowDom() {
     this.shadowDom = this.attachShadow({ mode: "open" });
@@ -127,14 +135,6 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
           .join(""),
       );
     this.appendChild(generatedScriptElementInsideComponent);
-
-    // allScriptElementsInsideTemplate.forEach((thisScriptTemplateElement) => {
-    //   generatedScriptElementInsideComponent.textContent =
-    //     isolateScriptStringInsideComponent(
-    //       thisScriptTemplateElement.textContent || "",
-    //     );
-    //   this.appendChild(generatedScriptElementInsideComponent);
-    // });
   }
 
   /**
