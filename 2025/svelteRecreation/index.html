@@ -12,11 +12,16 @@
 <body class="grid gap-2 p-2">
   <laa-example>2</laa-example>
   <laa-example>hello world</laa-example>
+  <laa-example>hello world</laa-example>
+  <laa-example>hello world</laa-example>
 
   <template id="laa-example" class="classNameTest">
-    hello world {i}! <slot></slot> ciao
+    il valore di n è: {n}! e lo slot è: <slot></slot>
     <script>
-      console.log(thisComponent);
+      let n = 0;
+      thisComponent.onclick = () => {
+        console.log(n++);
+      }
     </script>
   </template>
 </body>
