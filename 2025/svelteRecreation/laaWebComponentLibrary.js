@@ -35,12 +35,17 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       copyFromTemplateToComponent.attributes(["class", "style"]);
       copyFromTemplateToComponent.scripts();
 
-      const shadowDomStringMinified = this.shadowDom.innerHTML.replaceAll("\n", "").replaceAll("  ", "");
+      const shadowDomStringMinified = this.shadowDom.innerHTML
+        .replaceAll("\n", "")
+        .replaceAll("  ", "");
       const regexGetAllVariableInInnerHTML = /({[^}]*})/g;
-      const splittedShadowDomString = shadowDomStringMinified.split(regexGetAllVariableInInnerHTML);
-      
+      const splittedShadowDomString = shadowDomStringMinified.split(
+        regexGetAllVariableInInnerHTML,
+      );
+
       splittedShadowDomString.forEach((thisString) => {
-        const isThisStringVariableType = thisString.startsWith("{") && thisString.endsWith("}");
+        const isThisStringVariableType =
+          thisString.startsWith("{") && thisString.endsWith("}");
         if (isThisStringVariableType) {
           const thisVariableName = thisString.replace("{", "").replace("}", "");
           return Function(`return ${thisVariableName};`)();
@@ -109,15 +114,24 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     const allScriptElementsInsideTemplate =
       thisTemplateElement.content.querySelectorAll("script");
 
-    allScriptElementsInsideTemplate.forEach((thisScriptTemplateElement) => {
-      const generatedScriptElementInsideComponent =
-        document.createElement("script");
-      generatedScriptElementInsideComponent.textContent =
-        isolateScriptStringInsideComponent(
-          thisScriptTemplateElement.textContent || "",
-        );
-      this.appendChild(generatedScriptElementInsideComponent);
-    });
+    const generatedScriptElementInsideComponent =
+      document.createElement("script");
+
+    generatedScriptElementInsideComponent.textContent =
+      isolateScriptStringInsideComponent(
+        [...allScriptElementsInsideTemplate]
+          .map((thisScriptTemplateElement) => {thisScriptTemplateElement.textContent || ""})
+          .join(""),
+      );
+    this.appendChild(generatedScriptElementInsideComponent);
+
+    // allScriptElementsInsideTemplate.forEach((thisScriptTemplateElement) => {
+    //   generatedScriptElementInsideComponent.textContent =
+    //     isolateScriptStringInsideComponent(
+    //       thisScriptTemplateElement.textContent || "",
+    //     );
+    //   this.appendChild(generatedScriptElementInsideComponent);
+    // });
   }
 
   /**
