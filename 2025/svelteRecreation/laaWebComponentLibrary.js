@@ -35,12 +35,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       // this.append(thisTemplateElement.content.cloneNode(true));
 
       function copyTextContentFromTemplateToComponent() {
-        const thisCopiedTemplateElement = thisTemplateElement.cloneNode(true);
-        let stringToInsertInsideComponent = thisCopiedTemplateElement.innerHTML;
-        thisCopiedTemplateElement.querySelectorAll("script").forEach((thisScriptElement) => {
-          thisCopiedTemplateElement.removeChild(thisScriptElement);
-        });
-        this.innerHTML = stringToInsertInsideComponent;
+        this.appendChild(thisTemplateElement.content.cloneNode(true));
       }
 
       
