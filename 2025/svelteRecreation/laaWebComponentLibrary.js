@@ -9,7 +9,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         .map((thisAttribute) => thisAttribute.nodeName)
         .filter((thisAttribute) => {
           let canSkip = false;
-          ["id", "class"].forEach((thisAttributeName) => {
+          ["id", "class", "style"].forEach((thisAttributeName) => {
             if (thisAttribute == thisAttributeName) canSkip = true;
           });
           return !canSkip;
@@ -20,22 +20,28 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     _connectedCallback() {}
     connectedCallback() {
       this._connectedCallback();
-      
-      copyTemplateContentToComponentShadowDom.bind(this)();
-      copyAttributesFromTemplateToComponent.bind(this)(["class", "style"]);
-      copyScriptsFromTemplateToComponent.bind(this)();
+
+      const copyFromTemplateToComponent = {
+        templateContent: copyTemplateContentToComponentShadowDom.bind(this),
+        attributes: copyAttributesFromTemplateToComponent.bind(this),
+        scripts: copyScriptsFromTemplateToComponent.bind(this),
+      };
+
+      copyFromTemplateToComponent.templateContent();
+      copyFromTemplateToComponent.attributes(["class", "style"]);
+      copyFromTemplateToComponent.scripts();
     }
-    
+
     _disconnectedCallback() {}
     disconnectedCallback() {
       this._disconnectedCallback();
     }
-    
+
     /**
      * @param {string} attributeName
      * @param {any} oldValue
      * @param {any} newValue
-    */
+     */
     _attributeChangedCallback(attributeName, oldValue, newValue) {}
     /**
      * @param {string} attributeName
