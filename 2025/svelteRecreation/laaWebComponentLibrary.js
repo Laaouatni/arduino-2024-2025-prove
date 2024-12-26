@@ -35,22 +35,22 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       copyFromTemplateToComponent.attributes(["class", "style"]);
       copyFromTemplateToComponent.scripts();
 
-      const shadowDomStringMinified = this.shadowDom.innerHTML
-        .replaceAll("\n", "")
-        .replaceAll("  ", "");
-      const regexGetAllVariableInInnerHTML = /({[^}]*})/g;
-      const splittedShadowDomString = shadowDomStringMinified.split(
-        regexGetAllVariableInInnerHTML,
-      );
+      // const shadowDomStringMinified = this.shadowDom.innerHTML
+      //   .replaceAll("\n", "")
+      //   .replaceAll("  ", "");
+      // const regexGetAllVariableInInnerHTML = /({[^}]*})/g;
+      // const splittedShadowDomString = shadowDomStringMinified.split(
+      //   regexGetAllVariableInInnerHTML,
+      // );
 
-      splittedShadowDomString.forEach((thisString) => {
-        const isThisStringVariableType =
-          thisString.startsWith("{") && thisString.endsWith("}");
-        if (isThisStringVariableType) {
-          const thisVariableName = thisString.replace("{", "").replace("}", "");
-          return Function(`return ${thisVariableName};`)();
-        }
-      });
+      // splittedShadowDomString.forEach((thisString) => {
+      //   const isThisStringVariableType =
+      //     thisString.startsWith("{") && thisString.endsWith("}");
+      //   if (isThisStringVariableType) {
+      //     const thisVariableName = thisString.replace("{", "").replace("}", "");
+      //     return Function(`return ${thisVariableName};`)();
+      //   }
+      // });
 
       // makeReactiveVariablesInsideComponent.bind(this)();
     }
@@ -120,7 +120,10 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     generatedScriptElementInsideComponent.textContent =
       isolateScriptStringInsideComponent(
         [...allScriptElementsInsideTemplate]
-          .map((thisScriptTemplateElement) => {thisScriptTemplateElement.textContent || ""})
+          .map((thisScriptTemplateElement) => {
+            if (!thisScriptTemplateElement.textContent) return "";
+            return thisScriptTemplateElement.textContent.replaceAll("  ", "");
+          })
           .join(""),
       );
     this.appendChild(generatedScriptElementInsideComponent);
