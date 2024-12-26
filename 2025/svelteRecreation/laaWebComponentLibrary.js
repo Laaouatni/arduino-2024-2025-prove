@@ -1,5 +1,9 @@
 document.querySelectorAll("template").forEach((thisTemplateElement) => {
   class ThisComponent extends HTMLElement {
+    /**
+     * @type {ShadowRoot}
+     */
+    shadowDom;
     constructor() {
       super();
     }
@@ -26,6 +30,10 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         attributes: copyAttributesFromTemplateToComponent.bind(this),
         scripts: copyScriptsFromTemplateToComponent.bind(this),
       };
+
+      console.log({ a: this });
+
+      // makeReactiveVariablesInsideComponent.bind(this)();
 
       copyFromTemplateToComponent.templateContent();
       copyFromTemplateToComponent.attributes(["class", "style"]);
@@ -55,15 +63,19 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
 
   customElements.define(thisTemplateElement.id, ThisComponent);
 
+  // function makeReactiveVariablesInsideComponent() {
+  //   console.log(this);
+  // }
+
   function copyTemplateContentToComponentShadowDom() {
-    const thisShadowDom = this.attachShadow({ mode: "open" });
+    this.shadowDom = this.attachShadow({ mode: "open" });
     const clonedTemplateContent = thisTemplateElement.content.cloneNode(true);
 
     clonedTemplateContent.childNodes.forEach((thisChild) => {
       if (thisChild instanceof HTMLScriptElement) thisChild.remove();
     });
 
-    thisShadowDom.appendChild(clonedTemplateContent);
+    this.shadowDom.appendChild(clonedTemplateContent);
   }
 
   /**
