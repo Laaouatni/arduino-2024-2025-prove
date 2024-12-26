@@ -35,9 +35,9 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       copyFromTemplateToComponent.attributes(["class", "style"]);
       copyFromTemplateToComponent.scripts();
 
-      makeInnerHtmlVariablesReactive.bind(this)();
+      updateInnerHtmlVariables.bind(this)(this);
 
-      function makeInnerHtmlVariablesReactive() {
+      function updateInnerHtmlVariables(thisComponent) {
         const shadowDomStringMinified = this.shadowDom.innerHTML
           .replaceAll("\n", "")
           .replaceAll("  ", "");
@@ -48,7 +48,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
 
         console.log("before", splittedShadowDomString);
 
-        let n = 5;
+        let n = 8;
 
         const splittedShadowDomStringWithValues = splittedShadowDomString.map(
           (thisString) => {
@@ -62,6 +62,8 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
             return eval(thisVariableName);
           },
         );
+
+        thisComponent.shadowDom.innerHTML = splittedShadowDomStringWithValues.join("");
 
         console.log("after", splittedShadowDomStringWithValues);
       }
