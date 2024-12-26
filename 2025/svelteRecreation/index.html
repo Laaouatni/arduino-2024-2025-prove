@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="./laaWebComponentLibrary.js"></script>
+  <script defer src="./laaWebComponentLibrary.js"></script>
 </head>
 <body>
-  ciao
+  <laa-example></laa-example>
+  <template id="laa-example" class="classNameTest">
+    hello world {i}!
+    <script>const hello = 0;</script>
+  </template>
 </body>
 </html>
