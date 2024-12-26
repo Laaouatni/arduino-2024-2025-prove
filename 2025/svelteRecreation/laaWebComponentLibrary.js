@@ -18,83 +18,25 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     }
 
     _connectedCallback() {}
+    connectedCallback() {
+      this._connectedCallback();
+      
+      copyTemplateContentToComponentShadowDom.bind(this)();
+      copyAttributesFromTemplateToComponent.bind(this)(["class", "style"]);
+      copyScriptsFromTemplateToComponent.bind(this)();
+    }
+    
     _disconnectedCallback() {}
+    disconnectedCallback() {
+      this._disconnectedCallback();
+    }
+    
     /**
      * @param {string} attributeName
      * @param {any} oldValue
      * @param {any} newValue
-     */
+    */
     _attributeChangedCallback(attributeName, oldValue, newValue) {}
-
-    connectedCallback() {
-      this._connectedCallback();
-
-      copyTextContentFromTemplateToComponent.bind(this)();
-      copyAttributesFromTemplateToComponent.bind(this)(["class", "style"]);
-      copyScriptsFromTemplateToComponent.bind(this)();
-
-      function copyTextContentFromTemplateToComponent() {
-        const thisShadowDom = this.attachShadow({ mode: "open" });
-        const clonedTemplateContent = thisTemplateElement.content.cloneNode(true);
-
-        clonedTemplateContent.childNodes.forEach((thisChild) => {
-          const isChildScriptElement = thisChild instanceof HTMLScriptElement;
-          if (isChildScriptElement) thisChild.remove();
-
-          console.log(thisChild);
-        });
-
-        thisShadowDom.appendChild(clonedTemplateContent);
-      };
-
-      /**
-       *
-       * @param {string[]} attributesToCopyArray
-       */
-      function copyAttributesFromTemplateToComponent(attributesToCopyArray) {
-        attributesToCopyArray.forEach((thisAttributeName) => {
-          if (thisTemplateElement.hasAttribute(thisAttributeName)) {
-            this.setAttribute(
-              thisAttributeName,
-              `${
-                this.getAttribute(thisAttributeName) || ""
-              } ${thisTemplateElement.getAttribute(thisAttributeName)}`.trim(),
-            );
-          }
-        });
-      }
-
-      function copyScriptsFromTemplateToComponent() {
-        const allScriptElementsInsideTemplate =
-          thisTemplateElement.content.querySelectorAll("script");
-
-        allScriptElementsInsideTemplate.forEach((thisScriptTemplateElement) => {
-          const generatedScriptElementInsideComponent =
-            document.createElement("script");
-          generatedScriptElementInsideComponent.textContent =
-            isolateScriptStringInsideComponent(
-              thisScriptTemplateElement.textContent || "",
-            );
-          this.appendChild(generatedScriptElementInsideComponent);
-        });
-      }
-
-      /**
-       * @param   {string} thisScriptString
-       * @returns {string}
-       */
-      function isolateScriptStringInsideComponent(thisScriptString) {
-        return `(()=>{
-                  const thisComponent = document.currentScript.parentElement;
-                  ${thisScriptString}}
-                )()`;
-      };
-    }
-
-    disconnectedCallback() {
-      this._disconnectedCallback();
-    }
-
     /**
      * @param {string} attributeName
      * @param {any} oldValue
@@ -106,4 +48,58 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
   }
 
   customElements.define(thisTemplateElement.id, ThisComponent);
+
+  function copyTemplateContentToComponentShadowDom() {
+    const thisShadowDom = this.attachShadow({ mode: "open" });
+    const clonedTemplateContent = thisTemplateElement.content.cloneNode(true);
+
+    clonedTemplateContent.childNodes.forEach((thisChild) => {
+      if (thisChild instanceof HTMLScriptElement) thisChild.remove();
+    });
+
+    thisShadowDom.appendChild(clonedTemplateContent);
+  }
+
+  /**
+   *
+   * @param {string[]} attributesToCopyArray
+   */
+  function copyAttributesFromTemplateToComponent(attributesToCopyArray) {
+    attributesToCopyArray.forEach((thisAttributeName) => {
+      if (thisTemplateElement.hasAttribute(thisAttributeName)) {
+        this.setAttribute(
+          thisAttributeName,
+          `${
+            this.getAttribute(thisAttributeName) || ""
+          } ${thisTemplateElement.getAttribute(thisAttributeName)}`.trim(),
+        );
+      }
+    });
+  }
+
+  function copyScriptsFromTemplateToComponent() {
+    const allScriptElementsInsideTemplate =
+      thisTemplateElement.content.querySelectorAll("script");
+
+    allScriptElementsInsideTemplate.forEach((thisScriptTemplateElement) => {
+      const generatedScriptElementInsideComponent =
+        document.createElement("script");
+      generatedScriptElementInsideComponent.textContent =
+        isolateScriptStringInsideComponent(
+          thisScriptTemplateElement.textContent || "",
+        );
+      this.appendChild(generatedScriptElementInsideComponent);
+    });
+  }
+
+  /**
+   * @param   {string} thisScriptString
+   * @returns {string}
+   */
+  function isolateScriptStringInsideComponent(thisScriptString) {
+    return `(()=>{
+              const thisComponent = document.currentScript.parentElement;
+              ${thisScriptString}}
+            )()`;
+  }
 });
