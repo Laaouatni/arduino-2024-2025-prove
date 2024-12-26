@@ -38,11 +38,11 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       updateInnerHtmlVariables(this);
 
       /**
-       * 
-       * @param {ThisComponent} thisComponent 
+       *
+       * @param {ThisComponent} thisComponent
        */
       function updateInnerHtmlVariables(thisComponent) {
-        console.log(thisComponent.childNodes)
+        console.log(thisComponent.childNodes);
         const shadowDomStringMinified = thisComponent.shadowDom.innerHTML
           .replaceAll("\n", "")
           .replaceAll("  ", "");
@@ -51,41 +51,49 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
           regexGetAllVariableInInnerHTML,
         );
 
-        const splittedShadowDomStringWithSlotReplaced = [...splittedShadowDomString].map((thisString) => { 
+        const splittedShadowDomStringWithSlotReplaced = [
+          ...splittedShadowDomString,
+        ].map((thisString) => {
           const isStringIncludesSlot = thisString.includes("slot");
           if (!isStringIncludesSlot) return thisString;
 
           let slotWantedElementsArray = [];
 
           thisComponent.childNodes.forEach((thisChild) => {
-            const isThisChildScriptElement = thisChild instanceof HTMLScriptElement;
-            if (!isThisChildScriptElement) {
-              slotWantedElementsArray.push(thisChild)
+            const isThisChildScriptElement =
+              thisChild instanceof HTMLScriptElement;
+            const isThisChildTextElement = thisChild instanceof Text;
+            if (isThisChildScriptElement) return;
+            if (isThisChildTextElement) {
+              slotWantedElementsArray.push(thisChild.nodeValue);
+              return;
             }
+            slotWantedElementsArray.push(
+               `<${thisChild.nodeName.toLocaleLowerCase()}>
+                    ${thisChild.innerHTML}
+                </${thisChild.nodeName.toLocaleLowerCase()}>`,
+            );
           });
-          console.log(slotWantedElementsArray)
-
-          return thisString;
+          return slotWantedElementsArray.join("");
         });
 
         console.log("before", splittedShadowDomString);
 
         let n = 8;
 
-        const splittedShadowDomStringWithValues = [...splittedShadowDomStringWithSlotReplaced].map(
-          (thisString) => {
-            const isThisStringVariableType =
-              thisString.startsWith("{") && thisString.endsWith("}");
-            if (!isThisStringVariableType) return thisString;
+        const splittedShadowDomStringWithValues = [
+          ...splittedShadowDomStringWithSlotReplaced,
+        ].map((thisString) => {
+          const isThisStringVariableType =
+            thisString.startsWith("{") && thisString.endsWith("}");
+          if (!isThisStringVariableType) return thisString;
 
-            const thisVariableName = thisString
-              .replace("{", "")
-              .replace("}", "");
-            return eval(thisVariableName);
-          },
-        );
+          const thisVariableName = thisString.replace("{", "").replace("}", "");
+          return eval(thisVariableName);
+        });
 
-        thisComponent.shadowDom.innerHTML = splittedShadowDomStringWithValues.join("");
+        thisComponent.shadowDom.innerHTML =
+          splittedShadowDomStringWithValues.join("");
 
         // console.log("after", splittedShadowDomStringWithValues);
       }
