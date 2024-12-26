@@ -8,10 +8,13 @@
   <script defer src="./laaWebComponentLibrary.js"></script>
 </head>
 <body>
-  <laa-example></laa-example>
+  <laa-example>hello</laa-example>
+  <!-- <laa-example>ciao</laa-example> -->
   <template id="laa-example" class="classNameTest">
     hello world {i}!
-    <script>const hello = 0;</script>
+    <script>
+      console.log(thisComponent);
+    </script>
   </template>
 </body>
 </html>

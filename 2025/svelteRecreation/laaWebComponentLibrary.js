@@ -28,19 +28,24 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
 
     connectedCallback() {
       this._connectedCallback();
-      copyAttributesFromTemplateToComponent.bind(this)(["class", "style"]);
-      copyScriptsFromTemplateToComponent.bind(this)();
+      copyTextContentFromTemplateToComponent.bind(this)();
+      // copyAttributesFromTemplateToComponent.bind(this)(["class", "style"]);
+      // copyScriptsFromTemplateToComponent.bind(this)();
 
-      /**
-       * @param   {string} thisScriptString
-       * @returns {string}
-       */
-      function isolateScriptStringInsideComponent(thisScriptString) {
-        return `(()=>{
-          const thisComponent = document.currentScript.parentElement;
-          ${thisScriptString}}
-        )()`;
+      // this.append(thisTemplateElement.content.cloneNode(true));
+
+      function copyTextContentFromTemplateToComponent() {
+        /**
+         * @type {HTMLElement}
+         */
+        let stringToInsertInsideComponent = thisTemplateElement.cloneNode(true).innerHTML;
+        stringToInsertInsideComponent.querySelectorAll("script").forEach((thisScriptElement) => {
+          stringToInsertInsideComponent.removeChild(thisScriptElement);
+        });
+        this.innerHTML = stringToInsertInsideComponent;
       }
+
+      
 
       /**
        *
@@ -73,6 +78,17 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
           this.appendChild(generatedScriptElementInsideComponent);
         });
       }
+
+      /**
+       * @param   {string} thisScriptString
+       * @returns {string}
+       */
+      function isolateScriptStringInsideComponent(thisScriptString) {
+        return `(()=>{
+                  const thisComponent = document.currentScript.parentElement;
+                  ${thisScriptString}}
+                )()`;
+      };
     }
 
     disconnectedCallback() {
