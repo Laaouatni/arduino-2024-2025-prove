@@ -42,7 +42,6 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
        * @param {ThisComponent} thisComponent
        */
       function updateInnerHtmlVariables(thisComponent) {
-        console.log(thisComponent.childNodes);
         const shadowDomStringMinified = thisComponent.shadowDom.innerHTML
           .replaceAll("\n", "")
           .replaceAll("  ", "");
@@ -69,21 +68,28 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
               return;
             }
             slotWantedElementsArray.push(
-               `<${thisChild.nodeName.toLocaleLowerCase()}>
+              `<${thisChild.nodeName.toLocaleLowerCase()}>
                     ${thisChild.innerHTML}
                 </${thisChild.nodeName.toLocaleLowerCase()}>`,
             );
           });
-          return slotWantedElementsArray.join("");
-        });
-
-        console.log("before", splittedShadowDomString);
+          return slotWantedElementsArray
+            .join("")
+            .replaceAll("\n", "")
+            .replaceAll("  ", "").split(
+              regexGetAllVariableInInnerHTML,
+            )
+        }).flat();
 
         let n = 8;
+        let a = 19;
+        let aaaa = "valore aaaa";
 
         const splittedShadowDomStringWithValues = [
           ...splittedShadowDomStringWithSlotReplaced,
         ].map((thisString) => {
+          console.log(thisString);
+
           const isThisStringVariableType =
             thisString.startsWith("{") && thisString.endsWith("}");
           if (!isThisStringVariableType) return thisString;
