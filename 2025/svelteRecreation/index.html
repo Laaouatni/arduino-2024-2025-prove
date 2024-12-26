@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="./laaWebComponentLibrary.js"></script>
 </head>
-<body>
+
+<body class="grid gap-2 p-2">
   <laa-example>2</laa-example>
-  <!-- <laa-example>ciao</laa-example> -->
+  <laa-example>hello world</laa-example>
+
   <template id="laa-example" class="classNameTest">
     hello world {i}! <slot></slot> ciao
     <script>
@@ -17,4 +20,5 @@
     </script>
   </template>
 </body>
+
 </html>

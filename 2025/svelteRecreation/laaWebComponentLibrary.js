@@ -28,17 +28,22 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
 
     connectedCallback() {
       this._connectedCallback();
-      copyTextContentFromTemplateToComponent.bind(this)();
-      // copyAttributesFromTemplateToComponent.bind(this)(["class", "style"]);
-      // copyScriptsFromTemplateToComponent.bind(this)();
 
-      // this.append(thisTemplateElement.content.cloneNode(true));
+      copyTextContentFromTemplateToComponent.bind(this)();
+      copyAttributesFromTemplateToComponent.bind(this)(["class", "style"]);
+      copyScriptsFromTemplateToComponent.bind(this)();
 
       function copyTextContentFromTemplateToComponent() {
-        this.appendChild(thisTemplateElement.content.cloneNode(true));
-      }
+        const thisShadowDom = this.attachShadow({ mode: "open" });
+        const clonedTemplateContent = thisTemplateElement.content.cloneNode(true);
 
-      
+        clonedTemplateContent.childNodes.forEach((thisChild) => {
+          const isChildScriptElement = thisChild instanceof HTMLScriptElement;
+          if (isChildScriptElement) thisChild.remove();
+        });
+
+        thisShadowDom.appendChild(clonedTemplateContent);
+      };
 
       /**
        *
@@ -87,6 +92,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     disconnectedCallback() {
       this._disconnectedCallback();
     }
+
     /**
      * @param {string} attributeName
      * @param {any} oldValue
