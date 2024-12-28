@@ -121,10 +121,10 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    * @returns {string}
    */
   function replaceHtmlStringVariablesBracketsWithValues(thisComponent) {
-    console.log(thisComponent.stateVariables);
     const thisComponentHtmlWithSlotTagReplacedWithSlotContent =
       replaceSlotTagWithSlotContent(thisComponent);
     const regexGetAllVariableBracketsInString = /\{.[^}]*\}/g;
+    console.log(thisComponentHtmlWithSlotTagReplacedWithSlotContent)
 
     return thisComponentHtmlWithSlotTagReplacedWithSlotContent.replace(
       regexGetAllVariableBracketsInString,
@@ -133,12 +133,6 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
           /\{|\}/g,
           "",
         );
-
-        // console.log({
-        //   stateVariables: thisComponent.stateVariables,
-        //   variableName,
-        //   result: thisComponent.stateVariables[variableName]
-        // })
         return thisComponent.stateVariables[variableName];
       },
     );
