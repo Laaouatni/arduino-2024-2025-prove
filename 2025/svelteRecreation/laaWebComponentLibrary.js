@@ -101,7 +101,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    */
   function replaceSlotTagWithSlotContent(thisComponent) {
     const minifiedHtmlStrings = {
-      shadowDom: minifyHtmlString(thisComponent.shadowDom.innerHTML),
+      shadowDom: minifyHtmlString(thisTemplateElement.innerHTML),
       slot: minifyHtmlString(thisComponent.innerHTML),
     };
     const regexScriptTag = /<script>.*<\/script>/g;
@@ -109,7 +109,6 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       regexScriptTag,
       "",
     );
-    console.log(minifiedHtmlStrings.shadowDom)
     return minifiedHtmlStrings.shadowDom.replaceAll(
       "<slot></slot>",
       slotHtmlStringWithoutScripts,
