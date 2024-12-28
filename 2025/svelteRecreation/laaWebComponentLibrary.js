@@ -109,6 +109,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       regexScriptTag,
       "",
     );
+    console.log(minifiedHtmlStrings.shadowDom)
     return minifiedHtmlStrings.shadowDom.replaceAll(
       "<slot></slot>",
       slotHtmlStringWithoutScripts,
@@ -124,7 +125,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     const thisComponentHtmlWithSlotTagReplacedWithSlotContent =
       replaceSlotTagWithSlotContent(thisComponent);
     const regexGetAllVariableBracketsInString = /\{.[^}]*\}/g;
-    console.log(thisComponentHtmlWithSlotTagReplacedWithSlotContent)
+    // console.log({ replaceHtml: thisComponentHtmlWithSlotTagReplacedWithSlotContent })
 
     return thisComponentHtmlWithSlotTagReplacedWithSlotContent.replace(
       regexGetAllVariableBracketsInString,
