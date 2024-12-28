@@ -22,6 +22,10 @@
     hello {q}
     <script>
       thisComponent.stateVariables.q = 50;
+      thisComponent.onclick = () => {
+        thisComponent.stateVariables.q++;
+        console.log(thisComponent.stateVariables.q)
+      }
     </script>
   </template>
 

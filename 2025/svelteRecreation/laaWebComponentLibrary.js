@@ -144,14 +144,14 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    */
   function copyAttributesFromTemplateToComponent(attributesToCopyArray) {
     attributesToCopyArray.forEach((thisAttributeName) => {
-      if (thisTemplateElement.hasAttribute(thisAttributeName)) {
-        this.setAttribute(
-          thisAttributeName,
-          `${
-            this.getAttribute(thisAttributeName) || ""
-          } ${thisTemplateElement.getAttribute(thisAttributeName)}`.trim(),
-        );
-      }
+      if (!thisTemplateElement.hasAttribute(thisAttributeName)) return;
+
+      this.setAttribute(
+        thisAttributeName,
+        `${
+          this.getAttribute(thisAttributeName) || ""
+        } ${thisTemplateElement.getAttribute(thisAttributeName)}`.trim(),
+      );
     });
   }
 
@@ -162,15 +162,16 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     const generatedScriptElementInsideComponent =
       document.createElement("script");
 
+    const mergedScriptTags = [...allScriptElementsInsideTemplate]
+      .map((thisScriptTemplateElement) => {
+        if (!thisScriptTemplateElement.textContent) return "";
+        return thisScriptTemplateElement.textContent;
+      })
+      .join("");
+
     generatedScriptElementInsideComponent.textContent =
-      isolateScriptStringInsideComponent(
-        [...allScriptElementsInsideTemplate]
-          .map((thisScriptTemplateElement) => {
-            if (!thisScriptTemplateElement.textContent) return "";
-            return thisScriptTemplateElement.textContent.replaceAll("  ", "");
-          })
-          .join(""),
-      );
+      isolateScriptStringInsideComponent(mergedScriptTags).replaceAll("  ", "");
+    
     this.appendChild(generatedScriptElementInsideComponent);
   }
 
