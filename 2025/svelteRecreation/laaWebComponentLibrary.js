@@ -173,7 +173,11 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     const mergedScriptTags = [...allScriptElementsInsideTemplate]
       .map((thisScriptTemplateElement) => {
         if (!thisScriptTemplateElement.textContent) return "";
-        console.log(addSyntacticSugarVariableDeclarationsToScriptTextContent(thisScriptTemplateElement.textContent))
+        console.log(
+          addSyntacticSugarVariableDeclarationsToScriptTextContent(
+            thisScriptTemplateElement.textContent,
+          ),
+        );
         return thisScriptTemplateElement.textContent;
       })
       .join("");
@@ -188,9 +192,15 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    * @param {string} scriptTextContentString
    * @returns {string}
    */
-  function addSyntacticSugarVariableDeclarationsToScriptTextContent(scriptTextContentString) {
+  function addSyntacticSugarVariableDeclarationsToScriptTextContent(
+    scriptTextContentString,
+  ) {
     const STATE_OBJECT_POSITION_PREFIX_STRING = "thisComponent.stateVariables.";
-    const scriptTextContentWithReplacedVariableDefinitionWithStatePrefix = scriptTextContentString.replaceAll("let ", STATE_OBJECT_POSITION_PREFIX_STRING);
+    const scriptTextContentWithReplacedVariableDefinitionWithStatePrefix =
+      scriptTextContentString.replaceAll(
+        /let |const |var /g,
+        STATE_OBJECT_POSITION_PREFIX_STRING,
+      );
     return scriptTextContentWithReplacedVariableDefinitionWithStatePrefix;
   }
   /**
