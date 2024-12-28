@@ -43,14 +43,15 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       this.stateVariables = new Proxy(this.stateVariables, {
         set: (parent, child, val) => {
           parent[child] = val;
+          console.log("changed")
           updateComponentInnerHtmlVariables(this);
           return true;
-        }
+        },
       });
 
       copyFromTemplateToComponent.scripts();
 
-      console.log(this.stateVariables)
+      // console.log(this.stateVariables)
     }
 
     _disconnectedCallback() {}
@@ -131,6 +132,12 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
           /\{|\}/g,
           "",
         );
+
+        // console.log({
+        //   stateVariables: thisComponent.stateVariables,
+        //   variableName,
+        //   result: thisComponent.stateVariables[variableName]
+        // })
         return thisComponent.stateVariables[variableName];
       },
     );
