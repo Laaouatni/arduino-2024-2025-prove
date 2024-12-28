@@ -37,7 +37,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
 
       updateInnerHtmlVariables(this);
       // InternalUpdateInnerHtmlVariables(this)
-      
+
       /**
        *
        * @param {ThisComponent} thisComponent
@@ -65,7 +65,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
               minifyString(splittedShadowDomStringWithSlotReplaced.join("")),
             ),
           );
-        
+
         // console.log({
         //   shadowDomString,
         //   shadowDomStringMinified,
@@ -101,7 +101,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
          * @returns {string[]}
          */
         function splitShadowDomStringWithSlotReplaced(parameterStringArray) {
-          console.log(parameterStringArray)
+          console.log(parameterStringArray);
           return [...parameterStringArray]
             .map((thisString) => {
               const isStringIncludesSlot = thisString.includes("slot");
@@ -183,129 +183,155 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    * @param {ThisComponent} thisComponent
    */
   function updateInnerHtmlVariables(thisComponent) {
-    const shadowDomHtmlStringWithSlotReplaced = replaceSlotTagWithSlotContent(thisComponent);
-    console.log(shadowDomHtmlStringWithSlotReplaced)
+    const shadowDomHtmlStringWithSlotReplaced =
+      replaceSlotTagWithSlotContent(thisComponent);
+    const shadowDomHtmlStringWithSlotReplacedAndVariablesReplaced =
+      replaceHtmlStringVariablesBracketsWithValues(
+        shadowDomHtmlStringWithSlotReplaced,
+      );
+    console.log(shadowDomHtmlStringWithSlotReplacedAndVariablesReplaced);
   }
 
   /**
-   * 
-   * @param {string} htmlStringToMinify 
+   *
+   * @param {string} htmlStringToMinify
    * @returns {string}
    */
   function minifyHtmlString(htmlStringToMinify) {
     return htmlStringToMinify.replaceAll("\n", "").replaceAll("  ", "");
-  };
+  }
 
   /**
-   * 
-   * @param {ThisComponent} thisComponent 
+   *
+   * @param {ThisComponent} thisComponent
    * @returns {string}
    */
   function replaceSlotTagWithSlotContent(thisComponent) {
     const minifiedHtmlStrings = {
       shadowDom: minifyHtmlString(thisComponent.shadowDom.innerHTML),
-      slot: minifyHtmlString(thisComponent.innerHTML)
+      slot: minifyHtmlString(thisComponent.innerHTML),
     };
     const regexScriptTag = /<script>.*<\/script>/g;
-    const slotHtmlStringWithoutScripts = minifiedHtmlStrings.slot.replace(regexScriptTag, "");
-    return minifiedHtmlStrings.shadowDom.replaceAll("<slot></slot>", slotHtmlStringWithoutScripts);
+    const slotHtmlStringWithoutScripts = minifiedHtmlStrings.slot.replace(
+      regexScriptTag,
+      "",
+    );
+    return minifiedHtmlStrings.shadowDom.replaceAll(
+      "<slot></slot>",
+      slotHtmlStringWithoutScripts,
+    );
+  }
+  /**
+   *
+   * @param {string} htmlStringToReplace
+   * @returns {string}
+   */
+  function replaceHtmlStringVariablesBracketsWithValues(htmlStringToReplace) {
+    let n = 8;
+    let aaaa = "valore aaaa";
+    let a = 19;
+    const regexGetAllVariableBracketsInString = /\{.[^}]*\}/g;
+    return htmlStringToReplace.replace(regexGetAllVariableBracketsInString, (thisVariableBracketStringPart) => {
+      const variableName = thisVariableBracketStringPart.replace(/\{|\}/g, "")
+      return eval(variableName);
+    })
   }
 
-    // const shadowDomString = thisComponent.shadowDom.innerHTML;
-    // const shadowDomStringMinified = minifyString(shadowDomString);
-    // const splittedShadowDomString = splitUsingVariablesAsDeliminator(
-    //   shadowDomStringMinified,
-    // );
+  // const shadowDomString = thisComponent.shadowDom.innerHTML;
+  // const shadowDomStringMinified = minifyString(shadowDomString);
+  // const splittedShadowDomString = splitUsingVariablesAsDeliminator(
+  //   shadowDomStringMinified,
+  // );
 
-    // const splittedShadowDomStringWithSlotReplaced =
-    //   splitUsingVariablesAsDeliminator(
-    //     splitShadowDomStringWithSlotReplaced(splittedShadowDomString).join(""),
-    //   );
-    // let n = 8;
-    // let a = 19;
-    // let aaaa = "valore aaaa";
+  // const splittedShadowDomStringWithSlotReplaced =
+  //   splitUsingVariablesAsDeliminator(
+  //     splitShadowDomStringWithSlotReplaced(splittedShadowDomString).join(""),
+  //   );
+  // let n = 8;
+  // let a = 19;
+  // let aaaa = "valore aaaa";
 
-    // const splittedShadowDomStringWithValues = splitShadowDomStringWithValues(
-    //   splitUsingVariablesAsDeliminator(
-    //     minifyString(splittedShadowDomStringWithSlotReplaced.join("")),
-    //   ),
-    // );
+  // const splittedShadowDomStringWithValues = splitShadowDomStringWithValues(
+  //   splitUsingVariablesAsDeliminator(
+  //     minifyString(splittedShadowDomStringWithSlotReplaced.join("")),
+  //   ),
+  // );
 
-    // replaceShadowDomComponentWithNewValues();
+  // replaceShadowDomComponentWithNewValues();
 
-    // /**
-    //  *
-    //  * @param {string} stringToMinify
-    //  * @returns {string}
-    //  */
-    // function minifyString(stringToMinify) {
-    //   return stringToMinify.replaceAll("\n", "").replaceAll("  ", "");
-    // }
+  // /**
+  //  *
+  //  * @param {string} stringToMinify
+  //  * @returns {string}
+  //  */
+  // function minifyString(stringToMinify) {
+  //   return stringToMinify.replaceAll("\n", "").replaceAll("  ", "");
+  // }
 
-    // /**
-    //  *
-    //  * @param {string} parameterString
-    //  * @returns {string[]}
-    //  */
-    // function splitUsingVariablesAsDeliminator(parameterString) {
-    //   const regexGetAllVariableInInnerHTML = /({[^}]*})/g;
-    //   return parameterString.split(regexGetAllVariableInInnerHTML);
-    // }
+  // /**
+  //  *
+  //  * @param {string} parameterString
+  //  * @returns {string[]}
+  //  */
+  // function splitUsingVariablesAsDeliminator(parameterString) {
+  //   const regexGetAllVariableInInnerHTML = /({[^}]*})/g;
+  //   return parameterString.split(regexGetAllVariableInInnerHTML);
+  // }
 
-    // /**
-    //  *
-    //  * @param {string[]} parameterStringArray
-    //  * @returns {string[]}
-    //  */
-    // function splitShadowDomStringWithSlotReplaced(parameterStringArray) {
-    //   return [...parameterStringArray]
-    //     .map((thisString) => {
-    //       const isStringIncludesSlot = thisString.includes("slot");
-    //       if (!isStringIncludesSlot) return thisString;
-    //       return returnModifiedSlotString();
+  // /**
+  //  *
+  //  * @param {string[]} parameterStringArray
+  //  * @returns {string[]}
+  //  */
+  // function splitShadowDomStringWithSlotReplaced(parameterStringArray) {
+  //   return [...parameterStringArray]
+  //     .map((thisString) => {
+  //       const isStringIncludesSlot = thisString.includes("slot");
+  //       if (!isStringIncludesSlot) return thisString;
+  //       return returnModifiedSlotString();
 
-    //       function returnModifiedSlotString() {
-    //         let slotWantedElementsArray = [];
+  //       function returnModifiedSlotString() {
+  //         let slotWantedElementsArray = [];
 
-    //         thisComponent.childNodes.forEach((thisChild) => {
-    //           if (thisChild instanceof HTMLScriptElement) return;
-    //           if (thisChild instanceof Text) {
-    //             slotWantedElementsArray.push(thisChild.nodeValue);
-    //             return;
-    //           }
-    //           slotWantedElementsArray.push(
-    //             `<${thisChild.nodeName.toLocaleLowerCase()}>
-    //                   ${thisChild.innerHTML}
-    //                 </${thisChild.nodeName.toLocaleLowerCase()}>`,
-    //           );
-    //         });
+  //         thisComponent.childNodes.forEach((thisChild) => {
+  //           if (thisChild instanceof HTMLScriptElement) return;
+  //           if (thisChild instanceof Text) {
+  //             slotWantedElementsArray.push(thisChild.nodeValue);
+  //             return;
+  //           }
+  //           slotWantedElementsArray.push(
+  //             `<${thisChild.nodeName.toLocaleLowerCase()}>
+  //                   ${thisChild.innerHTML}
+  //                 </${thisChild.nodeName.toLocaleLowerCase()}>`,
+  //           );
+  //         });
 
-    //         return slotWantedElementsArray.join("");
-    //       }
-    //     })
-    //     .flat();
-    // }
+  //         return slotWantedElementsArray.join("");
+  //       }
+  //     })
+  //     .flat();
+  // }
 
-    // /**
-    //  *
-    //  * @param {string[]} parameterStringArray
-    //  * @returns {string[]}
-    //  */
-    // function splitShadowDomStringWithValues(parameterStringArray) {
-    //   return [...parameterStringArray].map((thisString) => {
-    //     const isThisStringVariableType =
-    //       thisString.startsWith("{") && thisString.endsWith("}");
-    //     if (!isThisStringVariableType) return thisString;
+  // /**
+  //  *
+  //  * @param {string[]} parameterStringArray
+  //  * @returns {string[]}
+  //  */
+  // function splitShadowDomStringWithValues(parameterStringArray) {
+  //   return [...parameterStringArray].map((thisString) => {
+  //     const isThisStringVariableType =
+  //       thisString.startsWith("{") && thisString.endsWith("}");
+  //     if (!isThisStringVariableType) return thisString;
 
-    //     const thisVariableName = thisString.replace("{", "").replace("}", "");
-    //     return eval(thisVariableName);
-    //   });
-    // }
+  //     const thisVariableName = thisString.replace("{", "").replace("}", "");
+  //     return eval(thisVariableName);
+  //   });
+  // }
 
-    // function replaceShadowDomComponentWithNewValues() {
-    //   thisComponent.shadowDom.innerHTML =
-    //     splittedShadowDomStringWithValues.join("");
-    // }
+  // function replaceShadowDomComponentWithNewValues() {
+  //   thisComponent.shadowDom.innerHTML =
+  //     splittedShadowDomStringWithValues.join("");
+  // }
   // }
 
   function copyTemplateContentToComponentShadowDom() {
