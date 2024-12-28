@@ -196,12 +196,20 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     scriptTextContentString,
   ) {
     const STATE_OBJECT_POSITION_PREFIX_STRING = "thisComponent.stateVariables.";
-    const scriptTextContentWithReplacedVariableDefinitionWithStatePrefix =
-      scriptTextContentString.replaceAll(
-        /let |const |var /g,
-        STATE_OBJECT_POSITION_PREFIX_STRING,
-      );
-    return scriptTextContentWithReplacedVariableDefinitionWithStatePrefix;
+    const replaceVariableSettingWithPrefix = scriptTextContentString.replaceAll(
+      /.*=/g,
+      (thisString) => {
+        const variableDefinitionRegex = /let |const |var /g
+        const isDefinition = thisString.match(variableDefinitionRegex);
+
+        if (isDefinition) {
+          return thisString.replace(variableDefinitionRegex, STATE_OBJECT_POSITION_PREFIX_STRING);
+        }
+
+        return `${STATE_OBJECT_POSITION_PREFIX_STRING}${thisString}`;
+      },
+    );
+    return replaceVariableSettingWithPrefix.replaceAll(" ", "");
   }
   /**
    * @param   {string} thisScriptString

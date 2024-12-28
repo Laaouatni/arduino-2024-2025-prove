@@ -21,11 +21,10 @@
   <template id="hello-world">
     hello {q}
     <script>
-      thisComponent.stateVariables.q = 50;
-      thisComponent.onclick = () => {
-        thisComponent.stateVariables.q++;
-        // console.log(thisComponent.stateVariables.q)
-      }
+      let q = 50;
+      thisComponent.addEventListener("click", () => {
+        q = q+1;
+      });
     </script>
   </template>
 
