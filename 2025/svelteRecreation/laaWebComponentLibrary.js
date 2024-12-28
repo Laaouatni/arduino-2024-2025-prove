@@ -4,6 +4,12 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
      * @type {ShadowRoot}
      */
     shadowDom;
+
+    /**
+     *
+     * @type {{[variableName:string]: any}}
+     */
+    stateVariables = {};
     constructor() {
       super();
     }
@@ -67,9 +73,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    */
   function updateComponentInnerHtmlVariables(thisComponent) {
     thisComponent.shadowDom.innerHTML =
-      replaceHtmlStringVariablesBracketsWithValues(
-        replaceSlotTagWithSlotContent(thisComponent),
-      );
+      replaceHtmlStringVariablesBracketsWithValues(thisComponent);
   }
 
   /**
@@ -101,25 +105,26 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       slotHtmlStringWithoutScripts,
     );
   }
-  
+
   /**
    *
-   * @param {string} htmlStringToReplace
+   * @param {ThisComponent} thisComponent
    * @returns {string}
    */
-  function replaceHtmlStringVariablesBracketsWithValues(htmlStringToReplace) {
-    let n = 8;
-    let aaaa = "valore aaaa";
-    let a = 19;
+  function replaceHtmlStringVariablesBracketsWithValues(thisComponent) {
+    const thisComponentHtmlWithSlotTagReplacedWithSlotContent =
+      replaceSlotTagWithSlotContent(thisComponent);
     const regexGetAllVariableBracketsInString = /\{.[^}]*\}/g;
-    return htmlStringToReplace.replace(
+    return thisComponentHtmlWithSlotTagReplacedWithSlotContent.replace(
       regexGetAllVariableBracketsInString,
       (thisVariableBracketStringPart) => {
         const variableName = thisVariableBracketStringPart.replace(
           /\{|\}/g,
           "",
         );
-        return eval(variableName);
+
+        console.log(thisComponent.stateVariables)
+        return eval(thisComponent.stateVariables[variableName]);
       },
     );
   }
