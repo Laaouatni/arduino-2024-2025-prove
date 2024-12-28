@@ -43,7 +43,6 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       this.stateVariables = new Proxy(this.stateVariables, {
         set: (parent, child, val) => {
           parent[child] = val;
-          // console.log({child, val})
           updateComponentInnerHtmlVariables(this);
           return true;
         },
@@ -80,7 +79,6 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    * @param {ThisComponent} thisComponent
    */
   function updateComponentInnerHtmlVariables(thisComponent) {
-    // console.log(thisComponent.stateVariables)
     thisComponent.shadowDom.innerHTML =
       replaceHtmlStringVariablesBracketsWithValues(thisComponent);
   }
@@ -124,7 +122,6 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     const thisComponentHtmlWithSlotTagReplacedWithSlotContent =
       replaceSlotTagWithSlotContent(thisComponent);
     const regexGetAllVariableBracketsInString = /\{.[^}]*\}/g;
-    // console.log({ replaceHtml: thisComponentHtmlWithSlotTagReplacedWithSlotContent })
 
     return thisComponentHtmlWithSlotTagReplacedWithSlotContent.replace(
       regexGetAllVariableBracketsInString,
@@ -176,6 +173,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     const mergedScriptTags = [...allScriptElementsInsideTemplate]
       .map((thisScriptTemplateElement) => {
         if (!thisScriptTemplateElement.textContent) return "";
+        console.log(addSyntacticSugarVariableDeclarationsToScriptTextContent(thisScriptTemplateElement.textContent))
         return thisScriptTemplateElement.textContent;
       })
       .join("");
@@ -186,6 +184,15 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     this.appendChild(generatedScriptElementInsideComponent);
   }
 
+  /**
+   * @param {string} scriptTextContentString
+   * @returns {string}
+   */
+  function addSyntacticSugarVariableDeclarationsToScriptTextContent(scriptTextContentString) {
+    const STATE_OBJECT_POSITION_PREFIX_STRING = "thisComponent.stateVariables.";
+    const scriptTextContentWithReplacedVariableDefinitionWithStatePrefix = scriptTextContentString.replaceAll("let ", STATE_OBJECT_POSITION_PREFIX_STRING);
+    return scriptTextContentWithReplacedVariableDefinitionWithStatePrefix;
+  }
   /**
    * @param   {string} thisScriptString
    * @returns {string}
