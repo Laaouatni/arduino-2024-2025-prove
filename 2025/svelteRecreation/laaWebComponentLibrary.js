@@ -124,7 +124,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         );
 
         console.log(thisComponent.stateVariables)
-        return eval(thisComponent.stateVariables[variableName]);
+        return eval("(() => thisComponent.stateVariables[variableName])()");
       },
     );
   }
