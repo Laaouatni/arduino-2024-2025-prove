@@ -43,7 +43,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       this.stateVariables = new Proxy(this.stateVariables, {
         set: (parent, child, val) => {
           parent[child] = val;
-          console.log({child, val})
+          // console.log({child, val})
           updateComponentInnerHtmlVariables(this);
           return true;
         },
@@ -82,6 +82,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    * @param {ThisComponent} thisComponent
    */
   function updateComponentInnerHtmlVariables(thisComponent) {
+    console.log(thisComponent.stateVariables)
     thisComponent.shadowDom.innerHTML =
       replaceHtmlStringVariablesBracketsWithValues(thisComponent);
   }
