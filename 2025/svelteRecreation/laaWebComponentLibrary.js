@@ -122,9 +122,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
           /\{|\}/g,
           "",
         );
-
-        console.log(thisComponent.stateVariables)
-        return eval("(() => thisComponent.stateVariables[variableName])()");
+        return thisComponent.stateVariables[variableName];
       },
     );
   }
