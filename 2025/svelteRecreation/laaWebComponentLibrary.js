@@ -35,17 +35,16 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       copyFromTemplateToComponent.attributes(["class", "style"]);
       copyFromTemplateToComponent.scripts();
 
-      updateInnerHtmlVariables(this);
-
+      // updateInnerHtmlVariables(this);
+      InternalUpdateInnerHtmlVariables(this)
+      
       /**
        *
        * @param {ThisComponent} thisComponent
        */
-      function updateInnerHtmlVariables(thisComponent) {
-        const shadowDomStringMinified = minifyString(
-          thisComponent.shadowDom.innerHTML,
-        );
-
+      function InternalUpdateInnerHtmlVariables(thisComponent) {
+        const shadowDomString = thisComponent.shadowDom.innerHTML;
+        const shadowDomStringMinified = minifyString(shadowDomString);
         const splittedShadowDomString = splitUsingVariablesAsDeliminator(
           shadowDomStringMinified,
         );
@@ -66,6 +65,14 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
               minifyString(splittedShadowDomStringWithSlotReplaced.join("")),
             ),
           );
+        
+        console.log({
+          shadowDomString,
+          shadowDomStringMinified,
+          splittedShadowDomString,
+          splittedShadowDomStringWithSlotReplaced,
+          splittedShadowDomStringWithValues
+        })
 
         replaceShadowDomComponentWithNewValues();
 
@@ -112,7 +119,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
                   slotWantedElementsArray.push(
                     `<${thisChild.nodeName.toLocaleLowerCase()}>
                       ${thisChild.innerHTML}
-                     </${thisChild.nodeName.toLocaleLowerCase()}>`,
+                    </${thisChild.nodeName.toLocaleLowerCase()}>`,
                   );
                 });
 
@@ -122,6 +129,11 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
             .flat();
         }
 
+        /**
+         *
+         * @param {string[]} parameterStringArray
+         * @returns {string[]}
+         */
         function splitShadowDomStringWithValues(parameterStringArray) {
           return [...parameterStringArray].map((thisString) => {
             const isThisStringVariableType =
@@ -164,6 +176,120 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
   }
 
   customElements.define(thisTemplateElement.id, ThisComponent);
+
+  /**
+   *
+   * @param {ThisComponent} thisComponent
+   */
+  function updateInnerHtmlVariables(thisComponent) {
+    const shadowDomMinifiedHtml = minifyHtmlString(thisComponent.shadowDom.innerHTML);
+    console.log(shadowDomMinifiedHtml);
+  }
+
+  function minifyHtmlString(htmlStringToMinify) {
+    return htmlStringToMinify.replaceAll("\n", "").replaceAll("  ", "");
+  };
+
+  function replaceSlotTagWithSlotContent() {
+  }
+
+
+    // const shadowDomString = thisComponent.shadowDom.innerHTML;
+    // const shadowDomStringMinified = minifyString(shadowDomString);
+    // const splittedShadowDomString = splitUsingVariablesAsDeliminator(
+    //   shadowDomStringMinified,
+    // );
+
+    // const splittedShadowDomStringWithSlotReplaced =
+    //   splitUsingVariablesAsDeliminator(
+    //     splitShadowDomStringWithSlotReplaced(splittedShadowDomString).join(""),
+    //   );
+    // let n = 8;
+    // let a = 19;
+    // let aaaa = "valore aaaa";
+
+    // const splittedShadowDomStringWithValues = splitShadowDomStringWithValues(
+    //   splitUsingVariablesAsDeliminator(
+    //     minifyString(splittedShadowDomStringWithSlotReplaced.join("")),
+    //   ),
+    // );
+
+    // replaceShadowDomComponentWithNewValues();
+
+    // /**
+    //  *
+    //  * @param {string} stringToMinify
+    //  * @returns {string}
+    //  */
+    // function minifyString(stringToMinify) {
+    //   return stringToMinify.replaceAll("\n", "").replaceAll("  ", "");
+    // }
+
+    // /**
+    //  *
+    //  * @param {string} parameterString
+    //  * @returns {string[]}
+    //  */
+    // function splitUsingVariablesAsDeliminator(parameterString) {
+    //   const regexGetAllVariableInInnerHTML = /({[^}]*})/g;
+    //   return parameterString.split(regexGetAllVariableInInnerHTML);
+    // }
+
+    // /**
+    //  *
+    //  * @param {string[]} parameterStringArray
+    //  * @returns {string[]}
+    //  */
+    // function splitShadowDomStringWithSlotReplaced(parameterStringArray) {
+    //   return [...parameterStringArray]
+    //     .map((thisString) => {
+    //       const isStringIncludesSlot = thisString.includes("slot");
+    //       if (!isStringIncludesSlot) return thisString;
+    //       return returnModifiedSlotString();
+
+    //       function returnModifiedSlotString() {
+    //         let slotWantedElementsArray = [];
+
+    //         thisComponent.childNodes.forEach((thisChild) => {
+    //           if (thisChild instanceof HTMLScriptElement) return;
+    //           if (thisChild instanceof Text) {
+    //             slotWantedElementsArray.push(thisChild.nodeValue);
+    //             return;
+    //           }
+    //           slotWantedElementsArray.push(
+    //             `<${thisChild.nodeName.toLocaleLowerCase()}>
+    //                   ${thisChild.innerHTML}
+    //                 </${thisChild.nodeName.toLocaleLowerCase()}>`,
+    //           );
+    //         });
+
+    //         return slotWantedElementsArray.join("");
+    //       }
+    //     })
+    //     .flat();
+    // }
+
+    // /**
+    //  *
+    //  * @param {string[]} parameterStringArray
+    //  * @returns {string[]}
+    //  */
+    // function splitShadowDomStringWithValues(parameterStringArray) {
+    //   return [...parameterStringArray].map((thisString) => {
+    //     const isThisStringVariableType =
+    //       thisString.startsWith("{") && thisString.endsWith("}");
+    //     if (!isThisStringVariableType) return thisString;
+
+    //     const thisVariableName = thisString.replace("{", "").replace("}", "");
+    //     return eval(thisVariableName);
+    //   });
+    // }
+
+    // function replaceShadowDomComponentWithNewValues() {
+    //   thisComponent.shadowDom.innerHTML =
+    //     splittedShadowDomStringWithValues.join("");
+    // }
+  // }
 
   function copyTemplateContentToComponentShadowDom() {
     this.shadowDom = this.attachShadow({ mode: "open" });
