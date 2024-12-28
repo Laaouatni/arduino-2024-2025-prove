@@ -50,8 +50,6 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       });
 
       copyFromTemplateToComponent.scripts();
-
-      // console.log(this.stateVariables)
     }
 
     _disconnectedCallback() {}
@@ -82,9 +80,9 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    * @param {ThisComponent} thisComponent
    */
   function updateComponentInnerHtmlVariables(thisComponent) {
-    console.log(thisComponent.stateVariables)
-    thisComponent.shadowDom.innerHTML =
-      replaceHtmlStringVariablesBracketsWithValues(thisComponent);
+    // console.log(thisComponent.stateVariables)
+    thisComponent.shadowDom.innerHTML = JSON.stringify(thisComponent.stateVariables);
+      // replaceHtmlStringVariablesBracketsWithValues(thisComponent);
   }
 
   /**
@@ -133,6 +131,8 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
           /\{|\}/g,
           "",
         );
+
+        console.log({ thisComponent })
 
         // console.log({
         //   stateVariables: thisComponent.stateVariables,
