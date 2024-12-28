@@ -35,7 +35,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       copyFromTemplateToComponent.attributes(["class", "style"]);
       copyFromTemplateToComponent.scripts();
 
-      updateInnerHtmlVariables(this);
+      updateComponentInnerHtmlVariables(this);
     }
 
     _disconnectedCallback() {}
@@ -65,7 +65,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    *
    * @param {ThisComponent} thisComponent
    */
-  function updateInnerHtmlVariables(thisComponent) {
+  function updateComponentInnerHtmlVariables(thisComponent) {
     thisComponent.shadowDom.innerHTML =
       replaceHtmlStringVariablesBracketsWithValues(
         replaceSlotTagWithSlotContent(thisComponent),
@@ -101,6 +101,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       slotHtmlStringWithoutScripts,
     );
   }
+  
   /**
    *
    * @param {string} htmlStringToReplace
