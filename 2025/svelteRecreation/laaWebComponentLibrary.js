@@ -39,9 +39,18 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
 
       copyFromTemplateToComponent.templateContent();
       copyFromTemplateToComponent.attributes(["class", "style"]);
+
+      this.stateVariables = new Proxy(this.stateVariables, {
+        set: (parent, child, val) => {
+          parent[child] = val;
+          updateComponentInnerHtmlVariables(this);
+          return true;
+        }
+      });
+
       copyFromTemplateToComponent.scripts();
 
-      updateComponentInnerHtmlVariables(this);
+      console.log(this.stateVariables)
     }
 
     _disconnectedCallback() {}
