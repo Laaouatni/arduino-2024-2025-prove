@@ -81,8 +81,8 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    */
   function updateComponentInnerHtmlVariables(thisComponent) {
     // console.log(thisComponent.stateVariables)
-    thisComponent.shadowDom.innerHTML = JSON.stringify(thisComponent.stateVariables);
-      // replaceHtmlStringVariablesBracketsWithValues(thisComponent);
+    thisComponent.shadowDom.innerHTML =
+      replaceHtmlStringVariablesBracketsWithValues(thisComponent);
   }
 
   /**
@@ -121,9 +121,11 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    * @returns {string}
    */
   function replaceHtmlStringVariablesBracketsWithValues(thisComponent) {
+    console.log(thisComponent.stateVariables);
     const thisComponentHtmlWithSlotTagReplacedWithSlotContent =
       replaceSlotTagWithSlotContent(thisComponent);
     const regexGetAllVariableBracketsInString = /\{.[^}]*\}/g;
+
     return thisComponentHtmlWithSlotTagReplacedWithSlotContent.replace(
       regexGetAllVariableBracketsInString,
       (thisVariableBracketStringPart) => {
@@ -131,8 +133,6 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
           /\{|\}/g,
           "",
         );
-
-        console.log({ thisComponent })
 
         // console.log({
         //   stateVariables: thisComponent.stateVariables,
@@ -188,7 +188,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
 
     generatedScriptElementInsideComponent.textContent =
       isolateScriptStringInsideComponent(mergedScriptTags).replaceAll("  ", "");
-    
+
     this.appendChild(generatedScriptElementInsideComponent);
   }
 
