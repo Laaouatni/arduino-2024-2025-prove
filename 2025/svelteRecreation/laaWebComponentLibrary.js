@@ -35,8 +35,8 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
       copyFromTemplateToComponent.attributes(["class", "style"]);
       copyFromTemplateToComponent.scripts();
 
-      // updateInnerHtmlVariables(this);
-      InternalUpdateInnerHtmlVariables(this)
+      updateInnerHtmlVariables(this);
+      // InternalUpdateInnerHtmlVariables(this)
       
       /**
        *
@@ -66,13 +66,13 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
             ),
           );
         
-        console.log({
-          shadowDomString,
-          shadowDomStringMinified,
-          splittedShadowDomString,
-          splittedShadowDomStringWithSlotReplaced,
-          splittedShadowDomStringWithValues
-        })
+        // console.log({
+        //   shadowDomString,
+        //   shadowDomStringMinified,
+        //   splittedShadowDomString,
+        //   splittedShadowDomStringWithSlotReplaced,
+        //   splittedShadowDomStringWithValues
+        // })
 
         replaceShadowDomComponentWithNewValues();
 
@@ -101,6 +101,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
          * @returns {string[]}
          */
         function splitShadowDomStringWithSlotReplaced(parameterStringArray) {
+          console.log(parameterStringArray)
           return [...parameterStringArray]
             .map((thisString) => {
               const isStringIncludesSlot = thisString.includes("slot");
@@ -182,17 +183,33 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
    * @param {ThisComponent} thisComponent
    */
   function updateInnerHtmlVariables(thisComponent) {
-    const shadowDomMinifiedHtml = minifyHtmlString(thisComponent.shadowDom.innerHTML);
-    console.log(shadowDomMinifiedHtml);
+    const shadowDomHtmlStringWithSlotReplaced = replaceSlotTagWithSlotContent(thisComponent);
+    console.log(shadowDomHtmlStringWithSlotReplaced)
   }
 
+  /**
+   * 
+   * @param {string} htmlStringToMinify 
+   * @returns {string}
+   */
   function minifyHtmlString(htmlStringToMinify) {
     return htmlStringToMinify.replaceAll("\n", "").replaceAll("  ", "");
   };
 
-  function replaceSlotTagWithSlotContent() {
+  /**
+   * 
+   * @param {ThisComponent} thisComponent 
+   * @returns {string}
+   */
+  function replaceSlotTagWithSlotContent(thisComponent) {
+    const minifiedHtmlStrings = {
+      shadowDom: minifyHtmlString(thisComponent.shadowDom.innerHTML),
+      slot: minifyHtmlString(thisComponent.innerHTML)
+    };
+    const regexScriptTag = /<script>.*<\/script>/g;
+    const slotHtmlStringWithoutScripts = minifiedHtmlStrings.slot.replace(regexScriptTag, "");
+    return minifiedHtmlStrings.shadowDom.replaceAll("<slot></slot>", slotHtmlStringWithoutScripts);
   }
-
 
     // const shadowDomString = thisComponent.shadowDom.innerHTML;
     // const shadowDomStringMinified = minifyString(shadowDomString);
