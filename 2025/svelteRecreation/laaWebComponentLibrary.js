@@ -173,12 +173,9 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     const mergedScriptTags = [...allScriptElementsInsideTemplate]
       .map((thisScriptTemplateElement) => {
         if (!thisScriptTemplateElement.textContent) return "";
-        console.log(
-          addSyntacticSugarVariableDeclarationsToScriptTextContent(
-            thisScriptTemplateElement.textContent,
-          ),
-        );
-        return thisScriptTemplateElement.textContent;
+        return addSyntacticSugarVariableDeclarationsToScriptTextContent(
+          thisScriptTemplateElement.textContent,
+        )
       })
       .join("");
 
@@ -199,13 +196,19 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
     const replaceVariableSettingWithPrefix = scriptTextContentString.replaceAll(
       /.*=/g,
       (thisString) => {
-        const variableDefinitionRegex = /let |const |var /g
-        const isDefinition = thisString.match(variableDefinitionRegex);
+        const regexs = {
+          variableDefinitionTypes: /let |const |var /g,
+          anonymousCallbackVoid: /\(.*\).*=/g,
+        };
+        const isCallback = thisString.match(regexs.anonymousCallbackVoid);
+        const isDefinition = thisString.match(regexs.variableDefinitionTypes);
 
-        if (isDefinition) {
-          return thisString.replace(variableDefinitionRegex, STATE_OBJECT_POSITION_PREFIX_STRING);
-        }
-
+        if (isCallback) return thisString;
+        if (isDefinition)
+          return thisString.replace(
+            regexs.variableDefinitionTypes,
+            STATE_OBJECT_POSITION_PREFIX_STRING,
+          );
         return `${STATE_OBJECT_POSITION_PREFIX_STRING}${thisString}`;
       },
     );
