@@ -175,7 +175,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
         if (!thisScriptTemplateElement.textContent) return "";
         return addSyntacticSugarVariableDeclarationsToScriptTextContent(
           thisScriptTemplateElement.textContent,
-        )
+        );
       })
       .join("");
 
@@ -192,6 +192,7 @@ document.querySelectorAll("template").forEach((thisTemplateElement) => {
   function addSyntacticSugarVariableDeclarationsToScriptTextContent(
     scriptTextContentString,
   ) {
+    // !TODO fix the thisComponent.stateVariables.q = q+1;
     const STATE_OBJECT_POSITION_PREFIX_STRING = "thisComponent.stateVariables.";
     const replaceVariableSettingWithPrefix = scriptTextContentString.replaceAll(
       /.*=/g,
